@@ -1,0 +1,50 @@
+[gd_scene load_steps=6 format=3 uid="uid://b4oulvq1prg3t"]
+
+[ext_resource type="PackedScene" uid="uid://cvdot31yvk2oc" path="res://scenes/player.tscn" id="2_fnklc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_avu8j"]
+size = Vector2(1153, 33)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rfibh"]
+size = Vector2(1152, 28)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_88d1b"]
+size = Vector2(26, 648)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dmvjd"]
+size = Vector2(26, 650)
+
+[node name="Nó Principal" type="Node2D"]
+
+[node name="background" type="ColorRect" parent="."]
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0, 0, 0, 1)
+
+[node name="Meio" type="ColorRect" parent="."]
+offset_left = 573.0
+offset_right = 581.0
+offset_bottom = 648.0
+
+[node name="Colisões" type="StaticBody2D" parent="."]
+
+[node name="Colisão Cima" type="CollisionShape2D" parent="Colisões"]
+position = Vector2(575.5, -16.5)
+shape = SubResource("RectangleShape2D_avu8j")
+
+[node name="Colisão Baixo" type="CollisionShape2D" parent="Colisões"]
+position = Vector2(576, 662)
+shape = SubResource("RectangleShape2D_rfibh")
+
+[node name="area de pontuação" type="Area2D" parent="."]
+
+[node name="Colisão esquerda" type="CollisionShape2D" parent="area de pontuação"]
+position = Vector2(-13, 320)
+shape = SubResource("RectangleShape2D_88d1b")
+
+[node name="Colisão direita" type="CollisionShape2D" parent="area de pontuação"]
+position = Vector2(1165, 323)
+shape = SubResource("RectangleShape2D_dmvjd")
+
+[node name="Player" parent="." instance=ExtResource("2_fnklc")]
+position = Vector2(36, 37)
