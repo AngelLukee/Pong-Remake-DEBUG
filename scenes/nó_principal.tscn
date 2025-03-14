@@ -1,11 +1,11 @@
 [gd_scene load_steps=11 format=3 uid="uid://cysh5bxxu7ogh"]
 
-[ext_resource type="Script" uid="uid://covi53816qi3b" path="res://scripts/area_de_pontuação.gd" id="1_m4ekj"]
 [ext_resource type="Theme" uid="uid://cs685o7rnu2r0" path="res://Themes/LabelPointTheme.tres" id="1_qgkkw"]
 [ext_resource type="PackedScene" uid="uid://bsr8c0qxwfx48" path="res://scenes/player.tscn" id="1_tud0r"]
 [ext_resource type="PackedScene" uid="uid://bbikecojtmu2k" path="res://scenes/bolinha.tscn" id="4_484ci"]
 [ext_resource type="PackedScene" uid="uid://duekeshk368pf" path="res://scenes/ia.tscn" id="4_q48p7"]
 [ext_resource type="Script" uid="uid://biiy4kungxuw2" path="res://scripts/Script_Pontuação.gd" id="5_jmmb0"]
+[ext_resource type="Script" uid="uid://c432q0dnrrjvg" path="res://scripts/barra_skil.gd" id="6_jmmb0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6mx5x"]
 size = Vector2(74.0039, 1088)
@@ -22,10 +22,24 @@ size = Vector2(65, 584)
 [node name="nó principal" type="Node2D"]
 position = Vector2(0, 4)
 
-[node name="background" type="ColorRect" parent="."]
+[node name="BackgroundsRects" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="background" type="ColorRect" parent="BackgroundsRects"]
 offset_right = 1088.0
 offset_bottom = 576.0
-color = Color(0.111772, 0.360935, 0.321553, 1)
+color = Color(0, 0, 0, 1)
+
+[node name="mesa" type="ColorRect" parent="BackgroundsRects"]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 44.0
+offset_right = 1040.0
+offset_bottom = 532.0
+color = Color(0, 0.176471, 0.462745, 1)
 
 [node name="Pontuação" type="Control" parent="."]
 layout_mode = 3
@@ -36,54 +50,54 @@ offset_bottom = 40.0
 [node name="pontuação_player" type="Label" parent="Pontuação"]
 layout_mode = 0
 offset_left = 128.0
-offset_top = 8.0
+offset_top = 4.0
 offset_right = 248.0
-offset_bottom = 77.0
+offset_bottom = 73.0
 theme = ExtResource("1_qgkkw")
 text = "00"
 horizontal_alignment = 1
 
 [node name="pontuação_ia" type="Label" parent="Pontuação"]
 layout_mode = 0
-offset_left = 827.0
-offset_top = 9.0
-offset_right = 927.0
-offset_bottom = 59.0
+offset_left = 824.0
+offset_top = 5.0
+offset_right = 924.0
+offset_bottom = 55.0
 theme = ExtResource("1_qgkkw")
 text = "00"
 
 [node name="colisão" type="StaticBody2D" parent="."]
 
 [node name="colisao cima" type="CollisionShape2D" parent="colisão"]
-position = Vector2(544, -38)
+position = Vector2(545, 8)
 rotation = -1.5708
 shape = SubResource("RectangleShape2D_6mx5x")
 
 [node name="colisao baixo" type="CollisionShape2D" parent="colisão"]
-position = Vector2(544.5, 608)
+position = Vector2(544, 565)
 shape = SubResource("RectangleShape2D_1biwn")
 
 [node name="bolinha" parent="." instance=ExtResource("4_484ci")]
 position = Vector2(528, 264)
 
 [node name="IA" parent="." node_paths=PackedStringArray("Bolinha") instance=ExtResource("4_q48p7")]
-position = Vector2(1056, 232)
+position = Vector2(1044, 246)
 Bolinha = NodePath("../bolinha")
 
 [node name="player" parent="." instance=ExtResource("1_tud0r")]
-position = Vector2(32, 248)
+position = Vector2(40, 249)
 speed = 250
 
 [node name="camera" type="Camera2D" parent="."]
 position = Vector2(544, 288)
 
-[node name="Areas_Pont" type="Node2D" parent="." node_paths=PackedStringArray("PontuaçãoIA", "Bolinha")]
+[node name="Areas_Pont" type="Node2D" parent="." node_paths=PackedStringArray("PontuaçãoPlayer", "PontuaçãoIA", "Bolinha")]
 script = ExtResource("5_jmmb0")
+"PontuaçãoPlayer" = NodePath("../Pontuação/pontuação_player")
 "PontuaçãoIA" = NodePath("../Pontuação/pontuação_ia")
 Bolinha = NodePath("../bolinha")
 
 [node name="Area_Direita" type="Area2D" parent="Areas_Pont"]
-script = ExtResource("1_m4ekj")
 
 [node name="ColisaoD" type="CollisionShape2D" parent="Areas_Pont/Area_Direita"]
 position = Vector2(1120, 288)
@@ -96,5 +110,30 @@ shape = SubResource("RectangleShape2D_0nw0v")
 position = Vector2(-32.5, 288)
 shape = SubResource("RectangleShape2D_xek06")
 
-[connection signal="body_entered" from="Areas_Pont/Area_Direita" to="Areas_Pont/Area_Direita" method="_on_body_entered"]
+[node name="skillCheck" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 92.0
+offset_top = 189.0
+offset_right = 132.0
+offset_bottom = 229.0
+
+[node name="BarraSkil" type="ColorRect" parent="skillCheck" node_paths=PackedStringArray("agulhaskill")]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 59.0
+offset_right = 176.0
+offset_bottom = 80.0
+color = Color(0.118581, 0.118581, 0.118581, 1)
+script = ExtResource("6_jmmb0")
+agulhaskill = NodePath("Agulha")
+
+[node name="Agulha" type="ColorRect" parent="skillCheck/BarraSkil"]
+layout_mode = 0
+offset_top = -33.0
+offset_right = 5.0
+offset_bottom = 7.0
+
+[connection signal="body_entered" from="Areas_Pont/Area_Direita" to="Areas_Pont" method="_on_area_direita_body_entered"]
 [connection signal="body_entered" from="Areas_Pont/Area_Esquerda" to="Areas_Pont" method="_on_area_esquerda_body_entered"]
