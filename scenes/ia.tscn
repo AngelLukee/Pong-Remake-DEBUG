@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://duekeshk368pf"]
+
+[ext_resource type="Script" uid="uid://b45a71qi6gvno" path="res://scripts/ia.gd" id="1_vgvke"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ljtgy"]
+size = Vector2(8, 84)
+
+[node name="IA" type="CharacterBody2D"]
+script = ExtResource("1_vgvke")
+
+[node name="texture_IA" type="ColorRect" parent="."]
+offset_left = -4.0
+offset_top = -42.0
+offset_right = 4.0
+offset_bottom = 42.0
+
+[node name="Colisao_IA" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ljtgy")
