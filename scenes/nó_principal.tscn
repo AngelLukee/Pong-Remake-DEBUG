@@ -1,53 +1,47 @@
-[gd_scene load_steps=11 format=3 uid="uid://cysh5bxxu7ogh"]
+[gd_scene load_steps=13 format=3 uid="uid://cysh5bxxu7ogh"]
 
+[ext_resource type="Texture2D" uid="uid://0xs1mafiwvoe" path="res://Assets/Background/Background_normal.png" id="1_074by"]
 [ext_resource type="Theme" uid="uid://cs685o7rnu2r0" path="res://Themes/LabelPointTheme.tres" id="1_qgkkw"]
 [ext_resource type="PackedScene" uid="uid://bsr8c0qxwfx48" path="res://scenes/player.tscn" id="1_tud0r"]
+[ext_resource type="Texture2D" uid="uid://cjg66hwtxriuh" path="res://Assets/Background/Mesa.png" id="2_gl4v5"]
 [ext_resource type="PackedScene" uid="uid://bbikecojtmu2k" path="res://scenes/bolinha.tscn" id="4_484ci"]
 [ext_resource type="PackedScene" uid="uid://duekeshk368pf" path="res://scenes/ia.tscn" id="4_q48p7"]
 [ext_resource type="Script" uid="uid://biiy4kungxuw2" path="res://scripts/Script_Pontuação.gd" id="5_jmmb0"]
 [ext_resource type="Script" uid="uid://c432q0dnrrjvg" path="res://scripts/barra_skil.gd" id="6_jmmb0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6mx5x"]
-size = Vector2(74.0039, 1088)
+size = Vector2(21.0019, 1089)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1biwn"]
-size = Vector2(1089, 66)
+size = Vector2(1080, 34)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0nw0v"]
-size = Vector2(576, 63.9999)
+size = Vector2(576, 14)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xek06"]
-size = Vector2(65, 584)
+size = Vector2(10.5, 584)
 
-[node name="nó principal" type="Node2D"]
-position = Vector2(0, 4)
+[node name="NóPrincipal" type="Node2D"]
 
-[node name="BackgroundsRects" type="Control" parent="."]
+[node name="SpritesBackground" type="Node2D" parent="."]
+
+[node name="background" type="Sprite2D" parent="SpritesBackground"]
+position = Vector2(544, 288)
+scale = Vector2(0.68, 0.6)
+texture = ExtResource("1_074by")
+
+[node name="mesa" type="Sprite2D" parent="SpritesBackground"]
+position = Vector2(544.5, 302)
+scale = Vector2(0.828906, 0.790625)
+texture = ExtResource("2_gl4v5")
+
+[node name="LabelsPontuação" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="background" type="ColorRect" parent="BackgroundsRects"]
-offset_right = 1088.0
-offset_bottom = 576.0
-color = Color(0, 0, 0, 1)
-
-[node name="mesa" type="ColorRect" parent="BackgroundsRects"]
-layout_mode = 0
-offset_left = 48.0
-offset_top = 44.0
-offset_right = 1040.0
-offset_bottom = 532.0
-color = Color(0, 0.176471, 0.462745, 1)
-
-[node name="Pontuação" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="pontuação_player" type="Label" parent="Pontuação"]
+[node name="PontuaçãoPlayer" type="Label" parent="LabelsPontuação"]
 layout_mode = 0
 offset_left = 128.0
 offset_top = 4.0
@@ -57,7 +51,7 @@ theme = ExtResource("1_qgkkw")
 text = "00"
 horizontal_alignment = 1
 
-[node name="pontuação_ia" type="Label" parent="Pontuação"]
+[node name="PonutaçãoCPU" type="Label" parent="LabelsPontuação"]
 layout_mode = 0
 offset_left = 824.0
 offset_top = 5.0
@@ -66,51 +60,57 @@ offset_bottom = 55.0
 theme = ExtResource("1_qgkkw")
 text = "00"
 
-[node name="colisão" type="StaticBody2D" parent="."]
+[node name="Colisões" type="StaticBody2D" parent="."]
 
-[node name="colisao cima" type="CollisionShape2D" parent="colisão"]
-position = Vector2(545, 8)
+[node name="ColisãoCima" type="CollisionShape2D" parent="Colisões"]
+position = Vector2(547, 50)
 rotation = -1.5708
 shape = SubResource("RectangleShape2D_6mx5x")
 
-[node name="colisao baixo" type="CollisionShape2D" parent="colisão"]
-position = Vector2(544, 565)
+[node name="ColisãoBaixo" type="CollisionShape2D" parent="Colisões"]
+position = Vector2(543, 559)
 shape = SubResource("RectangleShape2D_1biwn")
 
-[node name="bolinha" parent="." instance=ExtResource("4_484ci")]
-position = Vector2(528, 264)
+[node name="BolaBody" parent="." node_paths=PackedStringArray("CPU", "PLAYER") instance=ExtResource("4_484ci")]
+position = Vector2(545, 302)
+CPU = NodePath("../CPUBody")
+PLAYER = NodePath("../Playerbody")
 
-[node name="IA" parent="." node_paths=PackedStringArray("Bolinha") instance=ExtResource("4_q48p7")]
-position = Vector2(1044, 246)
-Bolinha = NodePath("../bolinha")
-
-[node name="player" parent="." instance=ExtResource("1_tud0r")]
-position = Vector2(40, 249)
+[node name="CPUBody" parent="." instance=ExtResource("4_q48p7")]
+position = Vector2(1055, 302)
 speed = 250
 
-[node name="camera" type="Camera2D" parent="."]
+[node name="Playerbody" parent="." instance=ExtResource("1_tud0r")]
+position = Vector2(33, 301)
+speed = 240
+
+[node name="CameraMesa" type="Camera2D" parent="."]
 position = Vector2(544, 288)
 
-[node name="Areas_Pont" type="Node2D" parent="." node_paths=PackedStringArray("PontuaçãoPlayer", "PontuaçãoIA", "Bolinha")]
+[node name="NóÁreaPontuação" type="Node2D" parent="." node_paths=PackedStringArray("PontuaçãoPlayer", "PontuaçãoIA", "Bolinha")]
 script = ExtResource("5_jmmb0")
-"PontuaçãoPlayer" = NodePath("../Pontuação/pontuação_player")
-"PontuaçãoIA" = NodePath("../Pontuação/pontuação_ia")
-Bolinha = NodePath("../bolinha")
+"PontuaçãoPlayer" = NodePath("../LabelsPontuação/PontuaçãoPlayer")
+"PontuaçãoIA" = NodePath("../LabelsPontuação/PonutaçãoCPU")
+Bolinha = NodePath("../BolaBody")
 
-[node name="Area_Direita" type="Area2D" parent="Areas_Pont"]
+[node name="AreaDireita" type="Area2D" parent="NóÁreaPontuação"]
 
-[node name="ColisaoD" type="CollisionShape2D" parent="Areas_Pont/Area_Direita"]
-position = Vector2(1120, 288)
+[node name="ColisaoAreaDireita" type="CollisionShape2D" parent="NóÁreaPontuação/AreaDireita"]
+position = Vector2(1090, 291)
 rotation = -1.5708
 shape = SubResource("RectangleShape2D_0nw0v")
 
-[node name="Area_Esquerda" type="Area2D" parent="Areas_Pont"]
+[node name="AreaEsquerda" type="Area2D" parent="NóÁreaPontuação"]
 
-[node name="ColisaoE" type="CollisionShape2D" parent="Areas_Pont/Area_Esquerda"]
-position = Vector2(-32.5, 288)
+[node name="ColisaoEsquerdaDireita" type="CollisionShape2D" parent="NóÁreaPontuação/AreaEsquerda"]
+position = Vector2(-2.75, 283)
 shape = SubResource("RectangleShape2D_xek06")
 
-[node name="skillCheck" type="Control" parent="."]
+[node name="TimerParaSpawn" type="Timer" parent="NóÁreaPontuação"]
+wait_time = 1.7
+one_shot = true
+
+[node name="SkillCheck" type="Control" parent="."]
 visible = false
 layout_mode = 3
 anchors_preset = 0
@@ -119,7 +119,7 @@ offset_top = 189.0
 offset_right = 132.0
 offset_bottom = 229.0
 
-[node name="BarraSkil" type="ColorRect" parent="skillCheck" node_paths=PackedStringArray("agulhaskill")]
+[node name="BarraSkil" type="ColorRect" parent="SkillCheck" node_paths=PackedStringArray("agulhaskill")]
 layout_mode = 0
 offset_left = 9.0
 offset_top = 59.0
@@ -129,11 +129,12 @@ color = Color(0.118581, 0.118581, 0.118581, 1)
 script = ExtResource("6_jmmb0")
 agulhaskill = NodePath("Agulha")
 
-[node name="Agulha" type="ColorRect" parent="skillCheck/BarraSkil"]
+[node name="Agulha" type="ColorRect" parent="SkillCheck/BarraSkil"]
 layout_mode = 0
 offset_top = -33.0
 offset_right = 5.0
 offset_bottom = 7.0
 
-[connection signal="body_entered" from="Areas_Pont/Area_Direita" to="Areas_Pont" method="_on_area_direita_body_entered"]
-[connection signal="body_entered" from="Areas_Pont/Area_Esquerda" to="Areas_Pont" method="_on_area_esquerda_body_entered"]
+[connection signal="body_entered" from="NóÁreaPontuação/AreaDireita" to="NóÁreaPontuação" method="_on_area_direita_body_entered"]
+[connection signal="body_entered" from="NóÁreaPontuação/AreaEsquerda" to="NóÁreaPontuação" method="_on_area_esquerda_body_entered"]
+[connection signal="timeout" from="NóÁreaPontuação/TimerParaSpawn" to="NóÁreaPontuação" method="_on_timer_para_spawn_timeout"]

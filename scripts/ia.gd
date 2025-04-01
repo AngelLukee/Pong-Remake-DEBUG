@@ -1,14 +1,12 @@
 extends CharacterBody2D
 
-@export var Bolinha : CharacterBody2D
-@export var Velocidade : int = 250
-#
+
+@export var speed : int 
 
 func _physics_process(delta: float) -> void:
-	var ball_pos = $"../bolinha".position
-	var distance = self.position.y - ball_pos.y
+
+	var direction = Input.get_axis("otherup", "otherdowm")
+	if direction:
+		position.y += direction * speed * delta
 	
-	self.position.y -= distance * delta
-	
-	
-	#Alterações a fazer, mudar a velocidade da ia.
+	position.y = clampi(position.y, 108, 495)

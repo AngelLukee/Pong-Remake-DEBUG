@@ -1,16 +1,22 @@
 extends CharacterBody2D
 
-const velocidade_inicial : int = 300
+const velocidade_inicial : int = 280
 const aceleracao : int = 30
 
 var window_size : Vector2
-var velocidade : int = 300
+var velocidade : int = 400
 var direcao : Vector2 = Vector2(1,0).normalized()
+@export var CPU : CharacterBody2D
+@export var PLAYER : CharacterBody2D
+
+
 
 func _ready() -> void:
 	
+	velocidade = velocidade_inicial
 	window_size = get_viewport_rect().size #Calcula e guarda o tamanho da janela atual
-
+	random_spawn()
+	
 func _physics_process(delta: float):
 	
 	
@@ -18,7 +24,7 @@ func _physics_process(delta: float):
 	
 	if ball_collision:
 		var collider = ball_collision.get_collider()
-		if collider == $"../IA" or collider == $"../player":
+		if collider == CPU or collider == PLAYER:
 			random_direction()
 			velocidade += 30
 		else:
@@ -37,7 +43,7 @@ func random_direction():#Randomiza a direção da bola ao tocar em algum dos tab
 	new_dir.y = randf_range(-0.4, 1)
 	direcao = new_dir.normalized()
 	
-func random_spawn():
+func random_spawn():#Randomiza o spawn da bola se fizerem algum ponto
 	velocidade = velocidade_inicial
 	self.position = window_size / 2
 	var new_dir := Vector2()
