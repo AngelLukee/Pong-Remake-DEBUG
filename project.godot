@@ -19,6 +19,10 @@ config/icon="res://icon.svg"
 
 aseprite_executable_path="C:/Program Files/Aseprite/Aseprite.exe"
 
+[autoload]
+
+HabilidadesAutoLoad="*res://scripts/Habilidades.gd"
+
 [display]
 
 window/size/viewport_width=1088
