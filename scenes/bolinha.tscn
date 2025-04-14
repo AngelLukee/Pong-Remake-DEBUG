@@ -5,8 +5,9 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_ai1y3"]
 radius = 4.0
 
-[node name="bolinha" type="CharacterBody2D"]
+[node name="bolinha" type="CharacterBody2D" node_paths=PackedStringArray("Colisao")]
 script = ExtResource("1_e20h3")
+Colisao = NodePath("colisão para area")
 
 [node name="colisão para area" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ai1y3")

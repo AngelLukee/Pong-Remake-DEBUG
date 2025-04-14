@@ -1,4 +1,7 @@
 extends CharacterBody2D
+class_name Bolinha
+#Criando classe, para na classe habilidades, a instancia herdar as caracteristicas daqui
+
 
 const velocidade_inicial : int = 280
 const aceleracao : int = 30
@@ -8,19 +11,19 @@ var velocidade : int = 400
 var direcao : Vector2 = Vector2(1,0).normalized()
 @export var CPU : CharacterBody2D
 @export var PLAYER : CharacterBody2D
-
-
+var Bola_verdadeira : bool = true
+@export var Colisao : CollisionShape2D
+var ball_collision
 
 func _ready() -> void:
-	
-	velocidade = velocidade_inicial
 	window_size = get_viewport_rect().size #Calcula e guarda o tamanho da janela atual
-	random_spawn()
+	if Bola_verdadeira == true:
+		random_spawn()
 	
 func _physics_process(delta: float):
 	
-	
-	var ball_collision = move_and_collide(direcao * velocidade * delta)#Movimenta a bola e informa caso ela colida
+	print(self.direcao)
+	ball_collision = move_and_collide(direcao * velocidade * delta)#Movimenta a bola e informa caso ela colida
 	
 	if ball_collision:
 		var collider = ball_collision.get_collider()

@@ -78,20 +78,20 @@ PLAYER = NodePath("../Playerbody")
 
 [node name="CPUBody" parent="." instance=ExtResource("4_q48p7")]
 position = Vector2(1055, 302)
-speed = 250
 
-[node name="Playerbody" parent="." instance=ExtResource("1_tud0r")]
+[node name="Playerbody" parent="." node_paths=PackedStringArray("Adversario", "Bola") instance=ExtResource("1_tud0r")]
 position = Vector2(33, 301)
 speed = 240
+Adversario = NodePath("../CPUBody")
+Bola = NodePath("../BolaBody")
 
 [node name="CameraMesa" type="Camera2D" parent="."]
 position = Vector2(544, 288)
 
-[node name="NóÁreaPontuação" type="Node2D" parent="." node_paths=PackedStringArray("PontuaçãoPlayer", "PontuaçãoIA", "Bolinha")]
+[node name="NóÁreaPontuação" type="Node2D" parent="." node_paths=PackedStringArray("PontuaçãoPlayer", "PontuaçãoIA")]
 script = ExtResource("5_jmmb0")
 "PontuaçãoPlayer" = NodePath("../LabelsPontuação/PontuaçãoPlayer")
 "PontuaçãoIA" = NodePath("../LabelsPontuação/PonutaçãoCPU")
-Bolinha = NodePath("../BolaBody")
 
 [node name="AreaDireita" type="Area2D" parent="NóÁreaPontuação"]
 
@@ -134,8 +134,6 @@ layout_mode = 0
 offset_top = -33.0
 offset_right = 5.0
 offset_bottom = 7.0
-
-[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 
 [connection signal="body_entered" from="NóÁreaPontuação/AreaDireita" to="NóÁreaPontuação" method="_on_area_direita_body_entered"]
 [connection signal="body_entered" from="NóÁreaPontuação/AreaEsquerda" to="NóÁreaPontuação" method="_on_area_esquerda_body_entered"]

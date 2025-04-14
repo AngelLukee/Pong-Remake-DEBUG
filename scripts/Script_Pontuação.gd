@@ -2,7 +2,7 @@ extends Node
 
 @export var PontuaçãoPlayer : Label
 @export var PontuaçãoIA : Label
-@export var Bolinha : CharacterBody2D
+@export var bolinha : CharacterBody2D
 var score : Array = [0,0]
 
 
