@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cysh5bxxu7ogh"]
+[gd_scene load_steps=14 format=3 uid="uid://cysh5bxxu7ogh"]
 
 [ext_resource type="Texture2D" uid="uid://0xs1mafiwvoe" path="res://Assets/Background/Background_normal.png" id="1_074by"]
 [ext_resource type="Theme" uid="uid://cs685o7rnu2r0" path="res://Themes/LabelPointTheme.tres" id="1_qgkkw"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://duekeshk368pf" path="res://scenes/ia.tscn" id="4_q48p7"]
 [ext_resource type="Script" uid="uid://biiy4kungxuw2" path="res://scripts/Script_Pontuação.gd" id="5_jmmb0"]
 [ext_resource type="Script" uid="uid://c432q0dnrrjvg" path="res://scripts/barra_skil.gd" id="6_jmmb0"]
+[ext_resource type="Script" uid="uid://bbosnajjftumd" path="res://scenes/TestesScript.gd" id="9_gl4v5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6mx5x"]
 size = Vector2(21.0019, 1089)
@@ -135,6 +136,40 @@ offset_top = -33.0
 offset_right = 5.0
 offset_bottom = 7.0
 
+[node name="Control" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("9_gl4v5")
+
+[node name="ColorRect" type="ColorRect" parent="Control"]
+layout_mode = 0
+offset_left = 17.0
+offset_top = 49.0
+offset_right = 1061.0
+offset_bottom = 538.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 0
+offset_left = 409.0
+offset_top = 189.0
+offset_right = 613.0
+offset_bottom = 305.0
+
+[node name="Button" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "ALEMANHA"
+
+[node name="Button2" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "BRASIL"
+
 [connection signal="body_entered" from="NóÁreaPontuação/AreaDireita" to="NóÁreaPontuação" method="_on_area_direita_body_entered"]
 [connection signal="body_entered" from="NóÁreaPontuação/AreaEsquerda" to="NóÁreaPontuação" method="_on_area_esquerda_body_entered"]
 [connection signal="timeout" from="NóÁreaPontuação/TimerParaSpawn" to="NóÁreaPontuação" method="_on_timer_para_spawn_timeout"]
+[connection signal="pressed" from="Control/VBoxContainer/Button" to="Control" method="_on_button_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/Button2" to="Control" method="_on_button_2_pressed"]

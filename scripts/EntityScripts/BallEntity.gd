@@ -1,5 +1,5 @@
 extends CharacterBody2D
-class_name Bolinha
+class_name EntityBall
 #Criando classe, para na classe habilidades, a instancia herdar as caracteristicas daqui
 
 
@@ -22,7 +22,7 @@ func _ready() -> void:
 	
 func _physics_process(delta: float):
 	
-	print(self.direcao)
+
 	ball_collision = move_and_collide(direcao * velocidade * delta)#Movimenta a bola e informa caso ela colida
 	
 	if ball_collision:

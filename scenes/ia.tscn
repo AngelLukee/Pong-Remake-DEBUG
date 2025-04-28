@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://duekeshk368pf"]
 
-[ext_resource type="Script" uid="uid://b45a71qi6gvno" path="res://scripts/ia.gd" id="1_vgvke"]
+[ext_resource type="Script" uid="uid://b45a71qi6gvno" path="res://scripts/EntityScripts/EntityCPU.gd" id="1_vgvke"]
 [ext_resource type="Texture2D" uid="uid://n8cg1mi32cyf" path="res://Assets/Bandeiras/Àustria.aseprite" id="2_jpawb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3acr2"]
@@ -8,7 +8,6 @@ size = Vector2(8, 92)
 
 [node name="IA" type="CharacterBody2D"]
 script = ExtResource("1_vgvke")
-speed = 240
 
 [node name="Colisao" type="CollisionShape2D" parent="."]
 position = Vector2(1, 0)
