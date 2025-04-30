@@ -25,10 +25,9 @@ HabilidadesAutoLoad="*res://scripts/HabilidadesPlayer.gd"
 
 [display]
 
-window/size/viewport_width=1088
-window/size/viewport_height=576
+window/size/viewport_height=640
 window/stretch/mode="canvas_items"
-window/stretch/aspect="ignore"
+window/stretch/aspect="expand"
 
 [editor_plugins]
 
@@ -78,6 +77,7 @@ despausar={
 
 [rendering]
 
-textures/canvas_textures/default_texture_filter=0
+textures/canvas_textures/default_texture_filter=2
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)

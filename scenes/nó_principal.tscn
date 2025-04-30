@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cysh5bxxu7ogh"]
+[gd_scene load_steps=12 format=3 uid="uid://cysh5bxxu7ogh"]
 
 [ext_resource type="Texture2D" uid="uid://0xs1mafiwvoe" path="res://Assets/Background/Background_normal.png" id="1_074by"]
 [ext_resource type="Theme" uid="uid://cs685o7rnu2r0" path="res://Themes/LabelPointTheme.tres" id="1_qgkkw"]
@@ -7,8 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://bbikecojtmu2k" path="res://scenes/bolinha.tscn" id="4_484ci"]
 [ext_resource type="PackedScene" uid="uid://duekeshk368pf" path="res://scenes/ia.tscn" id="4_q48p7"]
 [ext_resource type="Script" uid="uid://biiy4kungxuw2" path="res://scripts/Script_Pontuação.gd" id="5_jmmb0"]
-[ext_resource type="Script" uid="uid://c432q0dnrrjvg" path="res://scripts/barra_skil.gd" id="6_jmmb0"]
-[ext_resource type="Script" uid="uid://bbosnajjftumd" path="res://scenes/TestesScript.gd" id="9_gl4v5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6mx5x"]
 size = Vector2(21.0019, 1089)
@@ -23,17 +21,18 @@ size = Vector2(576, 14)
 size = Vector2(10.5, 584)
 
 [node name="NóPrincipal" type="Node2D"]
+scale = Vector2(1.05875, 1.11106)
 
 [node name="SpritesBackground" type="Node2D" parent="."]
 
 [node name="background" type="Sprite2D" parent="SpritesBackground"]
-position = Vector2(544, 288)
-scale = Vector2(0.68, 0.6)
+position = Vector2(546.873, 288)
+scale = Vector2(0.815823, 0.6)
 texture = ExtResource("1_074by")
 
 [node name="mesa" type="Sprite2D" parent="SpritesBackground"]
-position = Vector2(544.5, 302)
-scale = Vector2(0.828906, 0.790625)
+position = Vector2(546.871, 291.613)
+scale = Vector2(0.828906, 0.758792)
 texture = ExtResource("2_gl4v5")
 
 [node name="LabelsPontuação" type="Control" parent="."]
@@ -44,50 +43,48 @@ offset_bottom = 40.0
 
 [node name="PontuaçãoPlayer" type="Label" parent="LabelsPontuação"]
 layout_mode = 0
-offset_left = 128.0
-offset_top = 4.0
-offset_right = 248.0
-offset_bottom = 73.0
+offset_left = 433.531
+offset_right = 528.531
+offset_bottom = 43.0
 theme = ExtResource("1_qgkkw")
 text = "00"
 horizontal_alignment = 1
 
 [node name="PonutaçãoCPU" type="Label" parent="LabelsPontuação"]
 layout_mode = 0
-offset_left = 824.0
-offset_top = 5.0
-offset_right = 924.0
-offset_bottom = 55.0
+offset_left = 578.042
+offset_right = 678.042
+offset_bottom = 50.0
 theme = ExtResource("1_qgkkw")
 text = "00"
 
 [node name="Colisões" type="StaticBody2D" parent="."]
 
 [node name="ColisãoCima" type="CollisionShape2D" parent="Colisões"]
-position = Vector2(547, 50)
+position = Vector2(546.873, 46.8023)
 rotation = -1.5708
 shape = SubResource("RectangleShape2D_6mx5x")
 
 [node name="ColisãoBaixo" type="CollisionShape2D" parent="Colisões"]
-position = Vector2(543, 559)
+position = Vector2(551.596, 543.627)
 shape = SubResource("RectangleShape2D_1biwn")
 
 [node name="BolaBody" parent="." node_paths=PackedStringArray("CPU", "PLAYER") instance=ExtResource("4_484ci")]
-position = Vector2(545, 302)
+position = Vector2(546.873, 291.615)
 CPU = NodePath("../CPUBody")
 PLAYER = NodePath("../Playerbody")
 
 [node name="CPUBody" parent="." instance=ExtResource("4_q48p7")]
-position = Vector2(1055, 302)
+position = Vector2(1059.74, 302.415)
 
-[node name="Playerbody" parent="." node_paths=PackedStringArray("Adversario", "Bola") instance=ExtResource("1_tud0r")]
+[node name="Playerbody" parent="." node_paths=PackedStringArray("CPU", "Bola") instance=ExtResource("1_tud0r")]
 position = Vector2(33, 301)
 speed = 240
-Adversario = NodePath("../CPUBody")
+CPU = NodePath("../CPUBody")
 Bola = NodePath("../BolaBody")
 
 [node name="CameraMesa" type="Camera2D" parent="."]
-position = Vector2(544, 288)
+position = Vector2(543.095, 288.014)
 
 [node name="NóÁreaPontuação" type="Node2D" parent="." node_paths=PackedStringArray("PontuaçãoPlayer", "PontuaçãoIA")]
 script = ExtResource("5_jmmb0")
@@ -97,79 +94,20 @@ script = ExtResource("5_jmmb0")
 [node name="AreaDireita" type="Area2D" parent="NóÁreaPontuação"]
 
 [node name="ColisaoAreaDireita" type="CollisionShape2D" parent="NóÁreaPontuação/AreaDireita"]
-position = Vector2(1090, 291)
+position = Vector2(1094.69, 293.413)
 rotation = -1.5708
 shape = SubResource("RectangleShape2D_0nw0v")
 
 [node name="AreaEsquerda" type="Area2D" parent="NóÁreaPontuação"]
 
 [node name="ColisaoEsquerdaDireita" type="CollisionShape2D" parent="NóÁreaPontuação/AreaEsquerda"]
-position = Vector2(-2.75, 283)
+position = Vector2(9.53674e-07, 282.613)
 shape = SubResource("RectangleShape2D_xek06")
 
 [node name="TimerParaSpawn" type="Timer" parent="NóÁreaPontuação"]
 wait_time = 1.7
 one_shot = true
 
-[node name="SkillCheck" type="Control" parent="."]
-visible = false
-layout_mode = 3
-anchors_preset = 0
-offset_left = 92.0
-offset_top = 189.0
-offset_right = 132.0
-offset_bottom = 229.0
-
-[node name="BarraSkil" type="ColorRect" parent="SkillCheck" node_paths=PackedStringArray("agulhaskill")]
-layout_mode = 0
-offset_left = 9.0
-offset_top = 59.0
-offset_right = 176.0
-offset_bottom = 80.0
-color = Color(0.118581, 0.118581, 0.118581, 1)
-script = ExtResource("6_jmmb0")
-agulhaskill = NodePath("Agulha")
-
-[node name="Agulha" type="ColorRect" parent="SkillCheck/BarraSkil"]
-layout_mode = 0
-offset_top = -33.0
-offset_right = 5.0
-offset_bottom = 7.0
-
-[node name="Control" type="Control" parent="."]
-visible = false
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("9_gl4v5")
-
-[node name="ColorRect" type="ColorRect" parent="Control"]
-layout_mode = 0
-offset_left = 17.0
-offset_top = 49.0
-offset_right = 1061.0
-offset_bottom = 538.0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
-layout_mode = 0
-offset_left = 409.0
-offset_top = 189.0
-offset_right = 613.0
-offset_bottom = 305.0
-
-[node name="Button" type="Button" parent="Control/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 40
-text = "ALEMANHA"
-
-[node name="Button2" type="Button" parent="Control/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 40
-text = "BRASIL"
-
 [connection signal="body_entered" from="NóÁreaPontuação/AreaDireita" to="NóÁreaPontuação" method="_on_area_direita_body_entered"]
 [connection signal="body_entered" from="NóÁreaPontuação/AreaEsquerda" to="NóÁreaPontuação" method="_on_area_esquerda_body_entered"]
 [connection signal="timeout" from="NóÁreaPontuação/TimerParaSpawn" to="NóÁreaPontuação" method="_on_timer_para_spawn_timeout"]
-[connection signal="pressed" from="Control/VBoxContainer/Button" to="Control" method="_on_button_pressed"]
-[connection signal="pressed" from="Control/VBoxContainer/Button2" to="Control" method="_on_button_2_pressed"]

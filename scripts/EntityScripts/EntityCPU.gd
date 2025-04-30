@@ -1,4 +1,6 @@
 extends CharacterBody2D
+class_name EntityCPU
+
 
 @export var velocidade : int = 250
 

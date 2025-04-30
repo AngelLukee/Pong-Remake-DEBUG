@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://bbikecojtmu2k"]
+[gd_scene load_steps=4 format=3 uid="uid://bbikecojtmu2k"]
 
 [ext_resource type="Script" uid="uid://c5wwma1e8ltnm" path="res://scripts/EntityScripts/BallEntity.gd" id="1_e20h3"]
+[ext_resource type="Texture2D" uid="uid://btib0bet15w3k" path="res://Assets/Assets/Bolinha.png" id="2_f45td"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ai1y3"]
 radius = 4.0
@@ -12,9 +13,7 @@ Colisao = NodePath("colisão para area")
 [node name="colisão para area" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ai1y3")
 
-[node name="bolinha_texture" type="ColorRect" parent="."]
-offset_left = -5.0
-offset_top = -5.0
-offset_right = 5.0
-offset_bottom = 5.0
-color = Color(0.952751, 0.598248, 0.341289, 1)
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-3.57628e-07, -3.57628e-07)
+scale = Vector2(0.199219, 0.199219)
+texture = ExtResource("2_f45td")

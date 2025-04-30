@@ -2,7 +2,7 @@ extends Node
 class_name BandeirasHabilidades
 
 var Cena = preload("res://scenes/bolinha.tscn")
-
+var colidiu : bool = false
 
 func Dash(Player : EntityPlayer):#Habilidade da coreia do sul
 	
@@ -22,10 +22,10 @@ func Dash(Player : EntityPlayer):#Habilidade da coreia do sul
 		
 		Player.HabilidadeAtiva = false
 
-func Flash(Player : CharacterBody2D) -> void:
-	if Input.is_action_just_pressed("UsarHabilidade"):
-		pass
-		
+func Flash(Player : CharacterBody2D, CenaFlash) -> void:
+	pass
+
+
 func Freeze(Bola : EntityBall, PadAdversario: CharacterBody2D) -> void:
 	var velocidade_bola = Bola.velocidade
 	var velocidade_pad = PadAdversario.velocidade
@@ -72,5 +72,24 @@ func Route(Ball : EntityBall) -> void:
 	#Bola.direcao = new_dir.normalized()
 	#print(Bola.direcao)
 	
-func Impulse(Ball : EntityBall, Player : EntityPlayer) -> void: 
-	pass
+func Impulse(Ball : EntityBall, Player : EntityPlayer, CPU : EntityCPU) -> void: 
+	
+
+	
+	if Ball.ballCollision:
+		var collider = Ball.ballCollision.get_collider()
+
+		if collider == Player and not colidiu:
+			colidiu = true
+			Ball.ballVelocity += 150
+			var newDirection := Vector2()
+	
+			newDirection.x = Ball.ballDirection.x 
+			newDirection.y = [2.0, -2.0].pick_random()
+	
+			Ball.ballDirection = newDirection.normalized()
+
+		if collider == CPU and colidiu == true:
+			Ball.ballVelocity -= 150
+			Player.HabilidadeAtiva = false
+			colidiu = false
