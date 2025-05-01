@@ -22,9 +22,10 @@ func Dash(Player : EntityPlayer):#Habilidade da coreia do sul
 		
 		Player.HabilidadeAtiva = false
 
-func Flash(Player : CharacterBody2D, CenaFlash) -> void:
+func Flash(Player : CharacterBody2D) -> void:
 	pass
 
+<<<<<<< main
 
 func Freeze(Bola : EntityBall, PadAdversario: CharacterBody2D) -> void:
 	var velocidade_bola = Bola.velocidade
@@ -36,28 +37,17 @@ func Freeze(Bola : EntityBall, PadAdversario: CharacterBody2D) -> void:
 	await Bola.get_tree().create_timer(3.5).timeout
 	Bola.velocidade = velocidade_bola
 	PadAdversario.velocidade = velocidade_pad
+=======
+func Freeze(CPU: EntityCPU, Player : EntityPlayer) -> void:
+	CPU.congelado = true
+	await CPU.get_tree().create_timer(3.0).timeout
+	CPU.velocity.x = 0
+	CPU.congelado = false
+	Player.HabilidadeAtiva = false
+>>>>>>> local
 	
 func Invisible(Ball : EntityBall) -> void:
-	
-	var BolaSecundaria : EntityBall = Cena.instantiate()
-	
-	Ball.visible = false
-	BolaSecundaria.visible = false
-	
-	#Direcao da bola está indo errada
-	#Sicronizar com a bola verdadeira
-	BolaSecundaria.velocidade = Ball.velocidade
-	BolaSecundaria.Bola_verdadeira = false
-	BolaSecundaria.Colisao.disabled = true
-	BolaSecundaria.global_position = Ball.global_position
-	BolaSecundaria.direcao = Ball.direcao
-
-	
-	await Ball.get_tree().create_timer(0.3).timeout
-	Ball.visible = true
-	BolaSecundaria.visible = true
-	Ball.get_parent().add_child(BolaSecundaria)
-	
+	pass
 func Route(Ball : EntityBall) -> void:
 	pass
 	#Melhorar direção da bola, evitando que ela vá reta
@@ -73,8 +63,6 @@ func Route(Ball : EntityBall) -> void:
 	#print(Bola.direcao)
 	
 func Impulse(Ball : EntityBall, Player : EntityPlayer, CPU : EntityCPU) -> void: 
-	
-
 	
 	if Ball.ballCollision:
 		var collider = Ball.ballCollision.get_collider()

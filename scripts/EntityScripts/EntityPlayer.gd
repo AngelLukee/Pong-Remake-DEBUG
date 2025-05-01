@@ -14,6 +14,8 @@ class_name EntityPlayer
 #Variaveis 
 var HabilidadeAtiva : bool = false
 @onready var spriteTexture = $SpritePlayer
+var nomeBandeira : String
+
 
 func _process(delta: float) -> void:
 	MatchBandeiras()
@@ -21,12 +23,20 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	
 	MovimentacaoPlayer(delta)
+	
 	if Input.is_action_just_pressed("UsarHabilidade"):
+<<<<<<< main
 		$SpritePlayer.texture = Bandeira.Alemanha
 		spriteTexture = Bandeira.Alemanha
 		HabilidadeAtiva = true
+=======
+		spriteTexture.texture = Bandeira.Suecia
+		$SpritePlayer.texture = Bandeira.Suecia
+		nomeBandeira = "Suecia"
+>>>>>>> local
 
-	
+		HabilidadeAtiva = true
+		
 	if HabilidadeAtiva:
 		MatchBandeiras()
 
@@ -35,7 +45,7 @@ func MatchBandeiras() -> void:
 	if not HabilidadeAtiva:
 		return
 	
-	match spriteTexture:
+	match nomeBandeira:#Não comparar objetos, e sim nomes e IDs
 		Bandeira.Alemanha:
 			habilidades.Impulse(Bola, self, CPU)
 		Bandeira.Austria:
@@ -52,8 +62,8 @@ func MatchBandeiras() -> void:
 			pass
 		Bandeira.Portugal:
 			pass
-		Bandeira.Suecia:
-			pass
+		"Suecia":
+			habilidades.Freeze(CPU, self)
 
 func MovimentacaoPlayer(delta : float) -> void:
 	var direction = Input.get_axis("up", "down")

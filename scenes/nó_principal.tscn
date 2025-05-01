@@ -26,20 +26,35 @@ scale = Vector2(1.05875, 1.11106)
 [node name="SpritesBackground" type="Node2D" parent="."]
 
 [node name="background" type="Sprite2D" parent="SpritesBackground"]
-position = Vector2(546.873, 288)
-scale = Vector2(0.815823, 0.6)
+position = Vector2(604.486, 324.015)
+scale = Vector2(0.755608, 0.675031)
 texture = ExtResource("1_074by")
 
 [node name="mesa" type="Sprite2D" parent="SpritesBackground"]
-position = Vector2(546.871, 291.613)
-scale = Vector2(0.828906, 0.758792)
+position = Vector2(604.172, 320.415)
+scale = Vector2(0.826938, 0.758792)
 texture = ExtResource("2_gl4v5")
 
 [node name="LabelsPontuação" type="Control" parent="."]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+
+[node name="PonutaçãoCPU" type="Label" parent="LabelsPontuação"]
+layout_mode = 2
+offset_left = 663.046
+offset_top = 2.70012
+offset_right = 749.046
+offset_bottom = 45.7001
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme = ExtResource("1_qgkkw")
+text = "00"
 
 [node name="PontuaçãoPlayer" type="Label" parent="LabelsPontuação"]
 layout_mode = 0
@@ -50,23 +65,15 @@ theme = ExtResource("1_qgkkw")
 text = "00"
 horizontal_alignment = 1
 
-[node name="PonutaçãoCPU" type="Label" parent="LabelsPontuação"]
-layout_mode = 0
-offset_left = 578.042
-offset_right = 678.042
-offset_bottom = 50.0
-theme = ExtResource("1_qgkkw")
-text = "00"
-
 [node name="Colisões" type="StaticBody2D" parent="."]
 
 [node name="ColisãoCima" type="CollisionShape2D" parent="Colisões"]
-position = Vector2(546.873, 46.8023)
+position = Vector2(588.43, 68.4031)
 rotation = -1.5708
 shape = SubResource("RectangleShape2D_6mx5x")
 
 [node name="ColisãoBaixo" type="CollisionShape2D" parent="Colisões"]
-position = Vector2(551.596, 543.627)
+position = Vector2(593.152, 574.226)
 shape = SubResource("RectangleShape2D_1biwn")
 
 [node name="BolaBody" parent="." node_paths=PackedStringArray("CPU", "PLAYER") instance=ExtResource("4_484ci")]
@@ -75,16 +82,16 @@ CPU = NodePath("../CPUBody")
 PLAYER = NodePath("../Playerbody")
 
 [node name="CPUBody" parent="." instance=ExtResource("4_q48p7")]
-position = Vector2(1059.74, 302.415)
+position = Vector2(1112.63, 302.414)
 
 [node name="Playerbody" parent="." node_paths=PackedStringArray("CPU", "Bola") instance=ExtResource("1_tud0r")]
-position = Vector2(33, 301)
+position = Vector2(96.34, 304.214)
 speed = 240
 CPU = NodePath("../CPUBody")
 Bola = NodePath("../BolaBody")
 
 [node name="CameraMesa" type="Camera2D" parent="."]
-position = Vector2(543.095, 288.014)
+position = Vector2(606.375, 321.315)
 
 [node name="NóÁreaPontuação" type="Node2D" parent="." node_paths=PackedStringArray("PontuaçãoPlayer", "PontuaçãoIA")]
 script = ExtResource("5_jmmb0")
@@ -94,14 +101,14 @@ script = ExtResource("5_jmmb0")
 [node name="AreaDireita" type="Area2D" parent="NóÁreaPontuação"]
 
 [node name="ColisaoAreaDireita" type="CollisionShape2D" parent="NóÁreaPontuação/AreaDireita"]
-position = Vector2(1094.69, 293.413)
+position = Vector2(1140.97, 292.513)
 rotation = -1.5708
 shape = SubResource("RectangleShape2D_0nw0v")
 
 [node name="AreaEsquerda" type="Area2D" parent="NóÁreaPontuação"]
 
 [node name="ColisaoEsquerdaDireita" type="CollisionShape2D" parent="NóÁreaPontuação/AreaEsquerda"]
-position = Vector2(9.53674e-07, 282.613)
+position = Vector2(71.7828, 301.514)
 shape = SubResource("RectangleShape2D_xek06")
 
 [node name="TimerParaSpawn" type="Timer" parent="NóÁreaPontuação"]

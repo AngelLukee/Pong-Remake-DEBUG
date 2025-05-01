@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bsr8c0qxwfx48"]
 
 [ext_resource type="Script" uid="uid://coxsfs58hogjj" path="res://scripts/EntityScripts/EntityPlayer.gd" id="1_8v4pv"]
-[ext_resource type="Texture2D" uid="uid://berlsmmqk6qeo" path="res://Assets/Bandeiras/Brasil.aseprite" id="2_g2els"]
+[ext_resource type="Texture2D" uid="uid://s08m8f12yg4f" path="res://Assets/Bandeiras/China.aseprite" id="2_g2els"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_06nce"]
 size = Vector2(8, 92)
@@ -13,10 +13,17 @@ speed = 200
 [node name="colisao_player" type="CollisionShape2D" parent="."]
 light_mask = 2
 visibility_layer = 2
+<<<<<<< main
 position = Vector2(1, 0)
 shape = SubResource("RectangleShape2D_06nce")
 
 [node name="SpritePlayer" type="Sprite2D" parent="."]
 position = Vector2(1, 1.90735e-06)
 scale = Vector2(0.25, 0.71875)
+=======
+shape = SubResource("RectangleShape2D_06nce")
+
+[node name="SpritePlayer" type="Sprite2D" parent="."]
+scale = Vector2(0.375, 0.515625)
+>>>>>>> local
 texture = ExtResource("2_g2els")
