@@ -2,40 +2,32 @@ extends CharacterBody2D
 class_name EntityPlayer
 
 
-#instancia das classes
+#instancia das classes e onreadys
 @onready var Bandeira = Bandeiras.new()
 @onready var habilidades = BandeirasHabilidades.new()
+@onready var spriteTexture = $SpritePlayer
 
 #Export das variaveis para pegar os nós
-@export var speed : int 
 @export var CPU : CharacterBody2D
-@export var Bola : CharacterBody2D
+@export var Bola : StaticBody2D
 
 #Variaveis 
 var HabilidadeAtiva : bool = false
-@onready var spriteTexture = $SpritePlayer
 var nomeBandeira : String
-
+var velocidade : int = 300
 
 func _process(delta: float) -> void:
 	MatchBandeiras()
 
 func _physics_process(delta: float) -> void:
 	
-	MovimentacaoPlayer(delta)
+	MovimentacaoPlayer()
+	move_and_slide()
 	
 	if Input.is_action_just_pressed("UsarHabilidade"):
-<<<<<<< main
-		$SpritePlayer.texture = Bandeira.Alemanha
-		spriteTexture = Bandeira.Alemanha
+		spriteTexture = Bandeira.Suecia
 		HabilidadeAtiva = true
-=======
-		spriteTexture.texture = Bandeira.Suecia
-		$SpritePlayer.texture = Bandeira.Suecia
 		nomeBandeira = "Suecia"
->>>>>>> local
-
-		HabilidadeAtiva = true
 		
 	if HabilidadeAtiva:
 		MatchBandeiras()
@@ -46,27 +38,28 @@ func MatchBandeiras() -> void:
 		return
 	
 	match nomeBandeira:#Não comparar objetos, e sim nomes e IDs
-		Bandeira.Alemanha:
-			habilidades.Impulse(Bola, self, CPU)
-		Bandeira.Austria:
+		"Alemanha":
 			pass
-		Bandeira.Brasil:
+		"Austria":
 			pass
-		Bandeira.China:
+		"Brasil":
 			pass
-		Bandeira.Coreia:
+		"China":
 			pass
-		Bandeira.HongKong:
+		"Coreia":
 			pass
-		Bandeira.Japao:
+		"HongKong":
 			pass
-		Bandeira.Portugal:
+		"Japao":
+			pass
+		"Portugal":
 			pass
 		"Suecia":
-			habilidades.Freeze(CPU, self)
+			pass
 
-func MovimentacaoPlayer(delta : float) -> void:
+func MovimentacaoPlayer():
 	var direction = Input.get_axis("up", "down")
 	if direction:
-		position.y += direction * speed * delta
-	position.y = clamp(position.y, 108, 476)#Limitando até onde a posição do player poderá ir
+		velocity.y = lerp(velocity.y, direction * velocidade, 1)
+	else:
+		velocity.y = 0

@@ -29,6 +29,3 @@ func _on_area_direita_body_entered(body: Node2D):
 		else:
 			PontuaçãoPlayer.text = str(score[1])
 		
-
-func _on_timer_para_spawn_timeout() -> void:
-	$"../BolaBody".random_spawn()

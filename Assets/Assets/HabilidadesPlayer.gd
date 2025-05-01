@@ -4,6 +4,7 @@ class_name BandeirasHabilidades
 var Cena = preload("res://scenes/bolinha.tscn")
 var colidiu : bool = false
 
+
 func Dash(Player : EntityPlayer):#Habilidade da coreia do sul
 	
 	#Pad se movendo para fora da tela ao chegar na borda e tentar usar habilidade
@@ -25,29 +26,22 @@ func Dash(Player : EntityPlayer):#Habilidade da coreia do sul
 func Flash(Player : CharacterBody2D) -> void:
 	pass
 
-<<<<<<< main
-
-func Freeze(Bola : EntityBall, PadAdversario: CharacterBody2D) -> void:
-	var velocidade_bola = Bola.velocidade
-	var velocidade_pad = PadAdversario.velocidade
-	
-	Bola.velocidade = 100
-	PadAdversario.velocidade = 100
-	
-	await Bola.get_tree().create_timer(3.5).timeout
-	Bola.velocidade = velocidade_bola
-	PadAdversario.velocidade = velocidade_pad
-=======
 func Freeze(CPU: EntityCPU, Player : EntityPlayer) -> void:
 	CPU.congelado = true
 	await CPU.get_tree().create_timer(3.0).timeout
-	CPU.velocity.x = 0
 	CPU.congelado = false
 	Player.HabilidadeAtiva = false
->>>>>>> local
+
 	
-func Invisible(Ball : EntityBall) -> void:
-	pass
+func Invisible(Ball : EntityBall, Player : EntityPlayer) -> void:
+	var falseBall : EntityBall = Cena.instantiate()
+	
+	
+	Player.HabilidadeAtiva = false
+	
+	
+	
+	
 func Route(Ball : EntityBall) -> void:
 	pass
 	#Melhorar direção da bola, evitando que ela vá reta

@@ -12,13 +12,13 @@
 size = Vector2(21.0019, 1089)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1biwn"]
-size = Vector2(1080, 34)
+size = Vector2(1058.54, 34)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0nw0v"]
 size = Vector2(576, 14)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xek06"]
-size = Vector2(10.5, 584)
+size = Vector2(10.5, 553.012)
 
 [node name="NóPrincipal" type="Node2D"]
 scale = Vector2(1.05875, 1.11106)
@@ -26,6 +26,7 @@ scale = Vector2(1.05875, 1.11106)
 [node name="SpritesBackground" type="Node2D" parent="."]
 
 [node name="background" type="Sprite2D" parent="SpritesBackground"]
+modulate = Color(0.800491, 0.800491, 0.800491, 1)
 position = Vector2(604.486, 324.015)
 scale = Vector2(0.755608, 0.675031)
 texture = ExtResource("1_074by")
@@ -68,12 +69,13 @@ horizontal_alignment = 1
 [node name="Colisões" type="StaticBody2D" parent="."]
 
 [node name="ColisãoCima" type="CollisionShape2D" parent="Colisões"]
-position = Vector2(588.43, 68.4031)
+position = Vector2(596.93, 66.6031)
 rotation = -1.5708
 shape = SubResource("RectangleShape2D_6mx5x")
 
 [node name="ColisãoBaixo" type="CollisionShape2D" parent="Colisões"]
-position = Vector2(593.152, 574.226)
+position = Vector2(603.542, 580.527)
+scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_1biwn")
 
 [node name="BolaBody" parent="." node_paths=PackedStringArray("CPU", "PLAYER") instance=ExtResource("4_484ci")]
@@ -86,12 +88,11 @@ position = Vector2(1112.63, 302.414)
 
 [node name="Playerbody" parent="." node_paths=PackedStringArray("CPU", "Bola") instance=ExtResource("1_tud0r")]
 position = Vector2(96.34, 304.214)
-speed = 240
 CPU = NodePath("../CPUBody")
 Bola = NodePath("../BolaBody")
 
 [node name="CameraMesa" type="Camera2D" parent="."]
-position = Vector2(606.375, 321.315)
+position = Vector2(604.486, 324.015)
 
 [node name="NóÁreaPontuação" type="Node2D" parent="." node_paths=PackedStringArray("PontuaçãoPlayer", "PontuaçãoIA")]
 script = ExtResource("5_jmmb0")
@@ -108,7 +109,8 @@ shape = SubResource("RectangleShape2D_0nw0v")
 [node name="AreaEsquerda" type="Area2D" parent="NóÁreaPontuação"]
 
 [node name="ColisaoEsquerdaDireita" type="CollisionShape2D" parent="NóÁreaPontuação/AreaEsquerda"]
-position = Vector2(71.7828, 301.514)
+position = Vector2(71.7828, 286.02)
+scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_xek06")
 
 [node name="TimerParaSpawn" type="Timer" parent="NóÁreaPontuação"]

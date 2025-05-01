@@ -4,13 +4,13 @@
 [ext_resource type="Texture2D" uid="uid://n8cg1mi32cyf" path="res://Assets/Bandeiras/Àustria.aseprite" id="2_jpawb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3acr2"]
-size = Vector2(26.6667, 124.121)
+size = Vector2(0, 124.121)
 
 [node name="IA" type="CharacterBody2D"]
 script = ExtResource("1_vgvke")
 
 [node name="Colisao" type="CollisionShape2D" parent="."]
-position = Vector2(-2.38419e-07, 0)
+position = Vector2(-6, 0)
 scale = Vector2(0.375, 0.515625)
 shape = SubResource("RectangleShape2D_3acr2")
 
