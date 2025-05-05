@@ -25,12 +25,15 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	
 	if Input.is_action_just_pressed("UsarHabilidade"):
-		spriteTexture = Bandeira.Suecia
 		HabilidadeAtiva = true
-		nomeBandeira = "Suecia"
 		
 	if HabilidadeAtiva:
-		MatchBandeiras()
+		$"../Path2D/PathFollow2D".progress += delta * velocidade
+		$"../BolaBody".global_position = $"../Path2D/PathFollow2D".global_position
+		if $"../Path2D/PathFollow2D".progress_ratio == 1.0:
+			$"../Path2D/PathFollow2D".progress_ratio = 0.0
+			HabilidadeAtiva = false
+		
 
 func MatchBandeiras() -> void:
 	

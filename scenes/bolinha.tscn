@@ -18,3 +18,10 @@ shape = SubResource("CircleShape2D_ai1y3")
 modulate = Color(0.984319, 0.659144, 0.421419, 1)
 scale = Vector2(0.22461, 0.22461)
 texture = ExtResource("2_f45td")
+
+[node name="Path2D" type="Path2D" parent="."]
+position = Vector2(30, 5)
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+position = Vector2(-3.8147e-06, -9.53674e-07)
+rotation = 0.0880074

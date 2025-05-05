@@ -21,7 +21,7 @@ aseprite_executable_path="C:/Program Files/Aseprite/Aseprite.exe"
 
 [autoload]
 
-HabilidadesAutoLoad="*res://Assets/Assets/HabilidadesPlayer.gd"
+HabilidadesAutoLoad="*res://scripts/HabilidadesPlayer.gd"
 
 [display]
 
