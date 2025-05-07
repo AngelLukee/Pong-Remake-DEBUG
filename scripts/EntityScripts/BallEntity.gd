@@ -10,20 +10,19 @@ const aceleracao : int = 30
 @export var PLAYER : CharacterBody2D
 @export var Colisao : CollisionShape2D
 
+@onready var window = get_viewport_rect().size
 
 var ballVelocity : int 
 var ballDirection : Vector2 = Vector2(1,0).normalized()
 var ballCollision
-
+var real : bool = true
 
 
 func _ready() -> void:
-	var window = get_viewport_rect().size
-	self.global_position = window/2
-	randomSpawn()
+	#self.global_position = window/2
+	ballVelocity = velocidadeInicial
 
 func _physics_process(delta: float):
-	
 	#Movimenta a bola e informa caso ela colida
 	ballCollision = move_and_collide(ballDirection * ballVelocity * delta)
 	
@@ -50,7 +49,7 @@ func randomDirection():#Randomiza a direção da bola ao tocar em algum dos tabl
 	
 	newDirection.x = ballDirection.x * -1
 	newDirection.y = randf_range(-0.4, 0.4)
-	
+	print(newDirection)
 	ballDirection = newDirection.normalized()
 	
 func randomSpawn():#Randomiza o spawn da bola se fizerem algum ponto

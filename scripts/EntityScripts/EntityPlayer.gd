@@ -13,7 +13,7 @@ class_name EntityPlayer
 
 #Variaveis 
 var HabilidadeAtiva : bool = false
-var nomeBandeira : String
+var nomeBandeira : String = "China"
 var velocidade : int = 300
 
 func _process(delta: float) -> void:
@@ -28,11 +28,7 @@ func _physics_process(delta: float) -> void:
 		HabilidadeAtiva = true
 		
 	if HabilidadeAtiva:
-		$"../Path2D/PathFollow2D".progress += delta * velocidade
-		$"../BolaBody".global_position = $"../Path2D/PathFollow2D".global_position
-		if $"../Path2D/PathFollow2D".progress_ratio == 1.0:
-			$"../Path2D/PathFollow2D".progress_ratio = 0.0
-			HabilidadeAtiva = false
+		MatchBandeiras()
 		
 
 func MatchBandeiras() -> void:
@@ -48,7 +44,8 @@ func MatchBandeiras() -> void:
 		"Brasil":
 			pass
 		"China":
-			pass
+			habilidades.clone(Bola)
+			HabilidadeAtiva = false
 		"Coreia":
 			pass
 		"HongKong":

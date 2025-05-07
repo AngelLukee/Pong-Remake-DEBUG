@@ -5,7 +5,7 @@ var Cena = preload("res://scenes/bolinha.tscn")
 var colidiu : bool = false
 
 
-func Dash(Player : EntityPlayer):#Habilidade da coreia do sul
+func dash(Player : EntityPlayer):#Habilidade da coreia do sul
 	
 	#Pad se movendo para fora da tela ao chegar na borda e tentar usar habilidade
 	
@@ -23,40 +23,49 @@ func Dash(Player : EntityPlayer):#Habilidade da coreia do sul
 		
 		Player.HabilidadeAtiva = false
 
-func Flash(Player : CharacterBody2D) -> void:
+func clarao(Player : CharacterBody2D) -> void:
 	pass
 
-func Freeze(CPU: EntityCPU, Player : EntityPlayer) -> void:
+func congelar(CPU: EntityCPU, Player : EntityPlayer) -> void:
 	CPU.congelado = true
 	await CPU.get_tree().create_timer(3.0).timeout
 	CPU.congelado = false
 	Player.HabilidadeAtiva = false
 
 	
-func Invisible(Ball : EntityBall, Player : EntityPlayer) -> void:
+func clone(Ball : EntityBall) -> void:
+	
+	Ball.visible = false
+	
 	var falseBall : EntityBall = Cena.instantiate()
+	var newDirection := Vector2()
+	falseBall.real = false
+	falseBall.global_position.y =  Ball.window.y  - Ball.global_position.y 
+	falseBall.global_position.x = Ball.global_position.x
+	newDirection.x = Ball.ballDirection.x
+	newDirection.y = Ball.ballDirection.y * -1.0
 	
+	falseBall.ballDirection = newDirection.normalized()
+	falseBall.ballVelocity = Ball.ballVelocity
 	
-	Player.HabilidadeAtiva = false
+	Ball.visible = true
+	Ball.get_parent().add_child(falseBall)
 	
-	
-	
-	
-func Route(Ball : EntityBall) -> void:
-	pass
+
+func Salto(Ball : EntityBall) -> void:#Terminado e testado
 	#Melhorar direção da bola, evitando que ela vá reta
 	
-	#var new_dir := Vector2()
-	#new_dir.x = Bola.direcao.x 
+	var newDirection := Vector2()
+	newDirection.x = Ball.ballDirection.x
 	
-	#if Bola.direcao.y < 0.4:
-	#	new_dir.y = Bola.direcao.y * -1.2
-	#if Bola.Direcao.y > 0.4:
-	#	pass
-	#Bola.direcao = new_dir.normalized()
-	#print(Bola.direcao)
+	if Ball.ballDirection.y < 0:
+		newDirection.y = randf_range(0.7, 0.6)
+	else:
+		newDirection.y = randf_range(-0.7, -0.6)
+	Ball.ballDirection = newDirection.normalized()
 	
-func Impulse(Ball : EntityBall, Player : EntityPlayer, CPU : EntityCPU) -> void: 
+	
+func Impulso(Ball : EntityBall, Player : EntityPlayer, CPU : EntityCPU) -> void: #TERMINADO E TESTADO
 	
 	if Ball.ballCollision:
 		var collider = Ball.ballCollision.get_collider()
@@ -75,3 +84,6 @@ func Impulse(Ball : EntityBall, Player : EntityPlayer, CPU : EntityCPU) -> void:
 			Ball.ballVelocity -= 150
 			Player.HabilidadeAtiva = false
 			colidiu = false
+
+func bolaEnergia(Ball: EntityBall, CPU : EntityCPU) -> void:
+	pass

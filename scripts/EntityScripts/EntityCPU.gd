@@ -8,13 +8,16 @@ var congelado : bool = false
 var habilidadeAtiva : bool = false
 var nomeBandeira : String
 
+@export var BallPosition : StaticBody2D
+
+
 func _process(delta: float) -> void:
 	global_position.y = clampi(global_position.y, 100, 612)
 	
 func _physics_process(delta: float) -> void:
 	
 	if not congelado:
-		movimentacaoCPU()
+		movimentacaoCPU(delta)
 		
 	if congelado:
 		Congelado()
@@ -57,10 +60,7 @@ func Congelado():
 		if velocity.y < 20 and velocity.y > -20:
 			velocity.y = 0
 			
-func movimentacaoCPU():
-	var direction = Input.get_axis("otherup", "otherdowm")
+func movimentacaoCPU(delta):
 	
-	if direction:
-		velocity.y = lerp(velocity.y, direction * velocidade, 1)
-	else:
-		velocity.y = 0
+	velocity.y = lerp(velocity.y, BallPosition.position.y - self.position.y * velocidade, 5 * delta)
+	

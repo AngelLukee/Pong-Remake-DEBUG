@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cysh5bxxu7ogh"]
+[gd_scene load_steps=12 format=3 uid="uid://cysh5bxxu7ogh"]
 
 [ext_resource type="Texture2D" uid="uid://0xs1mafiwvoe" path="res://Assets/Background/Background_normal.png" id="1_074by"]
 [ext_resource type="Theme" uid="uid://cs685o7rnu2r0" path="res://Themes/LabelPointTheme.tres" id="1_qgkkw"]
@@ -19,12 +19,6 @@ size = Vector2(576, 14)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xek06"]
 size = Vector2(10.5, 553.012)
-
-[sub_resource type="Curve2D" id="Curve2D_xek06"]
-_data = {
-"points": PackedVector2Array(0, 0, 0, 0, 17139, 3844.58, 0, 0, 0, 0, 17162.6, 3829.28, 0, 0, 0, 0, 17191.9, 3792.38, 0, 0, 0, 0, 17209.8, 3764.48, 0, 0, 0, 0, 17237.2, 3759.07, 0, 0, 0, 0, 17266.5, 3766.28, 0, 0, 0, 0, 17290.1, 3784.28, 0, 0, 0, 0, 17311.8, 3801.38, 0, 0, 0, 0, 17336.4, 3823.88, 0, 0, 0, 0, 17377.9, 3847.28, 0, 0, 0, 0, 17424.2, 3863.48, 0, 0, 0, 0, 17447.8, 3836.48, 0, 0, 0, 0, 17461.1, 3802.28, 0, 0, 0, 0, 17455.4, 3779.78, 0, 0, 0, 0, 17425.2, 3765.38, 0, 0, 0, 0, 17387.4, 3767.18, 0, 0, 0, 0, 17358.1, 3772.58, 0, 0, 0, 0, 17338.3, 3781.58, 0, 0, 0, 0, 17301.4, 3811.28, 0, 0, 0, 0, 17285.4, 3840.98, 0, 0, 0, 0, 17301.4, 3869.78, 0, 0, 0, 0, 17344.9, 3895.88, 0, 0, 0, 0, 17393.1, 3901.28, 0, 0, 0, 0, 17411.1, 3905.28, 0, 0, 0, 0, 17440.4, 3913.38)
-}
-point_count = 25
 
 [node name="NóPrincipal" type="Node2D"]
 scale = Vector2(1.05875, 1.11106)
@@ -84,12 +78,13 @@ position = Vector2(603.542, 580.527)
 shape = SubResource("RectangleShape2D_1biwn")
 
 [node name="BolaBody" parent="." node_paths=PackedStringArray("CPU", "PLAYER") instance=ExtResource("4_484ci")]
-position = Vector2(546.873, 291.615)
+position = Vector2(604.486, 320.415)
 CPU = NodePath("../CPUBody")
 PLAYER = NodePath("../Playerbody")
 
-[node name="CPUBody" parent="." instance=ExtResource("4_q48p7")]
+[node name="CPUBody" parent="." node_paths=PackedStringArray("BallPosition") instance=ExtResource("4_q48p7")]
 position = Vector2(1112.63, 302.414)
+BallPosition = NodePath("../BolaBody")
 
 [node name="Playerbody" parent="." node_paths=PackedStringArray("CPU", "Bola") instance=ExtResource("1_tud0r")]
 position = Vector2(96.34, 304.214)
@@ -120,16 +115,6 @@ shape = SubResource("RectangleShape2D_xek06")
 [node name="TimerParaSpawn" type="Timer" parent="NóÁreaPontuação"]
 wait_time = 1.7
 one_shot = true
-
-[node name="Path2D" type="Path2D" parent="."]
-position = Vector2(-16498.7, -3524.56)
-curve = SubResource("Curve2D_xek06")
-
-[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
-position = Vector2(17139, 3844.58)
-rotation = -0.574949
-cubic_interp = false
-loop = false
 
 [connection signal="body_entered" from="NóÁreaPontuação/AreaDireita" to="NóÁreaPontuação" method="_on_area_direita_body_entered"]
 [connection signal="body_entered" from="NóÁreaPontuação/AreaEsquerda" to="NóÁreaPontuação" method="_on_area_esquerda_body_entered"]
