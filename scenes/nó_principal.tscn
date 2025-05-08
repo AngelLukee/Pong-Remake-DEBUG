@@ -1,15 +1,17 @@
-[gd_scene load_steps=12 format=3 uid="uid://cysh5bxxu7ogh"]
+[gd_scene load_steps=14 format=3 uid="uid://cysh5bxxu7ogh"]
 
 [ext_resource type="Texture2D" uid="uid://0xs1mafiwvoe" path="res://Assets/Background/Background_normal.png" id="1_074by"]
 [ext_resource type="Theme" uid="uid://cs685o7rnu2r0" path="res://Themes/LabelPointTheme.tres" id="1_qgkkw"]
-[ext_resource type="PackedScene" uid="uid://bsr8c0qxwfx48" path="res://scenes/player.tscn" id="1_tud0r"]
+[ext_resource type="PackedScene" uid="uid://bsr8c0qxwfx48" path="res://scenes/EntityScenes/player.tscn" id="1_tud0r"]
 [ext_resource type="Texture2D" uid="uid://cjg66hwtxriuh" path="res://Assets/Background/Mesa.png" id="2_gl4v5"]
-[ext_resource type="PackedScene" uid="uid://bbikecojtmu2k" path="res://scenes/bolinha.tscn" id="4_484ci"]
-[ext_resource type="PackedScene" uid="uid://duekeshk368pf" path="res://scenes/ia.tscn" id="4_q48p7"]
-[ext_resource type="Script" uid="uid://biiy4kungxuw2" path="res://scripts/Script_Pontuação.gd" id="5_jmmb0"]
+[ext_resource type="PackedScene" uid="uid://bbikecojtmu2k" path="res://scenes/EntityScenes/bolinha.tscn" id="4_484ci"]
+[ext_resource type="PackedScene" uid="uid://duekeshk368pf" path="res://scenes/EntityScenes/CPU.tscn" id="4_q48p7"]
+[ext_resource type="Script" uid="uid://biiy4kungxuw2" path="res://scripts/scriptPontuacao.gd" id="5_jmmb0"]
+[ext_resource type="Script" uid="uid://bmpxgop3elb7f" path="res://scenes/audiosScript.gd" id="8_gl4v5"]
+[ext_resource type="AudioStream" uid="uid://1334gl3fg2m7" path="res://Audios/Freeze/FreezeSound.mp3" id="9_igcbh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6mx5x"]
-size = Vector2(21.0019, 1089)
+size = Vector2(21.0019, 1055.96)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1biwn"]
 size = Vector2(1058.54, 34)
@@ -36,7 +38,7 @@ position = Vector2(604.172, 320.415)
 scale = Vector2(0.826938, 0.758792)
 texture = ExtResource("2_gl4v5")
 
-[node name="LabelsPontuação" type="Control" parent="."]
+[node name="LabelsPontuação" type="Control" parent="." node_paths=PackedStringArray("PontuaçãoPlayer", "PontuaçãoIA")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -45,6 +47,9 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
+script = ExtResource("5_jmmb0")
+"PontuaçãoPlayer" = NodePath("PontuaçãoPlayer")
+"PontuaçãoIA" = NodePath("PonutaçãoCPU")
 
 [node name="PonutaçãoCPU" type="Label" parent="LabelsPontuação"]
 layout_mode = 2
@@ -69,7 +74,7 @@ horizontal_alignment = 1
 [node name="Colisões" type="StaticBody2D" parent="."]
 
 [node name="ColisãoCima" type="CollisionShape2D" parent="Colisões"]
-position = Vector2(596.93, 66.6031)
+position = Vector2(602.597, 66.6031)
 rotation = -1.5708
 shape = SubResource("RectangleShape2D_6mx5x")
 
@@ -79,6 +84,7 @@ shape = SubResource("RectangleShape2D_1biwn")
 
 [node name="BolaBody" parent="." node_paths=PackedStringArray("CPU", "PLAYER") instance=ExtResource("4_484ci")]
 position = Vector2(604.486, 320.415)
+scale = Vector2(1.2, 1.2)
 CPU = NodePath("../CPUBody")
 PLAYER = NodePath("../Playerbody")
 
@@ -86,36 +92,36 @@ PLAYER = NodePath("../Playerbody")
 position = Vector2(1112.63, 302.414)
 BallPosition = NodePath("../BolaBody")
 
-[node name="Playerbody" parent="." node_paths=PackedStringArray("CPU", "Bola") instance=ExtResource("1_tud0r")]
+[node name="Playerbody" parent="." node_paths=PackedStringArray("CPU", "Bola", "Sound") instance=ExtResource("1_tud0r")]
 position = Vector2(96.34, 304.214)
 CPU = NodePath("../CPUBody")
 Bola = NodePath("../BolaBody")
+Sound = NodePath("../AUDIOS")
 
 [node name="CameraMesa" type="Camera2D" parent="."]
 position = Vector2(604.486, 324.015)
 
-[node name="NóÁreaPontuação" type="Node2D" parent="." node_paths=PackedStringArray("PontuaçãoPlayer", "PontuaçãoIA")]
-script = ExtResource("5_jmmb0")
-"PontuaçãoPlayer" = NodePath("../LabelsPontuação/PontuaçãoPlayer")
-"PontuaçãoIA" = NodePath("../LabelsPontuação/PonutaçãoCPU")
+[node name="NóÁreaPontuação" type="Node2D" parent="."]
 
 [node name="AreaDireita" type="Area2D" parent="NóÁreaPontuação"]
 
 [node name="ColisaoAreaDireita" type="CollisionShape2D" parent="NóÁreaPontuação/AreaDireita"]
-position = Vector2(1140.97, 292.513)
+position = Vector2(1159.86, 294.314)
 rotation = -1.5708
 shape = SubResource("RectangleShape2D_0nw0v")
 
 [node name="AreaEsquerda" type="Area2D" parent="NóÁreaPontuação"]
 
 [node name="ColisaoEsquerdaDireita" type="CollisionShape2D" parent="NóÁreaPontuação/AreaEsquerda"]
-position = Vector2(65.1712, 286.213)
+position = Vector2(47.2255, 286.213)
 shape = SubResource("RectangleShape2D_xek06")
 
-[node name="TimerParaSpawn" type="Timer" parent="NóÁreaPontuação"]
-wait_time = 1.7
-one_shot = true
+[node name="AUDIOS" type="Node" parent="." node_paths=PackedStringArray("FreezeSound")]
+script = ExtResource("8_gl4v5")
+FreezeSound = NodePath("Freeze")
 
-[connection signal="body_entered" from="NóÁreaPontuação/AreaDireita" to="NóÁreaPontuação" method="_on_area_direita_body_entered"]
-[connection signal="body_entered" from="NóÁreaPontuação/AreaEsquerda" to="NóÁreaPontuação" method="_on_area_esquerda_body_entered"]
-[connection signal="timeout" from="NóÁreaPontuação/TimerParaSpawn" to="NóÁreaPontuação" method="_on_timer_para_spawn_timeout"]
+[node name="Freeze" type="AudioStreamPlayer" parent="AUDIOS"]
+stream = ExtResource("9_igcbh")
+
+[connection signal="body_entered" from="NóÁreaPontuação/AreaDireita" to="LabelsPontuação" method="_on_area_direita_body_entered"]
+[connection signal="body_entered" from="NóÁreaPontuação/AreaEsquerda" to="LabelsPontuação" method="_on_area_esquerda_body_entered"]

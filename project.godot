@@ -13,7 +13,6 @@ config_version=5
 config/name="PONG"
 run/main_scene="res://scenes/nó_principal.tscn"
 config/features=PackedStringArray("4.4", "GL Compatibility")
-config/icon="res://icon.svg"
 
 [aseprite_importers]
 
@@ -80,4 +79,4 @@ despausar={
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
-environment/defaults/default_clear_color=Color(0, 0, 0, 1)
+anti_aliasing/quality/msaa_2d=3

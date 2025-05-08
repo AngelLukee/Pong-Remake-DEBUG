@@ -8,7 +8,9 @@ var congelado : bool = false
 var habilidadeAtiva : bool = false
 var nomeBandeira : String
 
-@export var BallPosition : StaticBody2D
+@export var BallPosition : CharacterBody2D
+@export var SpriteCongelado : Sprite2D
+@export var Sound : Node
 
 
 func _process(delta: float) -> void:
@@ -61,6 +63,8 @@ func Congelado():
 			velocity.y = 0
 			
 func movimentacaoCPU(delta):
-	
-	velocity.y = lerp(velocity.y, BallPosition.position.y - self.position.y * velocidade, 5 * delta)
-	
+	var direction = Input.get_axis("otherup", "otherdowm")
+	if direction:
+		velocity.y = lerp(velocity.y, direction * velocidade, 1)
+	else:
+		velocity.y = 0

@@ -1,4 +1,4 @@
-extends StaticBody2D
+extends CharacterBody2D
 class_name EntityBall
 #Criando classe, para na classe habilidades, a instancia herdar as caracteristicas daqui
 
@@ -10,7 +10,7 @@ const aceleracao : int = 30
 @export var PLAYER : CharacterBody2D
 @export var Colisao : CollisionShape2D
 
-@onready var window = get_viewport_rect().size
+
 
 var ballVelocity : int 
 var ballDirection : Vector2 = Vector2(1,0).normalized()
@@ -19,8 +19,7 @@ var real : bool = true
 
 
 func _ready() -> void:
-	#self.global_position = window/2
-	ballVelocity = velocidadeInicial
+	randomSpawn()
 
 func _physics_process(delta: float):
 	#Movimenta a bola e informa caso ela colida
@@ -53,6 +52,8 @@ func randomDirection():#Randomiza a direção da bola ao tocar em algum dos tabl
 	ballDirection = newDirection.normalized()
 	
 func randomSpawn():#Randomiza o spawn da bola se fizerem algum ponto
+	var window = get_viewport_rect().size
+	self.global_position = window/2
 	ballVelocity = velocidadeInicial
 	
 	

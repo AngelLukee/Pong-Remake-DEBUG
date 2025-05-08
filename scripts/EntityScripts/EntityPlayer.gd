@@ -4,12 +4,15 @@ class_name EntityPlayer
 
 #instancia das classes e onreadys
 @onready var Bandeira = Bandeiras.new()
-@onready var habilidades = BandeirasHabilidades.new()
+@onready var habilidades = HabilidadesPlayer.new()
 @onready var spriteTexture = $SpritePlayer
+
+
 
 #Export das variaveis para pegar os nós
 @export var CPU : CharacterBody2D
-@export var Bola : StaticBody2D
+@export var Bola : CharacterBody2D
+@export var Sound : Node
 
 #Variaveis 
 var HabilidadeAtiva : bool = false
@@ -17,6 +20,7 @@ var nomeBandeira : String = "China"
 var velocidade : int = 300
 
 func _process(delta: float) -> void:
+	position.y = clampi(position.y, 100, 612)
 	MatchBandeiras()
 
 func _physics_process(delta: float) -> void:
@@ -29,7 +33,6 @@ func _physics_process(delta: float) -> void:
 		
 	if HabilidadeAtiva:
 		MatchBandeiras()
-		
 
 func MatchBandeiras() -> void:
 	
@@ -44,7 +47,7 @@ func MatchBandeiras() -> void:
 		"Brasil":
 			pass
 		"China":
-			habilidades.clone(Bola)
+			habilidades.dash(self)
 			HabilidadeAtiva = false
 		"Coreia":
 			pass
