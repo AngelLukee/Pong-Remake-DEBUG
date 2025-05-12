@@ -20,7 +20,7 @@ aseprite_executable_path="C:/Program Files/Aseprite/Aseprite.exe"
 
 [autoload]
 
-HabilidadesAutoLoad="*res://scripts/HabilidadesPlayer.gd"
+HabilidadesAutoLoad="*res://scripts/HabilitiesScripts/HabilidadesPlayer.gd"
 
 [display]
 
@@ -77,6 +77,6 @@ despausar={
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=2
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
-anti_aliasing/quality/msaa_2d=3

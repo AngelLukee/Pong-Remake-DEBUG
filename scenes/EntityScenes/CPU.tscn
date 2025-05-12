@@ -7,9 +7,10 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3acr2"]
 size = Vector2(0, 124.121)
 
-[node name="IA" type="CharacterBody2D" node_paths=PackedStringArray("SpriteCongelado")]
+[node name="IA" type="CharacterBody2D" node_paths=PackedStringArray("SpriteCongelado", "cooldown")]
 script = ExtResource("1_vgvke")
 SpriteCongelado = NodePath("Freeze")
+cooldown = NodePath("cooldown")
 
 [node name="Colisao" type="CollisionShape2D" parent="."]
 position = Vector2(-6, 0)
@@ -26,3 +27,7 @@ modulate = Color(1, 1, 1, 0)
 position = Vector2(8.9407e-07, -1)
 scale = Vector2(0.273684, 0.429687)
 texture = ExtResource("3_0s5lx")
+
+[node name="cooldown" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true

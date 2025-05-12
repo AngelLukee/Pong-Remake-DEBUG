@@ -2,20 +2,38 @@ extends CharacterBody2D
 class_name EntityCPU
 
 
-var velocidade : int = 300
-var congelado : bool = false
 
-var habilidadeAtiva : bool = false
-var nomeBandeira : String
+#Instancias
+@onready var habilidades = HabilidadesCPU.new()
 
-@export var BallPosition : CharacterBody2D
+#Exports
+@export var Ball : CharacterBody2D
 @export var SpriteCongelado : Sprite2D
 @export var Sound : Node
+@export var cooldown : Timer 
+@export var PLAYER : EntityPlayer
 
+
+#Booleanos
+var congelado : bool = false
+var habilidadeAtiva : bool = false
+
+#Variaveis
+var velocidade : int = 300
+var direction : float
+var nomeBandeira : String = "Brasil"
+
+#RNG
+var randomNumber = [0,1]
+
+func _ready() -> void:
+	pass
 
 func _process(delta: float) -> void:
+
 	global_position.y = clampi(global_position.y, 100, 612)
-	
+	direction = sign(Ball.global_position.y - self.global_position.y)
+
 func _physics_process(delta: float) -> void:
 	
 	if not congelado:
@@ -24,6 +42,10 @@ func _physics_process(delta: float) -> void:
 	if congelado:
 		Congelado()
 	
+	if habilidadeAtiva: 
+		MatchBandeiras()
+		
+	velocity.y = clampi(velocity.y, -300, 300)
 	move_and_slide()
 
 func MatchBandeiras() -> void:
@@ -37,7 +59,9 @@ func MatchBandeiras() -> void:
 		"Austria":
 			pass
 		"Brasil":
-			pass
+			print("HABILIDADED ATIVA")
+			habilidades.CONGELAR(PLAYER, Sound)
+			habilidadeAtiva = false
 		"China":
 			pass
 		"Coreia":
@@ -63,8 +87,19 @@ func Congelado():
 			velocity.y = 0
 			
 func movimentacaoCPU(delta):
-	var direction = Input.get_axis("otherup", "otherdowm")
-	if direction:
-		velocity.y = lerp(velocity.y, direction * velocidade, 1)
-	else:
-		velocity.y = 0
+	
+	velocity.y = move_toward(velocity.y, direction * velocidade, delta * 1000)
+
+func _on_detecao_meio_quadra_body_entered(body: Node2D) -> void:
+	if not (body is EntityBall):#Comparando com className
+		return
+		
+	if not habilidadeAtiva and cooldown.is_stopped():
+		print("OK")
+		var choice = randomNumber.pick_random()
+		match choice:
+			0:
+				return
+			1:
+				habilidadeAtiva = true
+				cooldown.start()

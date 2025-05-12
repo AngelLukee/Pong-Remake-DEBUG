@@ -1,21 +1,17 @@
-[gd_scene load_steps=7 format=3 uid="uid://bbikecojtmu2k"]
+[gd_scene load_steps=5 format=3 uid="uid://bbikecojtmu2k"]
 
-[ext_resource type="Script" uid="uid://c5wwma1e8ltnm" path="res://scripts/EntityScripts/BallEntity.gd" id="1_e20h3"]
+[ext_resource type="Script" uid="uid://c5wwma1e8ltnm" path="res://scripts/EntityScripts/EntityBall.gd" id="1_e20h3"]
 [ext_resource type="Texture2D" uid="uid://btib0bet15w3k" path="res://Assets/Assets/Bolinha.png" id="2_f45td"]
-[ext_resource type="Script" uid="uid://b1o1732if8alw" path="res://scripts/motion_trail.gd" id="3_bhf5o"]
-[ext_resource type="Texture2D" uid="uid://bknps2ughb75p" path="res://Audios/undefined - Imgur.png" id="3_it31x"]
+[ext_resource type="Texture2D" uid="uid://bknps2ughb75p" path="res://Audios/undefined - Imgur.png" id="3_bhf5o"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ai1y3"]
 radius = 5.0
 
-[sub_resource type="Curve" id="Curve_bhf5o"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[node name="bolinha" type="CharacterBody2D" node_paths=PackedStringArray("Colisao")]
+[node name="bolinha" type="CharacterBody2D" node_paths=PackedStringArray("Colisao", "motionTrail")]
 disable_mode = 1
 script = ExtResource("1_e20h3")
 Colisao = NodePath("colisão para area")
+motionTrail = NodePath("Sprite2D/Line2D")
 
 [node name="colisão para area" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ai1y3")
@@ -25,12 +21,6 @@ modulate = Color(0.956805, 0.555501, 0.224658, 1)
 scale = Vector2(0.22461, 0.22461)
 texture = ExtResource("2_f45td")
 
-[node name="motionTrail" type="Line2D" parent="Sprite2D"]
-top_level = true
-texture_repeat = 2
-scale = Vector2(1, 1)
-width = 12.0
-width_curve = SubResource("Curve_bhf5o")
-texture = ExtResource("3_it31x")
-antialiased = true
-script = ExtResource("3_bhf5o")
+[node name="Line2D" type="Line2D" parent="Sprite2D"]
+scale = Vector2(4.45216, 4.45216)
+texture = ExtResource("3_bhf5o")

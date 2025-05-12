@@ -5,12 +5,13 @@ class_name EntityBall
 #Constantes
 const velocidadeInicial : int = 200
 const aceleracao : int = 30
+
 #Exports
 @export var CPU : CharacterBody2D
 @export var PLAYER : CharacterBody2D
 @export var Colisao : CollisionShape2D
-
-
+@export var areaMeio : Area2D
+@export var motionTrail : Line2D
 
 var ballVelocity : int 
 var ballDirection : Vector2 = Vector2(1,0).normalized()
@@ -24,13 +25,20 @@ func _ready() -> void:
 func _physics_process(delta: float):
 	#Movimenta a bola e informa caso ela colida
 	ballCollision = move_and_collide(ballDirection * ballVelocity * delta)
-	
+
 	if ballCollision:
 		var collider = ballCollision.get_collider()
 
 		if collider == CPU or collider == PLAYER:
+			
 			randomDirection()
 			ballVelocity += 30
+			
+			if collider == CPU:
+				areaMeio.monitoring = true
+				
+			elif collider == PLAYER:
+				areaMeio.monitoring = false
 		else:
 			ballKick()
 
@@ -52,6 +60,9 @@ func randomDirection():#Randomiza a direção da bola ao tocar em algum dos tabl
 	ballDirection = newDirection.normalized()
 	
 func randomSpawn():#Randomiza o spawn da bola se fizerem algum ponto
+	
+	areaMeio.monitoring = false
+	
 	var window = get_viewport_rect().size
 	self.global_position = window/2
 	ballVelocity = velocidadeInicial
@@ -61,3 +72,6 @@ func randomSpawn():#Randomiza o spawn da bola se fizerem algum ponto
 	newDirection.x = [1, -1].pick_random()
 	newDirection.y = randf_range(-0.3, 0.3)
 	ballDirection = newDirection.normalized()
+
+func motiontrail():
+	pass 

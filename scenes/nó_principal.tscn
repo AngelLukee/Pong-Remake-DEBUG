@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://duekeshk368pf" path="res://scenes/EntityScenes/CPU.tscn" id="4_q48p7"]
 [ext_resource type="Script" uid="uid://biiy4kungxuw2" path="res://scripts/scriptPontuacao.gd" id="5_jmmb0"]
 [ext_resource type="Script" uid="uid://bmpxgop3elb7f" path="res://scenes/audiosScript.gd" id="8_gl4v5"]
-[ext_resource type="AudioStream" uid="uid://1334gl3fg2m7" path="res://Audios/Freeze/FreezeSound.mp3" id="9_igcbh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6mx5x"]
 size = Vector2(21.0019, 1055.96)
@@ -22,13 +21,15 @@ size = Vector2(576, 14)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xek06"]
 size = Vector2(10.5, 553.012)
 
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_074by"]
+b = Vector2(0.000137329, 162.307)
+
 [node name="NóPrincipal" type="Node2D"]
 scale = Vector2(1.05875, 1.11106)
 
 [node name="SpritesBackground" type="Node2D" parent="."]
 
 [node name="background" type="Sprite2D" parent="SpritesBackground"]
-modulate = Color(0.800491, 0.800491, 0.800491, 1)
 position = Vector2(604.486, 324.015)
 scale = Vector2(0.755608, 0.675031)
 texture = ExtResource("1_074by")
@@ -82,15 +83,19 @@ shape = SubResource("RectangleShape2D_6mx5x")
 position = Vector2(603.542, 580.527)
 shape = SubResource("RectangleShape2D_1biwn")
 
-[node name="BolaBody" parent="." node_paths=PackedStringArray("CPU", "PLAYER") instance=ExtResource("4_484ci")]
+[node name="BolaBody" parent="." node_paths=PackedStringArray("CPU", "PLAYER", "areaMeio") instance=ExtResource("4_484ci")]
+texture_filter = 2
 position = Vector2(604.486, 320.415)
-scale = Vector2(1.2, 1.2)
+scale = Vector2(1.3, 1.3)
 CPU = NodePath("../CPUBody")
 PLAYER = NodePath("../Playerbody")
+areaMeio = NodePath("../Areas/DetecaoMeioQuadra")
 
-[node name="CPUBody" parent="." node_paths=PackedStringArray("BallPosition") instance=ExtResource("4_q48p7")]
+[node name="CPUBody" parent="." node_paths=PackedStringArray("Ball", "Sound", "PLAYER") instance=ExtResource("4_q48p7")]
 position = Vector2(1112.63, 302.414)
-BallPosition = NodePath("../BolaBody")
+Ball = NodePath("../BolaBody")
+Sound = NodePath("../AUDIOS")
+PLAYER = NodePath("../Playerbody")
 
 [node name="Playerbody" parent="." node_paths=PackedStringArray("CPU", "Bola", "Sound") instance=ExtResource("1_tud0r")]
 position = Vector2(96.34, 304.214)
@@ -101,27 +106,35 @@ Sound = NodePath("../AUDIOS")
 [node name="CameraMesa" type="Camera2D" parent="."]
 position = Vector2(604.486, 324.015)
 
-[node name="NóÁreaPontuação" type="Node2D" parent="."]
+[node name="Areas" type="Node2D" parent="."]
 
-[node name="AreaDireita" type="Area2D" parent="NóÁreaPontuação"]
+[node name="AreaDireita" type="Area2D" parent="Areas"]
 
-[node name="ColisaoAreaDireita" type="CollisionShape2D" parent="NóÁreaPontuação/AreaDireita"]
+[node name="ColisaoAreaDireita" type="CollisionShape2D" parent="Areas/AreaDireita"]
 position = Vector2(1159.86, 294.314)
 rotation = -1.5708
 shape = SubResource("RectangleShape2D_0nw0v")
 
-[node name="AreaEsquerda" type="Area2D" parent="NóÁreaPontuação"]
+[node name="AreaEsquerda" type="Area2D" parent="Areas"]
 
-[node name="ColisaoEsquerdaDireita" type="CollisionShape2D" parent="NóÁreaPontuação/AreaEsquerda"]
+[node name="ColisaoEsquerdaDireita" type="CollisionShape2D" parent="Areas/AreaEsquerda"]
 position = Vector2(47.2255, 286.213)
 shape = SubResource("RectangleShape2D_xek06")
 
-[node name="AUDIOS" type="Node" parent="." node_paths=PackedStringArray("FreezeSound")]
+[node name="DetecaoMeioQuadra" type="Area2D" parent="Areas"]
+
+[node name="colisaoMeio" type="CollisionShape2D" parent="Areas/DetecaoMeioQuadra"]
+position = Vector2(604.486, 77.4036)
+scale = Vector2(3, 3)
+shape = SubResource("SegmentShape2D_074by")
+
+[node name="AUDIOS" type="Node" parent="." node_paths=PackedStringArray("Freeze")]
 script = ExtResource("8_gl4v5")
-FreezeSound = NodePath("Freeze")
+Freeze = NodePath("Freeze")
 
 [node name="Freeze" type="AudioStreamPlayer" parent="AUDIOS"]
-stream = ExtResource("9_igcbh")
+volume_db = -20.0
 
-[connection signal="body_entered" from="NóÁreaPontuação/AreaDireita" to="LabelsPontuação" method="_on_area_direita_body_entered"]
-[connection signal="body_entered" from="NóÁreaPontuação/AreaEsquerda" to="LabelsPontuação" method="_on_area_esquerda_body_entered"]
+[connection signal="body_entered" from="Areas/AreaDireita" to="LabelsPontuação" method="_on_area_direita_body_entered"]
+[connection signal="body_entered" from="Areas/AreaEsquerda" to="LabelsPontuação" method="_on_area_esquerda_body_entered"]
+[connection signal="body_entered" from="Areas/DetecaoMeioQuadra" to="CPUBody" method="_on_detecao_meio_quadra_body_entered"]

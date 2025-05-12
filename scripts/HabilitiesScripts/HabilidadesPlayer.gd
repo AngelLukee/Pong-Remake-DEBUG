@@ -25,6 +25,7 @@ func dash(Player : EntityPlayer):#HABILIADE TERMINADA E TESTADA
 
 func clarao(Player : CharacterBody2D) -> void:
 	pass
+	
 func congelar(CPU: EntityCPU, Sound : Sounds) -> void:#Terminado e testado
 	
 	Sound.PlayFreezeSound()
@@ -88,4 +89,7 @@ func impulso(Ball : EntityBall, Player : EntityPlayer, CPU : EntityCPU) -> void:
 			colidiu = false
 
 func bolaEnergia(Ball: EntityBall, CPU : EntityCPU) -> void:#Burst de velocidade
+	pass
+
+func pathMaker(Ball : EntityBall):
 	pass

@@ -1,7 +1,15 @@
 extends Node
 class_name Sounds
 
-@export var FreezeSound : AudioStreamPlayer 
+var freezeSound = [
+	load("res://Audios/Freeze/Audio1.mp3"),
+	load("res://Audios/Freeze/Audio2.mp3"),
+	load("res://Audios/Freeze/Audio3.mp3"),
+	load("res://Audios/Freeze/Audio4.mp3")
+]
+
+@export var Freeze : AudioStreamPlayer 
 
 func PlayFreezeSound():
-	FreezeSound.play()
+	Freeze.stream = freezeSound.pick_random()
+	Freeze.play()
