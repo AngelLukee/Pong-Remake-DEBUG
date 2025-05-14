@@ -11,10 +11,7 @@ disable_mode = 1
 script = ExtResource("1_e20h3")
 Colisao = NodePath("colisão para area")
 
-motionTrail = NodePath("")
-
 [node name="colisão para area" type="CollisionShape2D" parent="."]
-scale = Vector2(1, 1)
 shape = SubResource("CircleShape2D_ai1y3")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

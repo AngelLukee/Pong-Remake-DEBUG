@@ -13,10 +13,12 @@ class_name EntityPlayer
 @export var cooldown : Timer
 @export var pathfollow : PathFollow2D
 @export var path : Path2D
+@export var pointlight : PointLight2D
+
 
 #Variaveis 
 var habilidadeAtiva : bool = false
-var nomeBandeira : String = "China"
+var nomeBandeira : String = "Brasil"
 var velocidade : int = 300
 
 #Booleanos
@@ -47,7 +49,7 @@ func _physics_process(delta: float) -> void:
 		habilidadeAtiva = true
 		
 	if habilidadeAtiva:
-		MatchBandeiras()
+		MatchBandeiras(delta)
 
 func MatchBandeiras(delta) -> void:
 	
@@ -56,23 +58,31 @@ func MatchBandeiras(delta) -> void:
 	
 	match nomeBandeira:#Não comparar objetos, e sim nomes e IDs
 		"Alemanha":
-			pass
+			cooldown.start()
+			habilidades.bola_energia(BALL, CPU, self)
 		"Austria":
 			pass
 		"Brasil":
-			pass
+			habilidades.CLONE(BALL)
+			habilidadeAtiva = false
 		"China":
+			habilidades.IMPULSO(BALL, self, CPU)
+		"CoreiaSul":
 			cooldown.start()
-			habilidades.rota(Bola, pathfollow, delta, path)
-		"Coreia":
-			pass
+			habilidades.DASH(self)
+			habilidadeAtiva = false
 		"HongKong":
-			pass
+			cooldown.start()
+			habilidades.ROTA(BALL, pathfollow, delta, path, self)
 		"Japao":
 			pass
 		"Portugal":
-			pass
+			habilidades.SALTO(BALL)
+			habilidadeAtiva = false
 		"Suecia":
+			cooldown.start()
+			habilidades.CONGELAR(CPU, Sound)
+		"Taiwan":
 			pass
 
 func MovimentacaoPlayer():

@@ -20,7 +20,8 @@ var real : bool = true
 
 
 func _ready() -> void:
-	randomSpawn()
+	if real:
+		randomSpawn()
 
 func _physics_process(delta: float):
 	#Movimenta a bola e informa caso ela colida

@@ -31,8 +31,6 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	
-	print(velocidade)
-	
 	global_position.x = clampi(global_position.x, 1178, 1178)
 	global_position.y = clampi(global_position.y, 100, 612)
 	
