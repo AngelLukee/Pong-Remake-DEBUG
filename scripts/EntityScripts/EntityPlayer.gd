@@ -1,7 +1,6 @@
 extends CharacterBody2D
 class_name EntityPlayer
 
-
 #instancia das classes e onreadys
 @onready var Bandeira = Bandeiras.new()
 @onready var habilidades = HabilidadesPlayer.new()
@@ -13,6 +12,8 @@ class_name EntityPlayer
 @export var Bola : CharacterBody2D
 @export var Sound : Node
 @export var SpriteCongelado : Sprite2D
+@export var pathfollow : PathFollow2D
+@export var path : Path2D
 
 #Variaveis 
 var HabilidadeAtiva : bool = false
@@ -22,14 +23,15 @@ var velocidade : int = 300
 #Booleanos
 var congelado : bool = false
 
-
-
 func _process(delta: float) -> void:
+	
 	position.y = clampi(position.y, 100, 612)
-	MatchBandeiras()
+	MatchBandeiras(delta)
 
 func _physics_process(delta: float) -> void:
+	pass
 	
+
 
 	if not congelado:
 		MovimentacaoPlayer()
@@ -40,12 +42,10 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	
 	if Input.is_action_just_pressed("UsarHabilidade"):
-		Bola.global_position = Vector2(640, 97)
+		HabilidadeAtiva = true
 		
-	if HabilidadeAtiva:
-		MatchBandeiras()
 
-func MatchBandeiras() -> void:
+func MatchBandeiras(delta) -> void:
 	
 	if not HabilidadeAtiva:
 		return
@@ -58,7 +58,7 @@ func MatchBandeiras() -> void:
 		"Brasil":
 			pass
 		"China":
-			habilidades.dash(self)
+			habilidades.rota(Bola, pathfollow, delta, path)
 		"Coreia":
 			pass
 		"HongKong":

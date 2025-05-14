@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://dssbbkcflg6g5"]
+
+[ext_resource type="Script" uid="uid://cvpxoj7qnsh6w" path="res://line_2d.gd" id="1_2jggx"]
+
+[node name="Line2D" type="Line2D" node_paths=PackedStringArray("line2d")]
+position = Vector2(-62, 269)
+points = PackedVector2Array(491, 174, 621, 68, 603, -62, 714, 57, 788, -122, 897, 194, 1183, 189, 1273, -28)
+script = ExtResource("1_2jggx")
+line2d = NodePath(".")

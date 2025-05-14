@@ -3,7 +3,7 @@ class_name HabilidadesPlayer
 
 var Cena = preload("res://scenes/EntityScenes/bolinha.tscn")
 var colidiu : bool = false
-
+var iniciado : bool = false
 
 func dash(Player : EntityPlayer):#HABILIADE TERMINADA E TESTADA
 	
@@ -93,3 +93,13 @@ func bolaEnergia(Ball: EntityBall, CPU : EntityCPU) -> void:#Burst de velocidade
 
 func pathMaker(Ball : EntityBall):
 	pass
+
+func rota(Ball : EntityBall, pathFollow : PathFollow2D, delta, PATH : Path2D):
+	if not iniciado:
+		PATH.RandomPath()
+		iniciado = true
+	#pegar position do pathfollow2d, normalizar e passar pra balldirection
+	
+	pathFollow.progress += Ball.ballVelocity * delta
+	Ball.global_position = pathFollow.global_position
+	
