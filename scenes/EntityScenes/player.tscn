@@ -7,9 +7,10 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g2els"]
 size = Vector2(0.5, 65)
 
-[node name="player" type="CharacterBody2D" node_paths=PackedStringArray("SpriteCongelado")]
+[node name="player" type="CharacterBody2D" node_paths=PackedStringArray("SpriteCongelado", "cooldown")]
 script = ExtResource("1_8v4pv")
 SpriteCongelado = NodePath("Freeze")
+cooldown = NodePath("cooldown")
 
 [node name="colisao_player" type="CollisionShape2D" parent="."]
 light_mask = 2
@@ -25,3 +26,7 @@ texture = ExtResource("2_g2els")
 modulate = Color(1, 1, 1, 0)
 scale = Vector2(0.273684, 0.429687)
 texture = ExtResource("3_rggdv")
+
+[node name="cooldown" type="Timer" parent="."]
+wait_time = 9.0
+one_shot = true

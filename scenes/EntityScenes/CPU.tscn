@@ -29,5 +29,7 @@ scale = Vector2(0.273684, 0.429687)
 texture = ExtResource("3_0s5lx")
 
 [node name="cooldown" type="Timer" parent="."]
-wait_time = 5.0
+wait_time = 10.0
 one_shot = true
+
+[connection signal="timeout" from="cooldown" to="." method="_on_cooldown_timeout"]

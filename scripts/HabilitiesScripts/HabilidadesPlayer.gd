@@ -3,7 +3,7 @@ class_name HabilidadesPlayer
 
 var Cena = preload("res://scenes/EntityScenes/bolinha.tscn")
 var colidiu : bool = false
-
+var energia : bool = false
 
 func dash(Player : EntityPlayer):#HABILIADE TERMINADA E TESTADA
 	
@@ -88,8 +88,23 @@ func impulso(Ball : EntityBall, Player : EntityPlayer, CPU : EntityCPU) -> void:
 			Ball.ballVelocity -= 150
 			colidiu = false
 
-func bolaEnergia(Ball: EntityBall, CPU : EntityCPU) -> void:#Burst de velocidade
-	pass
+func bola_energia(Ball: EntityBall, CPU : EntityCPU) -> void:#Precisa de animação e melhoria
+	if not energia:
+		Ball.ballVelocity += 150
+		energia = true
+		
+	if Ball.ballCollision:
+		var collider = Ball.ballCollision.get_collider()
+		if collider == CPU:
+			
+			Ball.ballVelocity -= 150
+			CPU.velocidade = 0
+			
+			await CPU.get_tree().create_timer(0.5).timeout
+			CPU.velocidade = 150
+			
+			await CPU.get_tree().create_timer(2.0).timeout
+			CPU.velocidade = 300
 
 func pathMaker(Ball : EntityBall):
 	pass

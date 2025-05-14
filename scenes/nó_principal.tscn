@@ -19,7 +19,7 @@ size = Vector2(1058.54, 34)
 size = Vector2(576, 14)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xek06"]
-size = Vector2(10.5, 553.012)
+size = Vector2(22.2512, 553.012)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_074by"]
 b = Vector2(0.000137329, 162.307)
@@ -97,10 +97,10 @@ Ball = NodePath("../BolaBody")
 Sound = NodePath("../AUDIOS")
 PLAYER = NodePath("../Playerbody")
 
-[node name="Playerbody" parent="." node_paths=PackedStringArray("CPU", "Bola", "Sound") instance=ExtResource("1_tud0r")]
+[node name="Playerbody" parent="." node_paths=PackedStringArray("CPU", "BALL", "Sound") instance=ExtResource("1_tud0r")]
 position = Vector2(96.34, 304.214)
 CPU = NodePath("../CPUBody")
-Bola = NodePath("../BolaBody")
+BALL = NodePath("../BolaBody")
 Sound = NodePath("../AUDIOS")
 
 [node name="CameraMesa" type="Camera2D" parent="."]
@@ -118,7 +118,8 @@ shape = SubResource("RectangleShape2D_0nw0v")
 [node name="AreaEsquerda" type="Area2D" parent="Areas"]
 
 [node name="ColisaoEsquerdaDireita" type="CollisionShape2D" parent="Areas/AreaEsquerda"]
-position = Vector2(47.2255, 286.213)
+position = Vector2(53.1011, 286.213)
+scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_xek06")
 
 [node name="DetecaoMeioQuadra" type="Area2D" parent="Areas"]

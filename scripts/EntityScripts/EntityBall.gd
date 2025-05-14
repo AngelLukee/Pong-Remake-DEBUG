@@ -3,8 +3,8 @@ class_name EntityBall
 #Criando classe, para na classe habilidades, a instancia herdar as caracteristicas daqui
 
 #Constantes
-const velocidadeInicial : int = 200
-const aceleracao : int = 30
+const velocidadeInicial : int = 300
+const aceleracao : int = 35
 
 #Exports
 @export var CPU : CharacterBody2D

@@ -4,17 +4,17 @@ class_name HabilidadesCPU
 var colidiu : bool = false
 
 
-func DASH(CPU : EntityCPU):#Por enquanto, sem resolução
+func DASH(CPU : EntityCPU):
 	
 	if CPU.direction < -20:
 		var tween = CPU.create_tween()
-		var destino = clamp(CPU.position.y - 110, 96, 505)
+		var destino = clamp(CPU.position.y - 150, 96, 505)
 		tween.tween_property(CPU, "position:y", destino, 0.15)
 	
 
 	if CPU.direction > 20:
 		var tween = CPU.create_tween()
-		var destino = clamp(CPU.position.y + 110, 96, 505)
+		var destino = clamp(CPU.position.y + 150, 96, 505)
 		tween.tween_property(CPU, "position:y", destino, 0.15)
 
 func CONGELAR(PLAYER : EntityPlayer, SOUND : Sounds):

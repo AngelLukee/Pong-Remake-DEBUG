@@ -30,8 +30,12 @@ func _ready() -> void:
 	pass
 
 func _process(delta: float) -> void:
-
+	
+	print(velocidade)
+	
+	global_position.x = clampi(global_position.x, 1178, 1178)
 	global_position.y = clampi(global_position.y, 100, 612)
+	
 	direction = sign(Ball.global_position.y - self.global_position.y)
 
 func _physics_process(delta: float) -> void:
@@ -41,6 +45,10 @@ func _physics_process(delta: float) -> void:
 		
 	if congelado:
 		Congelado()
+		
+	if Input.is_action_just_pressed("habilidadeCPU") and cooldown.is_stopped():
+		habilidadeAtiva = true
+		
 	
 	if habilidadeAtiva: 
 		MatchBandeiras()
@@ -59,8 +67,8 @@ func MatchBandeiras() -> void:
 		"Austria":
 			pass
 		"Brasil":
-			print("HABILIDADED ATIVA")
 			habilidades.CONGELAR(PLAYER, Sound)
+			cooldown.start()
 			habilidadeAtiva = false
 		"China":
 			pass
@@ -88,18 +96,21 @@ func Congelado():
 			
 func movimentacaoCPU(delta):
 	
-	velocity.y = move_toward(velocity.y, direction * velocidade, delta * 1000)
+	var direction = Input.get_axis("otherup", "otherdowm")
+	if direction:
+		velocity.y = velocidade * direction
+	else:
+		velocity.y = 0
 
-func _on_detecao_meio_quadra_body_entered(body: Node2D) -> void:
-	if not (body is EntityBall):#Comparando com className
-		return
-		
-	if not habilidadeAtiva and cooldown.is_stopped():
-		print("OK")
-		var choice = randomNumber.pick_random()
-		match choice:
-			0:
-				return
-			1:
-				habilidadeAtiva = true
-				cooldown.start()
+#func _on_detecao_meio_quadra_body_entered(body: Node2D) -> void:
+#	if not (body is EntityBall):#Comparando com className
+#		return
+#		
+#	if not habilidadeAtiva and cooldown.is_stopped():
+#		var choice = randomNumber.pick_random()
+#		match choice:
+#			0:
+#				return
+#			1:
+#				habilidadeAtiva = true
+#				cooldown.start()

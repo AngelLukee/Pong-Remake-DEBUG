@@ -3,19 +3,18 @@ class_name EntityPlayer
 
 
 #instancia das classes e onreadys
-@onready var Bandeira = Bandeiras.new()
 @onready var habilidades = HabilidadesPlayer.new()
-@onready var spriteTexture = $SpritePlayer
 
 
 #Export das variaveis para pegar os nós
 @export var CPU : CharacterBody2D
-@export var Bola : CharacterBody2D
+@export var BALL : CharacterBody2D
 @export var Sound : Node
 @export var SpriteCongelado : Sprite2D
+@export var cooldown : Timer
 
 #Variaveis 
-var HabilidadeAtiva : bool = false
+var habilidadeAtiva : bool = false
 var nomeBandeira : String = "China"
 var velocidade : int = 300
 
@@ -23,9 +22,11 @@ var velocidade : int = 300
 var congelado : bool = false
 
 
-
 func _process(delta: float) -> void:
-	position.y = clampi(position.y, 100, 612)
+	
+	global_position.x = clampi(global_position.x, 102, 102)
+	global_position.y = clampi(global_position.y, 100, 612)
+	
 	MatchBandeiras()
 
 func _physics_process(delta: float) -> void:
@@ -35,19 +36,18 @@ func _physics_process(delta: float) -> void:
 		MovimentacaoPlayer()
 	if congelado:
 		MovimentacaoCongelado()
-	
-	
+		
 	move_and_slide()
 	
-	if Input.is_action_just_pressed("UsarHabilidade"):
-		Bola.global_position = Vector2(640, 97)
+	if Input.is_action_just_pressed("UsarHabilidade") and cooldown.is_stopped():
+		habilidadeAtiva = true
 		
-	if HabilidadeAtiva:
+	if habilidadeAtiva:
 		MatchBandeiras()
 
 func MatchBandeiras() -> void:
 	
-	if not HabilidadeAtiva:
+	if not habilidadeAtiva:
 		return
 	
 	match nomeBandeira:#Não comparar objetos, e sim nomes e IDs
@@ -58,7 +58,8 @@ func MatchBandeiras() -> void:
 		"Brasil":
 			pass
 		"China":
-			habilidades.dash(self)
+			cooldown.start()
+			habilidades.bola_energia(BALL, CPU)
 		"Coreia":
 			pass
 		"HongKong":
