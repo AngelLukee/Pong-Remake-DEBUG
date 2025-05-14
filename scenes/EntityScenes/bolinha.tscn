@@ -6,10 +6,11 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_ai1y3"]
 radius = 6.0
 
-[node name="bolinha" type="CharacterBody2D" node_paths=PackedStringArray("Colisao", "motionTrail")]
+[node name="bolinha" type="CharacterBody2D" node_paths=PackedStringArray("Colisao")]
 disable_mode = 1
 script = ExtResource("1_e20h3")
 Colisao = NodePath("colisão para area")
+
 motionTrail = NodePath("")
 
 [node name="colisão para area" type="CollisionShape2D" parent="."]

@@ -1,7 +1,6 @@
 extends CharacterBody2D
 class_name EntityPlayer
 
-
 #instancia das classes e onreadys
 @onready var habilidades = HabilidadesPlayer.new()
 
@@ -12,6 +11,8 @@ class_name EntityPlayer
 @export var Sound : Node
 @export var SpriteCongelado : Sprite2D
 @export var cooldown : Timer
+@export var pathfollow : PathFollow2D
+@export var path : Path2D
 
 #Variaveis 
 var habilidadeAtiva : bool = false
@@ -22,15 +23,18 @@ var velocidade : int = 300
 var congelado : bool = false
 
 
+
 func _process(delta: float) -> void:
 	
 	global_position.x = clampi(global_position.x, 102, 102)
 	global_position.y = clampi(global_position.y, 100, 612)
 	
-	MatchBandeiras()
+	MatchBandeiras(delta)
 
 func _physics_process(delta: float) -> void:
+	pass
 	
+
 
 	if not congelado:
 		MovimentacaoPlayer()
@@ -38,14 +42,14 @@ func _physics_process(delta: float) -> void:
 		MovimentacaoCongelado()
 		
 	move_and_slide()
-	
+
 	if Input.is_action_just_pressed("UsarHabilidade") and cooldown.is_stopped():
 		habilidadeAtiva = true
 		
 	if habilidadeAtiva:
 		MatchBandeiras()
 
-func MatchBandeiras() -> void:
+func MatchBandeiras(delta) -> void:
 	
 	if not habilidadeAtiva:
 		return
@@ -59,7 +63,7 @@ func MatchBandeiras() -> void:
 			pass
 		"China":
 			cooldown.start()
-			habilidades.bola_energia(BALL, CPU)
+			habilidades.rota(Bola, pathfollow, delta, path)
 		"Coreia":
 			pass
 		"HongKong":
