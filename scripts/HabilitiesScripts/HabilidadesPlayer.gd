@@ -114,8 +114,25 @@ func bola_energia(Ball: EntityBall, CPU : EntityCPU, PLAYER : EntityPlayer) -> v
 			CPU.velocidade = 300
 			PLAYER.habilidadeAtiva = false
 
-func PATHMAKER(Ball : EntityBall):
-	pass
+func PATHMAKER(Ball : EntityBall, PATH2D : Path2D, PATHFOLLOW2D : PathFollow2D, delta : float, linha : Line2D):
+	if not iniciado:
+		Engine.time_scale = 0.22
+	if Input.is_action_pressed("mouseclick") and not iniciado:
+		linha.add_point(Ball.get_global_mouse_position())
+	await Ball.get_tree().create_timer(2.5, true, false, true).timeout
+	iniciado = true
+	if iniciado:
+		linha.visible = false
+		var curve = Curve2D.new()
+		Engine.time_scale = 1.00
+		for points in linha.points:
+			curve.add_point(points)
+		PATH2D.curve = curve
+		if PATH2D.curve == curve:
+			PATHFOLLOW2D.progress += delta * 600
+			Ball.global_position = PATHFOLLOW2D.global_position
+			
+		
 
 func ROTA(Ball : EntityBall, pathFollow : PathFollow2D, delta, PATH : Path2D, PLAYER : EntityPlayer):
 	if not iniciado:

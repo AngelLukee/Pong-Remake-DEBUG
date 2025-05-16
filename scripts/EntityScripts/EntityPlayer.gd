@@ -14,11 +14,13 @@ class_name EntityPlayer
 @export var pathfollow : PathFollow2D
 @export var path : Path2D
 @export var pointlight : PointLight2D
-
+@export var LINHA : Line2D
+@export var PATHMAKER : Path2D
+@export var FOLLOWMAKER : PathFollow2D
 
 #Variaveis 
 var habilidadeAtiva : bool = false
-var nomeBandeira : String = "Brasil"
+var nomeBandeira : String = "HongKong"
 var velocidade : int = 300
 
 #Booleanos
@@ -73,7 +75,7 @@ func MatchBandeiras(delta) -> void:
 			habilidadeAtiva = false
 		"HongKong":
 			cooldown.start()
-			habilidades.ROTA(BALL, pathfollow, delta, path, self)
+			habilidades.PATHMAKER(BALL, PATHMAKER, FOLLOWMAKER, delta, LINHA)
 		"Japao":
 			pass
 		"Portugal":

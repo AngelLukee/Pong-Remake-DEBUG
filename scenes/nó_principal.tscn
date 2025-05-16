@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cysh5bxxu7ogh"]
+[gd_scene load_steps=17 format=3 uid="uid://cysh5bxxu7ogh"]
 
 [ext_resource type="Texture2D" uid="uid://0xs1mafiwvoe" path="res://Assets/Background/Background_normal.png" id="1_074by"]
 [ext_resource type="Theme" uid="uid://cs685o7rnu2r0" path="res://Resource/Themes/LabelPointTheme.tres" id="1_qgkkw"]
@@ -25,6 +25,8 @@ size = Vector2(22.2512, 553.012)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_074by"]
 b = Vector2(0.000137329, 162.307)
+
+[sub_resource type="Curve2D" id="Curve2D_igcbh"]
 
 [node name="NóPrincipal" type="Node2D"]
 scale = Vector2(1.05875, 1.11106)
@@ -99,14 +101,17 @@ Ball = NodePath("../BolaBody")
 Sound = NodePath("../AUDIOS")
 PLAYER = NodePath("../Playerbody")
 
-[node name="Playerbody" parent="." node_paths=PackedStringArray("CPU", "BALL", "Sound", "pathfollow", "path", "pointlight") instance=ExtResource("1_tud0r")]
+[node name="Playerbody" parent="." node_paths=PackedStringArray("CPU", "BALL", "Sound", "pathfollow", "path", "pointlight", "LINHA", "PATHMAKER", "FOLLOWMAKER") instance=ExtResource("1_tud0r")]
 position = Vector2(96.34, 304.214)
 CPU = NodePath("../CPUBody")
 BALL = NodePath("../BolaBody")
 Sound = NodePath("../AUDIOS")
-pathfollow = NodePath("../Path2D/PathFollow2D")
-path = NodePath("../Path2D")
-pointlight = NodePath("../PointLight2D")
+pathfollow = NodePath("../habilidades/rota2d/rotafollow2d")
+path = NodePath("../habilidades/rota2d")
+pointlight = NodePath("../habilidades/flash")
+LINHA = NodePath("../habilidades/linha")
+PATHMAKER = NodePath("../habilidades/pathmaker2d")
+FOLLOWMAKER = NodePath("../habilidades/pathmaker2d/makerfollow2d")
 
 [node name="CameraMesa" type="Camera2D" parent="."]
 position = Vector2(604.486, 324.015)
@@ -140,24 +145,34 @@ Freeze = NodePath("Freeze")
 [node name="Freeze" type="AudioStreamPlayer" parent="AUDIOS"]
 volume_db = -20.0
 
-[node name="Path2D" type="Path2D" parent="."]
-position = Vector2(340.024, 359.117)
-scale = Vector2(0.68387, 0.980502)
+[node name="habilidades" type="Node" parent="."]
+
+[node name="rota2d" type="Path2D" parent="habilidades"]
+position = Vector2(360, 399.001)
+scale = Vector2(0.724047, 1.0894)
 script = ExtResource("9_xxkq3")
 
-[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+[node name="rotafollow2d" type="PathFollow2D" parent="habilidades/rota2d"]
 position = Vector2(403.288, -141.363)
 rotation = -0.237076
 loop = false
 
-[node name="PointLight2D" type="PointLight2D" parent="."]
+[node name="flash" type="PointLight2D" parent="habilidades"]
 visible = false
-position = Vector2(1060.68, 317.715)
-scale = Vector2(2.96515, 5.8248)
+position = Vector2(1122.99, 353)
+scale = Vector2(3.13935, 6.4717)
 energy = 0.0
 shadow_enabled = true
 texture = ExtResource("10_igcbh")
 texture_scale = 1.48
+
+[node name="pathmaker2d" type="Path2D" parent="habilidades"]
+curve = SubResource("Curve2D_igcbh")
+
+[node name="makerfollow2d" type="PathFollow2D" parent="habilidades/pathmaker2d"]
+loop = false
+
+[node name="linha" type="Line2D" parent="habilidades"]
 
 [connection signal="body_entered" from="Areas/AreaDireita" to="LabelsPontuação" method="_on_area_direita_body_entered"]
 [connection signal="body_entered" from="Areas/AreaEsquerda" to="LabelsPontuação" method="_on_area_esquerda_body_entered"]
