@@ -2,7 +2,7 @@ extends Node
 class_name HabilidadesCPU
 
 var colidiu : bool = false
-
+var iniciado : bool = false
 
 func DASH(CPU : EntityCPU):
 	
@@ -47,3 +47,16 @@ func IMPULSO(BALL : EntityBall, PLAYER : EntityPlayer, CPU : EntityCPU):
 		if collider == PLAYER and colidiu == true:
 			BALL.ballVelocity -= 170
 			colidiu = false
+			
+func ROTA(Ball : EntityBall, pathFollow : PathFollow2D, delta, PATH : Path2D, PLAYER : EntityPlayer):
+	if not iniciado:
+		PATH.RandomPath()
+		iniciado = true
+	
+	if pathFollow.progress_ratio < 1.0:
+		pathFollow.progress += (Ball.ballVelocity - 100) * delta
+		Ball.global_position = pathFollow.global_position
+	
+	if pathFollow.progress_ratio == 1.0:
+		Ball.ballDirection = pathFollow.position.normalized()
+		PLAYER.habilidadeAtiva = false

@@ -69,7 +69,8 @@ func MatchBandeiras() -> void:
 			cooldown.start()
 			habilidadeAtiva = false
 		"China":
-			pass
+			habilidades.IMPULSO(Ball, PLAYER, self)
+			cooldown.start()
 		"Coreia":
 			pass
 		"HongKong":
@@ -100,15 +101,15 @@ func movimentacaoCPU(delta):
 	else:
 		velocity.y = 0
 
-#func _on_detecao_meio_quadra_body_entered(body: Node2D) -> void:
-#	if not (body is EntityBall):#Comparando com className
-#		return
-#		
-#	if not habilidadeAtiva and cooldown.is_stopped():
-#		var choice = randomNumber.pick_random()
-#		match choice:
-#			0:
-#				return
-#			1:
-#				habilidadeAtiva = true
-#				cooldown.start()
+func _on_detecao_meio_quadra_body_entered(body: Node2D) -> void:
+	if not (body is EntityBall):#Comparando com className
+		return
+		
+	if not habilidadeAtiva and cooldown.is_stopped():
+		var choice = randomNumber.pick_random()
+		match choice:
+			0:
+				return
+			1:
+				habilidadeAtiva = true
+				cooldown.start()

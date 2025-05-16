@@ -64,7 +64,7 @@ func MatchBandeiras(delta) -> void:
 			habilidades.bola_energia(BALL, CPU, self)
 		"Austria":
 			pass
-		"Brasil":
+		"Brasil":#PATHMAKER
 			habilidades.CLONE(BALL)
 			habilidadeAtiva = false
 		"China":
@@ -76,7 +76,7 @@ func MatchBandeiras(delta) -> void:
 		"HongKong":
 			cooldown.start()
 			habilidades.PATHMAKER(BALL, PATHMAKER, FOLLOWMAKER, delta, LINHA)
-		"Japao":
+		"Japao":#BOLA INVISIVEL
 			pass
 		"Portugal":
 			habilidades.SALTO(BALL)
@@ -84,7 +84,7 @@ func MatchBandeiras(delta) -> void:
 		"Suecia":
 			cooldown.start()
 			habilidades.CONGELAR(CPU, Sound)
-		"Taiwan":
+		"Taiwan":#GRAVIDADE
 			pass
 
 func MovimentacaoPlayer():

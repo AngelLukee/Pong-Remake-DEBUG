@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cysh5bxxu7ogh"]
+[gd_scene load_steps=18 format=3 uid="uid://cysh5bxxu7ogh"]
 
 [ext_resource type="Texture2D" uid="uid://0xs1mafiwvoe" path="res://Assets/Background/Background_normal.png" id="1_074by"]
 [ext_resource type="Theme" uid="uid://cs685o7rnu2r0" path="res://Resource/Themes/LabelPointTheme.tres" id="1_qgkkw"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://duekeshk368pf" path="res://scenes/EntityScenes/CPU.tscn" id="4_q48p7"]
 [ext_resource type="Script" uid="uid://biiy4kungxuw2" path="res://scripts/scriptPontuacao.gd" id="5_jmmb0"]
 [ext_resource type="Script" uid="uid://bmpxgop3elb7f" path="res://scenes/audiosScript.gd" id="8_gl4v5"]
+[ext_resource type="Curve2D" uid="uid://dubu1s80tjm5u" path="res://Resource/Curve2D/PATH2.tres" id="9_n20am"]
 [ext_resource type="Script" uid="uid://g47m705s8353" path="res://scripts/preloads/preloadPATHINGS.gd" id="9_xxkq3"]
 [ext_resource type="Texture2D" uid="uid://btib0bet15w3k" path="res://Assets/Assets/Bolinha.png" id="10_igcbh"]
 
@@ -148,13 +149,15 @@ volume_db = -20.0
 [node name="habilidades" type="Node" parent="."]
 
 [node name="rota2d" type="Path2D" parent="habilidades"]
-position = Vector2(360, 399.001)
-scale = Vector2(0.724047, 1.0894)
+texture_repeat = 2
+position = Vector2(849, 397)
+scale = Vector2(-0.737, -1.089)
+curve = ExtResource("9_n20am")
 script = ExtResource("9_xxkq3")
 
 [node name="rotafollow2d" type="PathFollow2D" parent="habilidades/rota2d"]
-position = Vector2(403.288, -141.363)
-rotation = -0.237076
+position = Vector2(284, 230)
+rotation = -0.288344
 loop = false
 
 [node name="flash" type="PointLight2D" parent="habilidades"]
