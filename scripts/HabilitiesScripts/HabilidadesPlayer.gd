@@ -4,7 +4,7 @@ class_name HabilidadesPlayer
 var Cena = preload("res://scenes/EntityScenes/bolinha.tscn")
 var colidiu : bool = false
 var energia : bool = false
-var iniciado : bool = false
+@onready var iniciado : bool = false
 
 
 func DASH(Player : EntityPlayer):#HABILIADE TERMINADA E TESTADA
@@ -25,7 +25,7 @@ func DASH(Player : EntityPlayer):#HABILIADE TERMINADA E TESTADA
 		
 		Player.HabilidadeAtiva = false
 
-func CLARAO(POINTLIGHT : PointLight2D, PLAYER : EntityPlayer) -> void:
+func CLARAO(POINTLIGHT : PointLight2D, PLAYER : EntityPlayer) -> void:#Falta melhorias na luz
 	var tween = PLAYER.create_tween()
 	tween.tween_property(POINTLIGHT, "energy", 30.0, 0.4)
 	await PLAYER.get_tree().create_timer(2.5).timeout
@@ -75,8 +75,7 @@ func SALTO(Ball : EntityBall) -> void:#Terminado e testado
 		newDirection.y = randf_range(-0.7, -0.6)
 	Ball.ballDirection = newDirection.normalized()
 
-func IMPULSO(Ball : EntityBall, Player : EntityPlayer, CPU : EntityCPU) -> void: #TERMINADO E TESTADO
-	
+func IMPULSO(Ball : EntityBall, Player : EntityPlayer, CPU : EntityCPU) -> void: #RESETAR VARIAVEL COLIDIU
 	if Ball.ballCollision:
 		var collider = Ball.ballCollision.get_collider()
 
@@ -90,12 +89,15 @@ func IMPULSO(Ball : EntityBall, Player : EntityPlayer, CPU : EntityCPU) -> void:
 	
 			Ball.ballDirection = newDirection.normalized()
 
-		if collider == CPU and colidiu == true:
-			Player.habilidadeAtiva = false
+		if collider == CPU and colidiu:
 			Ball.ballVelocity -= 150
 			colidiu = false
+			Player.habilidadeAtiva = false
+			
+		if Ball.global_position.x > 1200:
+			print("ok")
 
-func bola_energia(Ball: EntityBall, CPU : EntityCPU, PLAYER : EntityPlayer) -> void:#Precisa de animação e melhoria
+func bola_energia(Ball: EntityBall, CPU : EntityCPU, PLAYER : EntityPlayer) -> void:#precisa de sprite
 	if not energia:
 		Ball.ballVelocity += 150
 		energia = true
@@ -114,27 +116,26 @@ func bola_energia(Ball: EntityBall, CPU : EntityCPU, PLAYER : EntityPlayer) -> v
 			CPU.velocidade = 300
 			PLAYER.habilidadeAtiva = false
 
-func PATHMAKER(Ball : EntityBall, PATH2D : Path2D, PATHFOLLOW2D : PathFollow2D, delta : float, linha : Line2D):
+func PATHMAKER(Ball : EntityBall, PATH2D : Path2D, linha : Line2D, PLAYER : EntityPlayer):
+	var curve = Curve2D.new()
 	if not iniciado:
 		Engine.time_scale = 0.22
+		
 	if Input.is_action_pressed("mouseclick") and not iniciado:
 		linha.add_point(Ball.get_global_mouse_position())
+		
 	await Ball.get_tree().create_timer(2.5, true, false, true).timeout
+	Engine.time_scale = 1.00
 	iniciado = true
+	
 	if iniciado:
 		linha.visible = false
-		var curve = Curve2D.new()
-		Engine.time_scale = 1.00
 		for points in linha.points:
 			curve.add_point(points)
 		PATH2D.curve = curve
-		if PATH2D.curve == curve:
-			PATHFOLLOW2D.progress += delta * 600
-			Ball.global_position = PATHFOLLOW2D.global_position
-			
+		PLAYER.iniciar = true
 		
-
-func ROTA(Ball : EntityBall, pathFollow : PathFollow2D, delta, PATH : Path2D, PLAYER : EntityPlayer):
+func ROTA(Ball : EntityBall, pathFollow : PathFollow2D, delta, PATH : Path2D, PLAYER : EntityPlayer):#Feito e pronto
 	if not iniciado:
 		PATH.RandomPath()
 		iniciado = true
@@ -146,4 +147,26 @@ func ROTA(Ball : EntityBall, pathFollow : PathFollow2D, delta, PATH : Path2D, PL
 	if pathFollow.progress_ratio == 1.0:
 		Ball.ballDirection = pathFollow.position.normalized()
 		PLAYER.habilidadeAtiva = false
+		
+func GRAVIDADE(BALL : EntityBall, IMASPRITE : Sprite2D, PLAYER : EntityPlayer):#FEITO E TESTADO, falta sprite
+	var distancia = BALL.global_position.distance_to(IMASPRITE.global_position)
+	var NewDir : Vector2 = (IMASPRITE.global_position - BALL.global_position).normalized()
 	
+	if BALL.global_position.y > 356:
+		IMASPRITE.global_position = Vector2(1222, 606)
+		IMASPRITE.rotation = -1.0472
+		BALL.ballDirection = NewDir
+		if distancia < 150:
+			IMASPRITE.visible = true
+			PLAYER.habilidadeAtiva = false
+			
+	if BALL.global_position.y < 356:
+		IMASPRITE.global_position = Vector2(1222, 67)
+		IMASPRITE.rotation = -2.0944
+		BALL.ballDirection = NewDir
+		if distancia < 150:
+			IMASPRITE.visible = true
+			PLAYER.habilidadeAtiva = false
+
+func FALSE():
+	colidiu = false

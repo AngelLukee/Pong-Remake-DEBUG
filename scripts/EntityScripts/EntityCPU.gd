@@ -1,8 +1,6 @@
 extends CharacterBody2D
 class_name EntityCPU
 
-
-
 #Instancias
 @onready var habilidades = HabilidadesCPU.new()
 
@@ -12,6 +10,7 @@ class_name EntityCPU
 @export var Sound : Node
 @export var cooldown : Timer 
 @export var PLAYER : EntityPlayer
+@export var Imasprite : Sprite2D
 
 
 #Booleanos
@@ -21,7 +20,7 @@ var habilidadeAtiva : bool = false
 #Variaveis
 var velocidade : int = 300
 var direction : float
-var nomeBandeira : String = "Brasil"
+var nomeBandeira : String = "Taiwan"
 
 #RNG
 var randomNumber = [0,1]
@@ -80,6 +79,10 @@ func MatchBandeiras() -> void:
 			pass
 		"Suecia":
 			pass
+		"Taiwan":
+			cooldown.start()
+			habilidades.SALTO(Ball)
+			habilidadeAtiva = false
 
 func Congelado():
 	

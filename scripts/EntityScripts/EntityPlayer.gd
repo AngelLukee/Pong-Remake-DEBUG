@@ -17,15 +17,17 @@ class_name EntityPlayer
 @export var LINHA : Line2D
 @export var PATHMAKER : Path2D
 @export var FOLLOWMAKER : PathFollow2D
+@export var ima : Sprite2D
+
 
 #Variaveis 
 var habilidadeAtiva : bool = false
-var nomeBandeira : String = "HongKong"
+var nomeBandeira : String = "China"
 var velocidade : int = 300
 
 #Booleanos
 var congelado : bool = false
-
+var iniciar : bool = false
 
 
 func _process(delta: float) -> void:
@@ -34,11 +36,13 @@ func _process(delta: float) -> void:
 	global_position.y = clampi(global_position.y, 100, 612)
 	
 	MatchBandeiras(delta)
+	
+	if iniciar:
+		FOLLOWMAKER.progress += delta * 300
+		BALL.global_position = FOLLOWMAKER.global_position
+		
 
 func _physics_process(delta: float) -> void:
-	pass
-	
-
 
 	if not congelado:
 		MovimentacaoPlayer()
@@ -47,9 +51,9 @@ func _physics_process(delta: float) -> void:
 		
 	move_and_slide()
 
+
 	if Input.is_action_just_pressed("UsarHabilidade") and cooldown.is_stopped():
 		habilidadeAtiva = true
-		
 	if habilidadeAtiva:
 		MatchBandeiras(delta)
 
@@ -63,25 +67,25 @@ func MatchBandeiras(delta) -> void:
 			cooldown.start()
 			habilidades.bola_energia(BALL, CPU, self)
 		"Austria":
-			pass
+			cooldown.start()
+			#habilidades.PATHMAKER(BALL, PATHMAKER, FOLLOWMAKER, LINHA, self)
 		"Brasil":
 			habilidades.CLONE(BALL)
 			habilidadeAtiva = false
-		"China":
+		"China":#Terminado
 			habilidades.IMPULSO(BALL, self, CPU)
-		"CoreiaSul":
+		"CoreiaSul":#Terminado
 			cooldown.start()
 			habilidades.DASH(self)
-			habilidadeAtiva = false
 		"HongKong":
 			cooldown.start()
-			habilidades.PATHMAKER(BALL, PATHMAKER, FOLLOWMAKER, delta, LINHA)
+			pass
 		"Japao":
 			pass
-		"Portugal":
+		"Portugal":#Terminado
 			habilidades.SALTO(BALL)
 			habilidadeAtiva = false
-		"Suecia":
+		"Suecia":#Terminado
 			cooldown.start()
 			habilidades.CONGELAR(CPU, Sound)
 		"Taiwan":
