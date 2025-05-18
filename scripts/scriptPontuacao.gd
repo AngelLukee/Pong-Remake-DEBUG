@@ -3,6 +3,7 @@ extends Control
 @export var PontuaçãoPlayer : Label
 @export var PontuaçãoIA : Label
 @onready var Bola : EntityBall = $"../BolaBody"
+@export var PLAYER : EntityPlayer
 var score : Array = [0,0]
 
 
@@ -27,4 +28,5 @@ func _on_area_direita_body_entered(body: Node2D) -> void:
 			PontuaçãoPlayer.text = str(score[1])
 			
 		await get_tree().create_timer(1.5).timeout
+		PLAYER.habilidadeAtiva = false
 		Bola.randomSpawn()

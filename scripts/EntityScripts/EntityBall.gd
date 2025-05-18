@@ -73,6 +73,3 @@ func randomSpawn():#Randomiza o spawn da bola se fizerem algum ponto
 	newDirection.x = [1, -1].pick_random()
 	newDirection.y = randf_range(-0.3, 0.3)
 	ballDirection = newDirection.normalized()
-
-func motiontrail():
-	pass 

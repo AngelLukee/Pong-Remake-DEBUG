@@ -11,6 +11,7 @@
 [ext_resource type="Curve2D" uid="uid://dubu1s80tjm5u" path="res://Resource/Curve2D/PATH2.tres" id="9_n20am"]
 [ext_resource type="Script" uid="uid://g47m705s8353" path="res://scripts/preloads/preloadPATHINGS.gd" id="9_xxkq3"]
 [ext_resource type="Texture2D" uid="uid://btib0bet15w3k" path="res://Assets/Assets/Bolinha.png" id="10_igcbh"]
+[ext_resource type="Texture2D" uid="uid://crdx1vbqbmcyd" path="res://Assets/vecteezy_pixel-art-magnet-game-asset-design_50563561.jpg" id="11_xxkq3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6mx5x"]
 size = Vector2(21.0019, 1055.96)
@@ -44,7 +45,7 @@ position = Vector2(604.172, 320.415)
 scale = Vector2(0.826938, 0.758792)
 texture = ExtResource("2_gl4v5")
 
-[node name="LabelsPontuação" type="Control" parent="." node_paths=PackedStringArray("PontuaçãoPlayer", "PontuaçãoIA")]
+[node name="LabelsPontuação" type="Control" parent="." node_paths=PackedStringArray("PontuaçãoPlayer", "PontuaçãoIA", "PLAYER")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -56,6 +57,7 @@ size_flags_vertical = 4
 script = ExtResource("5_jmmb0")
 "PontuaçãoPlayer" = NodePath("PontuaçãoPlayer")
 "PontuaçãoIA" = NodePath("PonutaçãoCPU")
+PLAYER = NodePath("../Playerbody")
 
 [node name="PonutaçãoCPU" type="Label" parent="LabelsPontuação"]
 layout_mode = 2
@@ -96,23 +98,25 @@ CPU = NodePath("../CPUBody")
 PLAYER = NodePath("../Playerbody")
 areaMeio = NodePath("../Areas/DetecaoMeioQuadra")
 
-[node name="CPUBody" parent="." node_paths=PackedStringArray("Ball", "Sound", "PLAYER") instance=ExtResource("4_q48p7")]
+[node name="CPUBody" parent="." node_paths=PackedStringArray("Ball", "Sound", "PLAYER", "Imasprite") instance=ExtResource("4_q48p7")]
 position = Vector2(1112.63, 302.414)
 Ball = NodePath("../BolaBody")
 Sound = NodePath("../AUDIOS")
 PLAYER = NodePath("../Playerbody")
+Imasprite = NodePath("../HABILIDADES/IMASPRITE")
 
-[node name="Playerbody" parent="." node_paths=PackedStringArray("CPU", "BALL", "Sound", "pathfollow", "path", "pointlight", "LINHA", "PATHMAKER", "FOLLOWMAKER") instance=ExtResource("1_tud0r")]
+[node name="Playerbody" parent="." node_paths=PackedStringArray("CPU", "BALL", "Sound", "pathfollow", "path", "pointlight", "LINHA", "PATHMAKER", "FOLLOWMAKER", "ima") instance=ExtResource("1_tud0r")]
 position = Vector2(96.34, 304.214)
 CPU = NodePath("../CPUBody")
 BALL = NodePath("../BolaBody")
 Sound = NodePath("../AUDIOS")
-pathfollow = NodePath("../habilidades/rota2d/rotafollow2d")
-path = NodePath("../habilidades/rota2d")
-pointlight = NodePath("../habilidades/flash")
-LINHA = NodePath("../habilidades/linha")
-PATHMAKER = NodePath("../habilidades/pathmaker2d")
-FOLLOWMAKER = NodePath("../habilidades/pathmaker2d/makerfollow2d")
+pathfollow = NodePath("../HABILIDADES/rota2d/rotafollow2d")
+path = NodePath("../HABILIDADES/rota2d")
+pointlight = NodePath("../HABILIDADES/flash")
+LINHA = NodePath("../HABILIDADES/linhapathmaker")
+PATHMAKER = NodePath("../HABILIDADES/pathmaker2d")
+FOLLOWMAKER = NodePath("../HABILIDADES/pathmaker2d/makerfollow2d")
+ima = NodePath("../HABILIDADES/IMASPRITE")
 
 [node name="CameraMesa" type="Camera2D" parent="."]
 position = Vector2(604.486, 324.015)
@@ -146,21 +150,20 @@ Freeze = NodePath("Freeze")
 [node name="Freeze" type="AudioStreamPlayer" parent="AUDIOS"]
 volume_db = -20.0
 
-[node name="habilidades" type="Node" parent="."]
+[node name="HABILIDADES" type="Node" parent="."]
 
-[node name="rota2d" type="Path2D" parent="habilidades"]
-texture_repeat = 2
-position = Vector2(849, 397)
-scale = Vector2(-0.737, -1.089)
-curve = ExtResource("9_n20am")
+
+[node name="rota2d" type="Path2D" parent="HABILIDADES"]
+position = Vector2(360, 399.001)
+scale = Vector2(0.724047, 1.0894)
 script = ExtResource("9_xxkq3")
 
-[node name="rotafollow2d" type="PathFollow2D" parent="habilidades/rota2d"]
-position = Vector2(284, 230)
-rotation = -0.288344
+[node name="rotafollow2d" type="PathFollow2D" parent="HABILIDADES/rota2d"]
+position = Vector2(403.288, -141.363)
+rotation = -0.237076
 loop = false
 
-[node name="flash" type="PointLight2D" parent="habilidades"]
+[node name="flash" type="PointLight2D" parent="HABILIDADES"]
 visible = false
 position = Vector2(1122.99, 353)
 scale = Vector2(3.13935, 6.4717)
@@ -169,13 +172,20 @@ shadow_enabled = true
 texture = ExtResource("10_igcbh")
 texture_scale = 1.48
 
-[node name="pathmaker2d" type="Path2D" parent="habilidades"]
+[node name="pathmaker2d" type="Path2D" parent="HABILIDADES"]
 curve = SubResource("Curve2D_igcbh")
 
-[node name="makerfollow2d" type="PathFollow2D" parent="habilidades/pathmaker2d"]
+[node name="makerfollow2d" type="PathFollow2D" parent="HABILIDADES/pathmaker2d"]
 loop = false
 
-[node name="linha" type="Line2D" parent="habilidades"]
+[node name="linhapathmaker" type="Line2D" parent="HABILIDADES"]
+
+[node name="IMASPRITE" type="Sprite2D" parent="HABILIDADES"]
+visible = false
+position = Vector2(1222, 606)
+rotation = -1.0472
+scale = Vector2(0.0390625, 0.0390625)
+texture = ExtResource("11_xxkq3")
 
 [connection signal="body_entered" from="Areas/AreaDireita" to="LabelsPontuação" method="_on_area_direita_body_entered"]
 [connection signal="body_entered" from="Areas/AreaEsquerda" to="LabelsPontuação" method="_on_area_esquerda_body_entered"]
