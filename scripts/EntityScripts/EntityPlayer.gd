@@ -7,7 +7,7 @@ class_name EntityPlayer
 
 #Export das variaveis para pegar os nós
 @export var CPU : CharacterBody2D
-@export var BALL : CharacterBody2D
+@export var BALL : EntityBall
 @export var Sound : Node
 @export var SpriteCongelado : Sprite2D
 @export var cooldown : Timer
@@ -35,14 +35,17 @@ func _process(delta: float) -> void:
 	global_position.x = clampi(global_position.x, 102, 102)
 	global_position.y = clampi(global_position.y, 100, 612)
 	
-	MatchBandeiras(delta)
-	
-	if iniciar:
-		FOLLOWMAKER.progress += delta * 300
-		BALL.global_position = FOLLOWMAKER.global_position
 		
 
 func _physics_process(delta: float) -> void:
+	MatchBandeiras(delta)
+	
+	if iniciar:
+		FOLLOWMAKER.progress += delta * BALL.ballVelocity
+		BALL.global_position = FOLLOWMAKER.global_position
+	if FOLLOWMAKER.progress_ratio >= 0.90 :
+		iniciar = false
+		BALL.ballDirection = FOLLOWMAKER.position.normalized()
 
 	if not congelado:
 		MovimentacaoPlayer()
@@ -54,6 +57,7 @@ func _physics_process(delta: float) -> void:
 
 	if Input.is_action_just_pressed("UsarHabilidade") and cooldown.is_stopped():
 		habilidadeAtiva = true
+		
 	if habilidadeAtiva:
 		MatchBandeiras(delta)
 
@@ -67,20 +71,18 @@ func MatchBandeiras(delta) -> void:
 			cooldown.start()
 			habilidades.bola_energia(BALL, CPU, self)
 		"Austria":
-
 			pass
 		"Brasil":#PATHMAKER
 			cooldown.start()
 			#habilidades.PATHMAKER(BALL, PATHMAKER, FOLLOWMAKER, LINHA, self)
 		"China":#Terminado
-			habilidades.IMPULSO(BALL, self, CPU)
+			habilidades.PATHMAKER(BALL, PATHMAKER, LINHA, self)
 		"CoreiaSul":#Terminado
 			cooldown.start()
 			habilidades.DASH(self)
 		"HongKong":
 			cooldown.start()
-
-			habilidades.PATHMAKER(BALL, PATHMAKER, FOLLOWMAKER, delta, LINHA)
+			#habilidades.PATHMAKER(BALL, PATHMAKER, FOLLOWMAKER, delta, LINHA)
 		"Japao":#BOLA INVISIVEL
 			pass
 		"Portugal":#Terminado
@@ -88,7 +90,7 @@ func MatchBandeiras(delta) -> void:
 			habilidadeAtiva = false
 		"Suecia":#Terminado
 			cooldown.start()
-			habilidades.CONGELAR(CPU, Sound)
+			habilidades.CONGELAR(CPU, Sound, self)
 		"Taiwan":#GRAVIDADE
 			pass
 

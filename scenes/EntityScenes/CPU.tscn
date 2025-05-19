@@ -7,10 +7,11 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3acr2"]
 size = Vector2(0, 124.121)
 
-[node name="IA" type="CharacterBody2D" node_paths=PackedStringArray("SpriteCongelado", "cooldown")]
+[node name="IA" type="CharacterBody2D" node_paths=PackedStringArray("SpriteCongelado", "cooldown", "sprite_height")]
 script = ExtResource("1_vgvke")
 SpriteCongelado = NodePath("Freeze")
 cooldown = NodePath("cooldown")
+sprite_height = NodePath("SpriteBandeira")
 
 [node name="Colisao" type="CollisionShape2D" parent="."]
 position = Vector2(-6, 0)

@@ -18,9 +18,10 @@ var congelado : bool = false
 var habilidadeAtiva : bool = false
 
 #Variaveis
-var velocidade : int = 300
+var velocidade : int = 330
 var direction : float
 var nomeBandeira : String = "Taiwan"
+@export var sprite_height : Sprite2D
 
 #RNG
 var randomNumber = [0,1]
@@ -50,7 +51,7 @@ func _physics_process(delta: float) -> void:
 	if habilidadeAtiva: 
 		MatchBandeiras()
 		
-	velocity.y = clampi(velocity.y, -300, 300)
+	velocity.y = clampi(velocity.y, -330, 330)
 	move_and_slide()
 
 func MatchBandeiras() -> void:
@@ -87,8 +88,8 @@ func MatchBandeiras() -> void:
 
 func Congelado():
 	
-	var direction = Input.get_axis("otherup", "otherdowm")
-	if direction:
+	var direction = Ball.global_position.y - global_position.y
+	if abs(direction) > 4:
 		velocity.y = lerp(velocity.y, direction * velocidade, 0.025)
 	else:
 		velocity.y = lerp(velocity.y, 0.0, 0.009)
@@ -98,9 +99,11 @@ func Congelado():
 			
 func movimentacaoCPU(delta):
 	
+	#var direction = ((Ball.global_position.y + sprite_height.scale.y / 2) - global_position.y)
+	#velocity.y = direction * velocidade * delta
 	var direction = Input.get_axis("otherup", "otherdowm")
 	if direction:
-		velocity.y = velocidade * direction
+		velocity.y = lerp(velocity.y, direction * velocidade, 1)
 	else:
 		velocity.y = 0
 

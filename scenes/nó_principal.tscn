@@ -8,9 +8,8 @@
 [ext_resource type="PackedScene" uid="uid://duekeshk368pf" path="res://scenes/EntityScenes/CPU.tscn" id="4_q48p7"]
 [ext_resource type="Script" uid="uid://biiy4kungxuw2" path="res://scripts/scriptPontuacao.gd" id="5_jmmb0"]
 [ext_resource type="Script" uid="uid://bmpxgop3elb7f" path="res://scenes/audiosScript.gd" id="8_gl4v5"]
-[ext_resource type="Curve2D" uid="uid://dubu1s80tjm5u" path="res://Resource/Curve2D/PATH2.tres" id="9_n20am"]
 [ext_resource type="Script" uid="uid://g47m705s8353" path="res://scripts/preloads/preloadPATHINGS.gd" id="9_xxkq3"]
-[ext_resource type="Texture2D" uid="uid://btib0bet15w3k" path="res://Assets/Assets/Bolinha.png" id="10_igcbh"]
+[ext_resource type="Texture2D" uid="uid://bx1doulokc6ts" path="res://Assets/Habilidades/images.png" id="10_xxkq3"]
 [ext_resource type="Texture2D" uid="uid://crdx1vbqbmcyd" path="res://Assets/vecteezy_pixel-art-magnet-game-asset-design_50563561.jpg" id="11_xxkq3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6mx5x"]
@@ -152,7 +151,6 @@ volume_db = -20.0
 
 [node name="HABILIDADES" type="Node" parent="."]
 
-
 [node name="rota2d" type="Path2D" parent="HABILIDADES"]
 position = Vector2(360, 399.001)
 scale = Vector2(0.724047, 1.0894)
@@ -164,13 +162,12 @@ rotation = -0.237076
 loop = false
 
 [node name="flash" type="PointLight2D" parent="HABILIDADES"]
-visible = false
-position = Vector2(1122.99, 353)
-scale = Vector2(3.13935, 6.4717)
+position = Vector2(1114.75, 355.625)
+scale = Vector2(94.6023, 188.374)
 energy = 0.0
 shadow_enabled = true
-texture = ExtResource("10_igcbh")
-texture_scale = 1.48
+texture = ExtResource("10_xxkq3")
+texture_scale = 0.01
 
 [node name="pathmaker2d" type="Path2D" parent="HABILIDADES"]
 curve = SubResource("Curve2D_igcbh")

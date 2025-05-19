@@ -115,4 +115,3 @@ func SALTO(Ball : EntityBall) -> void:#Terminado e testado
 	else:
 		newDirection.y = randf_range(-0.7, -0.6)
 	Ball.ballDirection = newDirection.normalized()
-

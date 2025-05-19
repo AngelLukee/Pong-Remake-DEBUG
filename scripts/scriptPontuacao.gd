@@ -17,6 +17,7 @@ func _on_area_esquerda_body_entered(body: Node2D) -> void:
 			PontuaçãoIA.text = str(score[0])
 			
 		await get_tree().create_timer(1.5).timeout
+		PLAYER.habilidadeAtiva = false
 		Bola.randomSpawn()
 
 func _on_area_direita_body_entered(body: Node2D) -> void:
