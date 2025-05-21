@@ -4,10 +4,11 @@ class_name HabilidadesPlayer
 var Cena = preload("res://scenes/EntityScenes/bolinha.tscn")
 var colidiu : bool = false
 var energia : bool = false
-@onready var iniciado : bool = false
+var velocidade : bool = false
+var iniciado : bool = false
 
 
-func DASH(Player : EntityPlayer):#HABILIADE TERMINADA E TESTADA
+func dash(Player : EntityPlayer):#HABILIADE TERMINADA E TESTADA
 	
 	if Input.is_action_pressed("down"):
 		
@@ -25,15 +26,15 @@ func DASH(Player : EntityPlayer):#HABILIADE TERMINADA E TESTADA
 		
 		Player.HabilidadeAtiva = false
 
-func CLARAO(POINTLIGHT : PointLight2D, PLAYER : EntityPlayer) -> void:#Falta melhorias na luz
+func clarao(POINTLIGHT : PointLight2D, PLAYER : EntityPlayer) -> void:#Falta melhorias na luz
 	var tween = PLAYER.create_tween()
-	tween.tween_property(POINTLIGHT, "energy", 14.5, 0.4)
+	tween.tween_property(POINTLIGHT, "energy", 15.2, 0.4)
 	await PLAYER.get_tree().create_timer(2.5).timeout
 	var tween2 = PLAYER.create_tween()
 	tween2.tween_property(POINTLIGHT, "energy", 0, 0.3)
 	PLAYER.habilidadeAtiva = false
 	
-func CONGELAR(CPU: EntityCPU, Sound : Sounds, PLAYER : EntityPlayer) -> void:#Terminado e testado
+func congelar(CPU: EntityCPU, Sound : Sounds, PLAYER : EntityPlayer) -> void:#Terminado e testado
 	Sound.PlayFreezeSound()
 	
 	var CongeladoTween = CPU.create_tween()
@@ -46,7 +47,7 @@ func CONGELAR(CPU: EntityCPU, Sound : Sounds, PLAYER : EntityPlayer) -> void:#Te
 	DescongeladoTween.tween_property(CPU.SpriteCongelado, "modulate", Color.TRANSPARENT, 0.6)
 	CPU.congelado = false
 
-func CLONE(Ball : EntityBall) -> void:
+func clone(Ball : EntityBall) -> void:
 	
 	Ball.visible = false
 	
@@ -64,7 +65,7 @@ func CLONE(Ball : EntityBall) -> void:
 	Ball.visible = true
 	Ball.get_parent().add_child(falseBall)
 
-func SALTO(Ball : EntityBall) -> void:#Terminado e testado
+func salto(Ball : EntityBall) -> void:#Terminado e testado
 	
 	var newDirection := Vector2()
 	newDirection.x = Ball.ballDirection.x
@@ -75,7 +76,7 @@ func SALTO(Ball : EntityBall) -> void:#Terminado e testado
 		newDirection.y = randf_range(-0.7, -0.6)
 	Ball.ballDirection = newDirection.normalized()
 
-func IMPULSO(Ball : EntityBall, Player : EntityPlayer, CPU : EntityCPU) -> void: #Bug corrigido
+func impulso(Ball : EntityBall, Player : EntityPlayer, CPU : EntityCPU) -> void: #Bug corrigido
 	if Ball.ballCollision:
 		var collider = Ball.ballCollision.get_collider()
 
@@ -98,25 +99,41 @@ func IMPULSO(Ball : EntityBall, Player : EntityPlayer, CPU : EntityCPU) -> void:
 			colidiu = false
 
 func bola_energia(Ball: EntityBall, CPU : EntityCPU, PLAYER : EntityPlayer) -> void:#precisa de sprite
+
 	if not energia:
 		Ball.ballVelocity += 150
 		energia = true
 		
 	if Ball.ballCollision:
 		var collider = Ball.ballCollision.get_collider()
-		if collider == CPU:
+		if collider == CPU and energia:
 			
-			Ball.ballVelocity -= 150
+			if velocidade == false:
+				Ball.ballVelocity -= 150
+				print("VELOCIDADE")
+				velocidade = true
+				
 			CPU.velocidade = 0
-			
-			await CPU.get_tree().create_timer(0.5).timeout
-			CPU.velocidade = 150
+			await CPU.get_tree().create_timer(1.0).timeout
+			CPU.velocidade = 100
 			
 			await CPU.get_tree().create_timer(2.5).timeout
 			CPU.velocidade = 300
+			energia = false
+			velocidade = false
 			PLAYER.habilidadeAtiva = false
+		
+		if collider == PLAYER and not energia:
+			Ball.ballVelocity -= 150
+			energia = false
+			velocidade = false
+			PLAYER.habilidadeAtiva = false
+		
+	if Ball.global_position.x > 1200:
+		velocidade = false
+		energia = false
 
-func PATHMAKER(Ball : EntityBall, PATH2D : Path2D, linha : Line2D, PLAYER : EntityPlayer) -> void:
+func pathmaker(Ball : EntityBall, PATH2D : Path2D, linha : Line2D, PLAYER : EntityPlayer) -> void:#Erro zero lenght
 	
 	var curve = Curve2D.new()
 	var ponto = Ball.get_global_mouse_position()
@@ -127,10 +144,15 @@ func PATHMAKER(Ball : EntityBall, PATH2D : Path2D, linha : Line2D, PLAYER : Enti
 		Engine.time_scale = 0.22
 		if Input.is_action_pressed("mouseclick"):
 			linha.add_point(ponto)
+			if linha.get_point_count() > 200:
+				linha.remove_point(0)
 			
 		await Ball.get_tree().create_timer(2.5, true, false, true).timeout
-		for points in linha.points:
-			curve.add_point(points)
+		if linha.points.size() > 1:
+			for points in linha.points.size():
+				if points % 2 != 0:
+					for point in linha.points:
+						curve.add_point(point)
 		iniciado = true
 		
 	if iniciado:
@@ -139,7 +161,7 @@ func PATHMAKER(Ball : EntityBall, PATH2D : Path2D, linha : Line2D, PLAYER : Enti
 		PLAYER.iniciar = true
 		PLAYER.habilidadeAtiva = false
 		
-func ROTA(Ball : EntityBall, pathFollow : PathFollow2D, delta, PATH : Path2D, PLAYER : EntityPlayer):#Feito e pronto
+func rota(Ball : EntityBall, pathFollow : PathFollow2D, delta, PATH : Path2D, PLAYER : EntityPlayer):#Terminado e pronto
 	if not iniciado:
 		PATH.RandomPath()
 		iniciado = true
@@ -150,9 +172,10 @@ func ROTA(Ball : EntityBall, pathFollow : PathFollow2D, delta, PATH : Path2D, PL
 	
 	if pathFollow.progress_ratio == 1.0:
 		Ball.ballDirection = pathFollow.position.normalized()
+		iniciado = false
 		PLAYER.habilidadeAtiva = false
 		
-func GRAVIDADE(BALL : EntityBall, IMASPRITE : Sprite2D, PLAYER : EntityPlayer):#FEITO E TESTADO, falta sprite
+func gravidade(BALL : EntityBall, IMASPRITE : Sprite2D, PLAYER : EntityPlayer):#FEITO E TESTADO, falta sprite
 	var distancia = BALL.global_position.distance_to(IMASPRITE.global_position)
 	var NewDir : Vector2 = (IMASPRITE.global_position - BALL.global_position).normalized()
 	

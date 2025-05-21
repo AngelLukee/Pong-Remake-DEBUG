@@ -50,7 +50,7 @@ func IMPULSO(BALL : EntityBall, PLAYER : EntityPlayer, CPU : EntityCPU):
 			colidiu = false
 
 			
-func ROTA(Ball : EntityBall, pathFollow : PathFollow2D, delta, PATH : Path2D, PLAYER : EntityPlayer):
+func ROTA(Ball : EntityBall, pathFollow : PathFollow2D, delta, PATH : Path2D, PLAYER : EntityPlayer):#Terminado e pronto
 	if not iniciado:
 		PATH.RandomPath()
 		iniciado = true
@@ -98,7 +98,7 @@ func BOLAENERGIA(Ball: EntityBall, CPU : EntityCPU, PLAYER : EntityPlayer) -> vo
 			
 			Ball.ballVelocity -= 150
 			PLAYER.velocidade = 0
-			
+			print("Receba")
 			await CPU.get_tree().create_timer(0.5).timeout
 			PLAYER.velocidade = 150
 			

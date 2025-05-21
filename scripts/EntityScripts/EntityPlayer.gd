@@ -8,7 +8,7 @@ class_name EntityPlayer
 #Export das variaveis para pegar os nós
 @export var CPU : CharacterBody2D
 @export var BALL : EntityBall
-@export var Sound : Node
+@export var SOUND : Node
 @export var SpriteCongelado : Sprite2D
 @export var cooldown : Timer
 @export var pathfollow : PathFollow2D
@@ -17,12 +17,12 @@ class_name EntityPlayer
 @export var LINHA : Line2D
 @export var PATHMAKER : Path2D
 @export var FOLLOWMAKER : PathFollow2D
-@export var ima : Sprite2D
+@export var IMASPRITE : Sprite2D
 
 
 #Variaveis 
 var habilidadeAtiva : bool = false
-var nomeBandeira : String = "China"
+var nomeBandeira : String = "Alemanha"
 var velocidade : int = 300
 
 #Booleanos
@@ -31,12 +31,9 @@ var iniciar : bool = false
 
 
 func _process(delta: float) -> void:
-	
 	global_position.x = clampi(global_position.x, 102, 102)
 	global_position.y = clampi(global_position.y, 100, 612)
 	
-		
-
 func _physics_process(delta: float) -> void:
 	MatchBandeiras(delta)
 	
@@ -76,7 +73,8 @@ func MatchBandeiras(delta) -> void:
 			cooldown.start()
 			#habilidades.PATHMAKER(BALL, PATHMAKER, FOLLOWMAKER, LINHA, self)
 		"China":#Terminado
-			habilidades.PATHMAKER(BALL, PATHMAKER, LINHA, self)
+			cooldown.start()
+			habilidades.CLARAO(pointlight, self)
 		"CoreiaSul":#Terminado
 			cooldown.start()
 			habilidades.DASH(self)
@@ -86,13 +84,15 @@ func MatchBandeiras(delta) -> void:
 		"Japao":#BOLA INVISIVEL
 			pass
 		"Portugal":#Terminado
+			cooldown.start()
 			habilidades.SALTO(BALL)
 			habilidadeAtiva = false
 		"Suecia":#Terminado
 			cooldown.start()
-			habilidades.CONGELAR(CPU, Sound, self)
-		"Taiwan":#GRAVIDADE
-			pass
+			habilidades.CONGELAR(CPU, SOUND, self)
+		"Taiwan":#Terminado
+			cooldown.start()
+			habilidades.GRAVIDADE(BALL, IMASPRITE, self)
 
 func MovimentacaoPlayer():
 	var direction = Input.get_axis("up", "down")
