@@ -27,14 +27,14 @@ var nomeBandeira : String = "Taiwan"
 var randomNumber = [0,1]
 
 func _ready() -> void:
-	pass
+	if ScriptGlobal.player_script_to_use != null:
+		self.set_script(ScriptGlobal.player_script)
 
 func _process(delta: float) -> void:
-	
+
 	global_position.x = clampi(global_position.x, 1178, 1178)
 	global_position.y = clampi(global_position.y, 100, 612)
-	
-	direction = sign(Ball.global_position.y - self.global_position.y)
+
 
 func _physics_process(delta: float) -> void:
 	

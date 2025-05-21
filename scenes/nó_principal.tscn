@@ -97,23 +97,11 @@ CPU = NodePath("../CPUBody")
 PLAYER = NodePath("../Playerbody")
 areaMeio = NodePath("../Areas/DetecaoMeioQuadra")
 
-[node name="CPUBody" parent="." node_paths=PackedStringArray("Ball", "Sound", "PLAYER", "Imasprite") instance=ExtResource("4_q48p7")]
+[node name="CPUBody" parent="." instance=ExtResource("4_q48p7")]
 position = Vector2(1112.63, 302.414)
-Ball = NodePath("../BolaBody")
-Sound = NodePath("../AUDIOS")
-PLAYER = NodePath("../Playerbody")
-Imasprite = NodePath("../HABILIDADES/IMASPRITE")
 
-[node name="Playerbody" parent="." node_paths=PackedStringArray("CPU", "BALL", "pathfollow", "path", "pointlight", "LINHA", "PATHMAKER", "FOLLOWMAKER") instance=ExtResource("1_tud0r")]
+[node name="Playerbody" parent="." instance=ExtResource("1_tud0r")]
 position = Vector2(96.34, 304.214)
-CPU = NodePath("../CPUBody")
-BALL = NodePath("../BolaBody")
-pathfollow = NodePath("../HABILIDADES/rota2d/rotafollow2d")
-path = NodePath("../HABILIDADES/rota2d")
-pointlight = NodePath("../HABILIDADES/flash")
-LINHA = NodePath("../HABILIDADES/linhapathmaker")
-PATHMAKER = NodePath("../HABILIDADES/pathmaker2d")
-FOLLOWMAKER = NodePath("../HABILIDADES/pathmaker2d/makerfollow2d")
 
 [node name="CameraMesa" type="Camera2D" parent="."]
 position = Vector2(604.486, 324.015)
