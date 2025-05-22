@@ -2,13 +2,12 @@
 
 [ext_resource type="Texture2D" uid="uid://0xs1mafiwvoe" path="res://Assets/Background/Background_normal.png" id="1_074by"]
 [ext_resource type="Theme" uid="uid://cs685o7rnu2r0" path="res://Resource/Themes/LabelPointTheme.tres" id="1_qgkkw"]
-[ext_resource type="PackedScene" uid="uid://bsr8c0qxwfx48" path="res://scenes/EntityScenes/player.tscn" id="1_tud0r"]
+[ext_resource type="PackedScene" uid="uid://bsr8c0qxwfx48" path="res://scenes/entity_scenes/player.tscn" id="1_tud0r"]
 [ext_resource type="Texture2D" uid="uid://cjg66hwtxriuh" path="res://Assets/Background/Mesa.png" id="2_gl4v5"]
-[ext_resource type="PackedScene" uid="uid://bbikecojtmu2k" path="res://scenes/EntityScenes/bolinha.tscn" id="4_484ci"]
-[ext_resource type="PackedScene" uid="uid://duekeshk368pf" path="res://scenes/EntityScenes/CPU.tscn" id="4_q48p7"]
-[ext_resource type="Script" uid="uid://biiy4kungxuw2" path="res://scripts/scriptPontuacao.gd" id="5_jmmb0"]
+[ext_resource type="PackedScene" uid="uid://bbikecojtmu2k" path="res://scenes/entity_scenes/bolinha.tscn" id="4_484ci"]
+[ext_resource type="PackedScene" uid="uid://duekeshk368pf" path="res://scenes/entity_scenes/CPU.tscn" id="4_q48p7"]
+[ext_resource type="Script" uid="uid://biiy4kungxuw2" path="res://scripts/nodes_control_script/score_script.gd" id="5_jmmb0"]
 [ext_resource type="Script" uid="uid://bmpxgop3elb7f" path="res://scenes/audiosScript.gd" id="8_gl4v5"]
-[ext_resource type="Script" uid="uid://g47m705s8353" path="res://scripts/preloads/preloadPATHINGS.gd" id="9_xxkq3"]
 [ext_resource type="Texture2D" uid="uid://bx1doulokc6ts" path="res://Assets/Habilidades/images.png" id="10_xxkq3"]
 [ext_resource type="Texture2D" uid="uid://crdx1vbqbmcyd" path="res://Assets/vecteezy_pixel-art-magnet-game-asset-design_50563561.jpg" id="11_xxkq3"]
 
@@ -26,6 +25,40 @@ size = Vector2(22.2512, 553.012)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_074by"]
 b = Vector2(0.000137329, 162.307)
+
+[sub_resource type="GDScript" id="GDScript_igcbh"]
+script/source = "extends Path2D
+class_name preloadPATHINGS
+
+
+var PATHS : Array = [
+load(\"res://Resource/Curve2D/PATH1.tres\"),
+load(\"res://Resource/Curve2D/PATH2.tres\"),
+load(\"res://Resource/Curve2D/PATH3.tres\"),
+load(\"res://Resource/Curve2D/PATH4.tres\"),
+load(\"res://Resource/Curve2D/PATH5.tres\")
+]
+
+
+func RandomPath() -> void:
+	curve = PATHS.pick_random()
+	scale = Vector2(0.737, 1.089)
+	if curve in [PATHS[4], PATHS[3], PATHS[0]]:
+		global_position = Vector2(360, 375)
+	if curve == PATHS[2]:
+		global_position = Vector2(276, 375)
+	if curve == PATHS[1]:
+		global_position = Vector2(444, 366)
+		
+func RandomPathCPU() -> void:
+	curve = PATHS.pick_random()
+	scale = Vector2(-0.737, -1.089)
+	if curve == PATHS[0]:
+		global_position = Vector2(920, 449)
+	if curve == PATHS[1]:
+		global_position = Vector2(849, 397)
+	
+"
 
 [sub_resource type="Curve2D" id="Curve2D_igcbh"]
 
@@ -140,7 +173,7 @@ volume_db = -20.0
 [node name="rota2d" type="Path2D" parent="HABILIDADES"]
 position = Vector2(360, 399.001)
 scale = Vector2(0.724047, 1.0894)
-script = ExtResource("9_xxkq3")
+script = SubResource("GDScript_igcbh")
 
 [node name="rotafollow2d" type="PathFollow2D" parent="HABILIDADES/rota2d"]
 position = Vector2(403.288, -141.363)

@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://bbikecojtmu2k"]
+
+[ext_resource type="Script" uid="uid://c5wwma1e8ltnm" path="res://scripts/entity_script/ball/ball_script.gd" id="1_fcowq"]
+[ext_resource type="Texture2D" uid="uid://btib0bet15w3k" path="res://Assets/Assets/Bolinha.png" id="2_mj1g1"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ai1y3"]
+radius = 6.0
+
+[node name="ball" type="CharacterBody2D" node_paths=PackedStringArray("Colisao")]
+disable_mode = 1
+script = ExtResource("1_fcowq")
+Colisao = NodePath("ball_collision")
+
+[node name="ball_collision" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ai1y3")
+
+[node name="ball_sprite" type="Sprite2D" parent="."]
+modulate = Color(0.956805, 0.555501, 0.224658, 1)
+scale = Vector2(0.22461, 0.22461)
+texture = ExtResource("2_mj1g1")

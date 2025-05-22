@@ -1,7 +1,7 @@
 extends Node
-class_name HabilidadesPlayer
+class_name HabilidadesVsPlayer2
 
-var ball_scene = preload("res://scenes/EntityScenes/bolinha.tscn")
+var ball_scene = preload("res://scenes/entity_scenes/bolinha.tscn")
 var colidiu : bool = false
 var energia : bool = false
 var velocidade : bool = false
@@ -35,18 +35,18 @@ func clarao(flash_light : PointLight2D, player : EntityPlayer) -> void:#Falta me
 	tween2.tween_property(flash_light, "energy", 0, 0.3)
 	player.habilidade_ativa = false
 	
-func congelar(cpu : EntityCPU, sound : Sounds, player : EntityPlayer) -> void:#Terminado e testado
+func congelar(player_2 : Player2, sound : Sounds, player : EntityPlayer) -> void:#Terminado e testado
 	sound.PlayFreezeSound()
 	
-	var congelado_tween = cpu.create_tween()
-	congelado_tween.tween_property(cpu.SpriteCongelado, "modulate", Color.WHITE, 0.6)
+	var congelado_tween = player_2.create_tween()
+	congelado_tween.tween_property(player_2.SpriteCongelado, "modulate", Color.WHITE, 0.6)
 	
-	cpu.congelado = true
-	await cpu.get_tree().create_timer(3.0).timeout
+	player_2.congelado = true
+	await player_2.get_tree().create_timer(3.0).timeout
 	
-	var descongelado_tween = cpu.create_tween()
-	descongelado_tween.tween_property(cpu.SpriteCongelado, "modulate", Color.TRANSPARENT, 0.6)
-	cpu.congelado = false
+	var descongelado_tween = player_2.create_tween()
+	descongelado_tween.tween_property(player_2.SpriteCongelado, "modulate", Color.TRANSPARENT, 0.6)
+	player_2.congelado = false
 
 func clone(ball : EntityBall) -> void:
 	
