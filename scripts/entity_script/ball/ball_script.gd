@@ -11,7 +11,6 @@ const aceleracao : int = 35
 @export var PLAYER : CharacterBody2D
 @export var Colisao : CollisionShape2D
 @export var areaMeio : Area2D
-@export var motionTrail : Line2D
 
 var ballVelocity : int 
 var ballDirection : Vector2 = Vector2(1,0).normalized()

@@ -7,8 +7,10 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g2els"]
 size = Vector2(0.5, 65)
 
-[node name="player" type="CharacterBody2D"]
+[node name="player" type="CharacterBody2D" node_paths=PackedStringArray("sprite_congelado", "cooldown")]
 script = ExtResource("1_t81a4")
+sprite_congelado = NodePath("congelado_sprite_player")
+cooldown = NodePath("cooldown")
 
 [node name="colisao_player" type="CollisionShape2D" parent="."]
 light_mask = 2

@@ -5,9 +5,9 @@ class_name EntityCPU
 @onready var habilidades = HabilidadesCPU.new()
 
 #Exports
-@export var Ball : CharacterBody2D
+@export var Ball : EntityBall
 @export var SpriteCongelado : Sprite2D
-@export var Sound : Node
+@export var Sound : Sounds
 @export var cooldown : Timer 
 @export var PLAYER : EntityPlayer
 @export var Imasprite : Sprite2D
@@ -21,7 +21,6 @@ var habilidadeAtiva : bool = false
 var velocidade : int = 330
 var direction : float
 var nomeBandeira : String = "Taiwan"
-@export var sprite_height : Sprite2D
 
 #RNG
 var randomNumber = [0,1]

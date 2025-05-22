@@ -36,9 +36,8 @@ func _ready() -> void:
 	pass
 
 func _process(delta: float) -> void:
-	global_position.x = clampi(global_position.x, 102, 102)
+	global_position.x = clampi(global_position.x, 1178, 1178)
 	global_position.y = clampi(global_position.y, 100, 612)
-
 	
 func _physics_process(delta: float) -> void:
 	
@@ -50,59 +49,20 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 
-	if Input.is_action_just_pressed("UsarHabilidade") and cooldown.is_stopped():
+	if Input.is_action_just_pressed("habilidade_player_2") and cooldown.is_stopped():
 		habilidade_ativa = true
 		
-	if habilidade_ativa and not vs_player_2:
-		match_bandeiras_vs_cpu(delta)
-		
-	if habilidade_ativa and vs_player_2:
-		match_bandeiras_vs_player2(delta)
+	if habilidade_ativa:
+		match_bandeiras_vs_player1(delta)
 
-func match_bandeiras_vs_cpu(delta) -> void:
-	
-	if not habilidade_ativa:
-		return
-	
-	match nome_bandeira:#Não comparar objetos, e sim nomes e IDs
-		"Alemanha":
-			cooldown.start()
-			habilidades.bola_energia(ball, cpu, self)
-		"Austria":
-			pass
-		"Brasil":#PATHMAKER
-			cooldown.start()
-			#habilidades.PATHMAKER(BALL, PATHMAKER, FOLLOWMAKER, LINHA, self)
-		"China":#Terminado
-			cooldown.start()
-			habilidades.CLARAO(flash_light, self)
-		"CoreiaSul":#Terminado
-			cooldown.start()
-			habilidades.DASH(self)
-		"HongKong":
-			cooldown.start()
-			#habilidades.PATHMAKER(BALL, PATHMAKER, FOLLOWMAKER, delta, LINHA)
-		"Japao":#BOLA INVISIVEL
-			pass
-		"Portugal":#Terminado
-			cooldown.start()
-			habilidades.SALTO(ball)
-			habilidade_ativa = false
-		"Suecia":#Terminado
-			cooldown.start()
-			habilidades.CONGELAR(cpu, sound, self)
-		"Taiwan":#Terminado
-			cooldown.start()
-			habilidades.GRAVIDADE(ball, ima_sprite, self)
-
-func match_bandeiras_vs_player2(delta) -> void:
+func match_bandeiras_vs_player1(delta) -> void:
 	if not habilidade_ativa:
 		return
 	
 	match nome_bandeira:
 		"Alemanha":
 			cooldown.start()
-			habilidades.bola_energia(ball, cpu, self)
+			
 		"Austria":
 			pass
 		"Brasil":#PATHMAKER
@@ -110,10 +70,10 @@ func match_bandeiras_vs_player2(delta) -> void:
 			#habilidades.PATHMAKER(BALL, PATHMAKER, FOLLOWMAKER, LINHA, self)
 		"China":#Terminado
 			cooldown.start()
-			habilidades.CLARAO(flash_light, self)
+
 		"CoreiaSul":#Terminado
 			cooldown.start()
-			habilidades.DASH(self)
+
 		"HongKong":
 			cooldown.start()
 			#habilidades.PATHMAKER(BALL, PATHMAKER, FOLLOWMAKER, delta, LINHA)
@@ -121,14 +81,14 @@ func match_bandeiras_vs_player2(delta) -> void:
 			pass
 		"Portugal":#Terminado
 			cooldown.start()
-			habilidades.SALTO(ball)
+
 			habilidade_ativa = false
 		"Suecia":#Terminado
 			cooldown.start()
-			habilidades.CONGELAR(cpu, sound, self)
+
 		"Taiwan":#Terminado
 			cooldown.start()
-			habilidades.GRAVIDADE(ball, ima_sprite, self)
+
 
 func movimentacao_player():
 	var direction = Input.get_axis("up", "down")

@@ -163,19 +163,23 @@ func pathmaker(ball : EntityBall, path2d : Path2D, linha : Line2D, player : Enti
 		player.iniciar = true
 		player.habilidadeAtiva = false
 		
-func rota(ball : EntityBall, path_follow : PathFollow2D, path2d : Path2D, player : EntityPlayer, delta : float):#Terminado e pronto
+func rota(ball : EntityBall, path_follow : PathFollow2D, path_2d : Path2D, player_1 : EntityPlayer, delta : float):#Terminado e pronto
 	if not iniciado:
-		path2d.RandomPath()
+		path_2d.RandomPath()
 		iniciado = true
+	
+	var pontos_position = path_2d.curve.point_count
 	
 	if path_follow.progress_ratio < 1.0:
 		path_follow.progress += (ball.ballVelocity - 100) * delta
 		ball.global_position = path_follow.global_position
 	
-	if path_follow.progress_ratio == 1.0:
-		ball.ballDirection = path_follow.position.normalized()
+	var direcao = path_2d.curve.get_point_position(pontos_position - 1) - path_2d.curve.get_point_position(pontos_position - 2)
+	
+	if path_follow.progress_ratio >= 0.99:
+		ball.ballDirection = direcao.position.normalized()
 		iniciado = false
-		player.habilidade_ativa = false
+		player_1.habilidade_ativa = false
 		
 func gravidade(ball : EntityBall, ima_sprite : Sprite2D, player : EntityPlayer):#FEITO E TESTADO, falta sprite
 	

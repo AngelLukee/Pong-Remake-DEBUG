@@ -78,11 +78,11 @@ func salto(ball : EntityBall) -> void:#Terminado e testado
 		
 	ball.ballDirection = new_direction.normalized()
 
-func impulso(ball : EntityBall, player : EntityPlayer, cpu : EntityCPU) -> void: #Bug corrigido
+func impulso(ball : EntityBall, player_1 : EntityPlayer, player_2 : Player2) -> void: #Bug corrigido
 	if ball.ballCollision:
 		var collider = ball.ballCollision.get_collider()
 
-		if collider == player and not colidiu:
+		if collider == player_1 and not colidiu:
 			colidiu = true
 			ball.ballVelocity += 150
 			var new_direction := Vector2()
@@ -92,15 +92,15 @@ func impulso(ball : EntityBall, player : EntityPlayer, cpu : EntityCPU) -> void:
 	
 			ball.ballDirection = new_direction.normalized()
 
-		if collider == cpu and colidiu:
+		if collider == player_2 and colidiu:
 			ball.ballVelocity -= 150
 			colidiu = false
-			player.habilidade_ativa = false
+			player_1.habilidade_ativa = false
 			
-	if ball.global_position.x > 1200:
+	if ball.global_position.x > 1200 or ball.global_position.x < 20:
 			colidiu = false
 
-func bola_energia(ball: EntityBall, cpu : EntityCPU, player : EntityPlayer) -> void:#precisa de sprite
+func bola_energia(ball: EntityBall, player_2 : Player2, player_1 : EntityPlayer) -> void:#precisa de sprite
 
 	if not energia:
 		ball.ballVelocity += 150
@@ -108,30 +108,29 @@ func bola_energia(ball: EntityBall, cpu : EntityCPU, player : EntityPlayer) -> v
 		
 	if ball.ballCollision:
 		var collider = ball.ballCollision.get_collider()
-		if collider == cpu and energia:
+		if collider == player_2 and energia:
 			
 			if velocidade == false:
 				ball.ballVelocity -= 150
-				print("VELOCIDADE")
 				velocidade = true
 				
-			cpu.velocidade = 0
-			await cpu.get_tree().create_timer(1.0).timeout
-			cpu.velocidade = 100
+			player_2.velocidade = 0
+			await player_2.get_tree().create_timer(1.0).timeout
+			player_2.velocidade = 100
 			
-			await cpu.get_tree().create_timer(2.5).timeout
-			cpu.velocidade = 300
+			await player_2.get_tree().create_timer(2.5).timeout
+			player_2.velocidade = 300
 			energia = false
 			velocidade = false
-			player.habilidade_ativa = false
+			player_1.habilidade_ativa = false
 		
-		if collider == player and not energia:
+		if collider == player_1 and not energia:
 			ball.ballVelocity -= 150
 			energia = false
 			velocidade = false
-			player.habilidade_ativa = false
+			player_1.habilidade_ativa = false
 		
-	if ball.global_position.x > 1200:
+	if ball.global_position.x > 1200 or ball.global_position.x < 30:
 		velocidade = false
 		energia = false
 
@@ -163,21 +162,25 @@ func pathmaker(ball : EntityBall, path2d : Path2D, linha : Line2D, player : Enti
 		player.iniciar = true
 		player.habilidadeAtiva = false
 		
-func rota(ball : EntityBall, path_follow : PathFollow2D, path2d : Path2D, player : EntityPlayer, delta : float):#Terminado e pronto
+func rota(ball : EntityBall, path_follow : PathFollow2D, path_2d : Path2D, player_1 : EntityPlayer, delta : float):#Terminado e pronto
 	if not iniciado:
-		path2d.RandomPath()
+		path_2d.RandomPath()
 		iniciado = true
+	
+	var pontos_position = path_2d.curve.point_count
 	
 	if path_follow.progress_ratio < 1.0:
 		path_follow.progress += (ball.ballVelocity - 100) * delta
 		ball.global_position = path_follow.global_position
 	
-	if path_follow.progress_ratio == 1.0:
-		ball.ballDirection = path_follow.position.normalized()
+	var direcao = path_2d.curve.get_point_position(pontos_position - 1) - path_2d.curve.get_point_position(pontos_position - 2)
+	
+	if path_follow.progress_ratio >= 0.99:
+		ball.ballDirection = direcao.position.normalized()
 		iniciado = false
-		player.habilidade_ativa = false
+		player_1.habilidade_ativa = false
 		
-func gravidade(ball : EntityBall, ima_sprite : Sprite2D, player : EntityPlayer):#FEITO E TESTADO, falta sprite
+func gravidade(ball : EntityBall, ima_sprite : Sprite2D, player_1 : EntityPlayer):#FEITO E TESTADO, falta sprite
 	
 	var distancia = ball.global_position.distance_to(ima_sprite.global_position)
 	var new_dir : Vector2 = (ima_sprite.global_position - ball.global_position).normalized()
@@ -189,7 +192,7 @@ func gravidade(ball : EntityBall, ima_sprite : Sprite2D, player : EntityPlayer):
 		
 		if distancia < 150:
 			ima_sprite.visible = true
-			player.habilidade_ativa = false
+			player_1.habilidade_ativa = false
 			
 	if ball.global_position.y < 356:
 		ima_sprite.global_position = Vector2(1222, 67)
@@ -198,4 +201,4 @@ func gravidade(ball : EntityBall, ima_sprite : Sprite2D, player : EntityPlayer):
 		
 		if distancia < 150:
 			ima_sprite.visible = true
-			player.habilidadeAtiva = false
+			player_1.habilidadeAtiva = false

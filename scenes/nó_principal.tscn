@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cysh5bxxu7ogh"]
+[gd_scene load_steps=20 format=3 uid="uid://cysh5bxxu7ogh"]
 
 [ext_resource type="Texture2D" uid="uid://0xs1mafiwvoe" path="res://Assets/Background/Background_normal.png" id="1_074by"]
 [ext_resource type="Theme" uid="uid://cs685o7rnu2r0" path="res://Resource/Themes/LabelPointTheme.tres" id="1_qgkkw"]
@@ -8,6 +8,8 @@
 [ext_resource type="PackedScene" uid="uid://duekeshk368pf" path="res://scenes/entity_scenes/CPU.tscn" id="4_q48p7"]
 [ext_resource type="Script" uid="uid://biiy4kungxuw2" path="res://scripts/nodes_control_script/score_script.gd" id="5_jmmb0"]
 [ext_resource type="Script" uid="uid://bmpxgop3elb7f" path="res://scenes/audiosScript.gd" id="8_gl4v5"]
+[ext_resource type="PackedScene" uid="uid://dgrs5xd4mhyop" path="res://scenes/entity_scenes/player_2.tscn" id="8_xxkq3"]
+[ext_resource type="Script" uid="uid://cnvsn0yxmocke" path="res://scripts/entity_script/player_2/player_2_script.gd" id="9_n20am"]
 [ext_resource type="Texture2D" uid="uid://bx1doulokc6ts" path="res://Assets/Habilidades/images.png" id="10_xxkq3"]
 [ext_resource type="Texture2D" uid="uid://crdx1vbqbmcyd" path="res://Assets/vecteezy_pixel-art-magnet-game-asset-design_50563561.jpg" id="11_xxkq3"]
 
@@ -130,11 +132,31 @@ CPU = NodePath("../CPUBody")
 PLAYER = NodePath("../Playerbody")
 areaMeio = NodePath("../Areas/DetecaoMeioQuadra")
 
-[node name="CPUBody" parent="." instance=ExtResource("4_q48p7")]
+[node name="CPUBody" parent="." node_paths=PackedStringArray("Ball", "Sound", "PLAYER", "Imasprite") instance=ExtResource("4_q48p7")]
 position = Vector2(1112.63, 302.414)
+Ball = NodePath("../BolaBody")
+Sound = NodePath("../AUDIOS")
+PLAYER = NodePath("../Playerbody")
+Imasprite = NodePath("../HABILIDADES/IMASPRITE")
 
-[node name="Playerbody" parent="." instance=ExtResource("1_tud0r")]
+[node name="Playerbody" parent="." node_paths=PackedStringArray("cpu", "ball", "player_2", "sound", "rota_path_follow", "rota_path", "flash_light", "linha", "pathmaker_path", "pathmaker_path_follow", "ima_sprite") instance=ExtResource("1_tud0r")]
 position = Vector2(96.34, 304.214)
+cpu = NodePath("../CPUBody")
+ball = NodePath("../BolaBody")
+player_2 = NodePath("../player_2")
+sound = NodePath("../AUDIOS")
+rota_path_follow = NodePath("../HABILIDADES/rota2d/rotafollow2d")
+rota_path = NodePath("../HABILIDADES/rota2d")
+flash_light = NodePath("../HABILIDADES/flash_player")
+linha = NodePath("../HABILIDADES/linhapathmaker")
+pathmaker_path = NodePath("../HABILIDADES/pathmaker2d")
+pathmaker_path_follow = NodePath("../HABILIDADES/pathmaker2d/makerfollow2d")
+ima_sprite = NodePath("../HABILIDADES/IMASPRITE")
+
+[node name="player_2" parent="." instance=ExtResource("8_xxkq3")]
+position = Vector2(590.319, -161.107)
+scale = Vector2(1, 1)
+script = ExtResource("9_n20am")
 
 [node name="CameraMesa" type="Camera2D" parent="."]
 position = Vector2(604.486, 324.015)
@@ -180,8 +202,16 @@ position = Vector2(403.288, -141.363)
 rotation = -0.237076
 loop = false
 
-[node name="flash" type="PointLight2D" parent="HABILIDADES"]
+[node name="flash_player" type="PointLight2D" parent="HABILIDADES"]
 position = Vector2(1114.75, 355.625)
+scale = Vector2(94.6023, 188.374)
+energy = 0.0
+shadow_enabled = true
+texture = ExtResource("10_xxkq3")
+texture_scale = 0.01
+
+[node name="flash_cpu" type="PointLight2D" parent="HABILIDADES"]
+position = Vector2(163, 355)
 scale = Vector2(94.6023, 188.374)
 energy = 0.0
 shadow_enabled = true
