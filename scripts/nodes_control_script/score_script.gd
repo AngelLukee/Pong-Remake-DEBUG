@@ -1,24 +1,30 @@
 extends Control
 
+#export das entidades
+@export var player_1 : EntityPlayer
+@export var player_2 : Player2
+@export var cpu : EntityCPU
+@export var ball : EntityBall
+
+#export de pontuacao
 @export var PontuaçãoPlayer : Label
 @export var PontuaçãoIA : Label
-@onready var Bola : EntityBall = $"../BolaBody"
-@export var PLAYER : EntityPlayer
+
+#variaveis
 var score : Array = [0,0]
 
 
 func _on_area_esquerda_body_entered(body: Node2D) -> void:
 	if body.name == "BolaBody":
-		print("Ok")
 		score[0] += 1
 		if score[0] < 10:
 			PontuaçãoIA.text = str(0) + str(score[0]) 
 		else:
 			PontuaçãoIA.text = str(score[0])
 			
+		reset_habilities(player_1, player_2, cpu)
 		await get_tree().create_timer(1.5).timeout
-		PLAYER.habilidadeAtiva = false
-		Bola.randomSpawn()
+		ball.randomSpawn()
 
 func _on_area_direita_body_entered(body: Node2D) -> void:
 	if body.name == "BolaBody":
@@ -29,5 +35,10 @@ func _on_area_direita_body_entered(body: Node2D) -> void:
 			PontuaçãoPlayer.text = str(score[1])
 			
 		await get_tree().create_timer(1.5).timeout
-		PLAYER.habilidadeAtiva = false
-		Bola.randomSpawn()
+		reset_habilities(player_1, player_2, cpu)
+		ball.randomSpawn()
+
+func reset_habilities(player_1 : EntityPlayer, player_2 : Player2, cpu : EntityCPU):
+	cpu.habilidade_ativa = false
+	player_1.habilidade_ativa = false
+	player_2.habilidade_ativa = false

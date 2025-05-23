@@ -5,110 +5,117 @@ var colidiu : bool = false
 var iniciado : bool = false
 var energia : bool = false
 
-func DASH(CPU : EntityCPU):
+func dash(cpu : EntityCPU):
 	
-	if CPU.direction < -20:
-		var tween = CPU.create_tween()
-		var destino = clamp(CPU.position.y - 150, 96, 505)
-		tween.tween_property(CPU, "position:y", destino, 0.15)
+	if cpu.direction < -20:
+		var tween = cpu.create_tween()
+		var destino = clamp(cpu.position.y - 150, 96, 505)
+		tween.tween_property(cpu, "position:y", destino, 0.15)
 	
 
-	if CPU.direction > 20:
-		var tween = CPU.create_tween()
-		var destino = clamp(CPU.position.y + 150, 96, 505)
-		tween.tween_property(CPU, "position:y", destino, 0.15)
+	if cpu.direction > 20:
+		var tween = cpu.create_tween()
+		var destino = clamp(cpu.position.y + 150, 96, 505)
+		tween.tween_property(cpu, "position:y", destino, 0.15)
 
-func CONGELAR(PLAYER : EntityPlayer, SOUND : Sounds):
-	SOUND.PlayFreezeSound()
+func congelar(player : EntityPlayer, sound : Sounds):
+	sound.PlayFreezeSound()
 	
-	var CongeladoTween = PLAYER.create_tween()
-	CongeladoTween.tween_property(PLAYER.SpriteCongelado, "modulate", Color.WHITE, 0.6)
+	var congelado_tween = player.create_tween()
+	congelado_tween.tween_property(player.sprite_Congelado, "modulate", Color.WHITE, 0.6)
 	
-	PLAYER.congelado = true
-	await PLAYER.get_tree().create_timer(3.0).timeout
+	player.congelado = true
+	await player.get_tree().create_timer(3.0).timeout
 	
-	var DescongeladoTween = PLAYER.create_tween()
-	DescongeladoTween.tween_property(PLAYER.SpriteCongelado, "modulate", Color.TRANSPARENT, 0.6)
-	PLAYER.congelado = false
+	var descongelado_tween = player.create_tween()
+	descongelado_tween.tween_property(player.SpriteCongelado, "modulate", Color.TRANSPARENT, 0.6)
+	player.congelado = false
 	
-func IMPULSO(BALL : EntityBall, PLAYER : EntityPlayer, CPU : EntityCPU):
-	if BALL.ballCollision:
-		var collider = BALL.ballCollision.get_collider()
+func impulso(ball : EntityBall, player : EntityPlayer, cpu : EntityCPU):
+	if ball.ballCollision:
+		var collider = ball.ballCollision.get_collider()
 
-		if collider == CPU and not colidiu:
+		if collider == player and not colidiu:
 			colidiu = true
-			BALL.ballVelocity += 170
-			var newDirection := Vector2()
+			ball.ballVelocity += 170
+			var new_direction := Vector2()
 	
-			newDirection.x = BALL.ballDirection.x 
-			newDirection.y = [2.0, -2.0].pick_random()
+			new_direction.x = ball.ballDirection.x 
+			new_direction.y = [2.0, -2.0].pick_random()
 	
-			BALL.ballDirection = newDirection.normalized()
+			ball.ballDirection = new_direction.normalized()
 
-		if collider == PLAYER and colidiu == true:
-			BALL.ballVelocity -= 170
+		if collider == cpu and colidiu == true:
+			ball.ballVelocity -= 170
 			colidiu = false
 
 			
-func ROTA(Ball : EntityBall, pathFollow : PathFollow2D, delta, PATH : Path2D, PLAYER : EntityPlayer):#Terminado e pronto
+func rota(ball : EntityBall, path_follow : PathFollow2D, path_2d : Path2D, cpu : EntityCPU, delta : float):#Terminado e pronto
 	if not iniciado:
-		PATH.RandomPath()
+		path_2d.random_path_cpu()
 		iniciado = true
 	
-	if pathFollow.progress_ratio < 1.0:
-		pathFollow.progress += (Ball.ballVelocity - 100) * delta
-		Ball.global_position = pathFollow.global_position
+	var pontos_position = path_2d.curve.point_count
 	
-	if pathFollow.progress_ratio == 1.0:
-		Ball.ballDirection = pathFollow.position.normalized()
-		PLAYER.habilidadeAtiva = false
-
-
-func GRAVIDADE(BALL : EntityBall, IMASPRITE : Sprite2D, CPU : EntityCPU):#Testada e funcionando
-	var distancia = BALL.global_position.distance_to(IMASPRITE.global_position)
-	var NewDir : Vector2 = (IMASPRITE.global_position - BALL.global_position).normalized()
+	if path_follow.progress_ratio < 1.0:
+		path_follow.progress += (ball.ballVelocity - 100) * delta
+		ball.global_position = path_follow.global_position
 	
-	if BALL.global_position.y > 356:
-		IMASPRITE.global_position = Vector2(41, 606)
-		IMASPRITE.rotation = 1.0472
-		BALL.ballDirection = NewDir
-		IMASPRITE.visible = true
+	var direcao = path_2d.curve.get_point_position(pontos_position - 1) - path_2d.curve.get_point_position(pontos_position - 2)
+	
+	if path_follow.progress_ratio >= 0.95:
+		ball.ballDirection = direcao.normalized()
+		cpu.habilidade_ativa = false
+
+func gravidade(ball : EntityBall, ima_sprite : Sprite2D, cpu : EntityCPU):#Testada e funcionando
+	
+	var distancia = ball.global_position.distance_to(ima_sprite.global_position)
+	var new_dir : Vector2 = (ima_sprite.global_position - ball.global_position).normalized()
+	
+	if ball.global_position.y > 356:
+		ima_sprite.global_position = Vector2(41, 606)
+		ima_sprite.rotation = 1.0472
+		ball.ballDirection = new_dir
+		ima_sprite.visible = true
 		if distancia < 150:
-			IMASPRITE.visible = false
-			CPU.habilidadeAtiva = false
+			ima_sprite.visible = false
+			cpu.habilidade_ativa = false
 			
-	if BALL.global_position.y < 356:
-		IMASPRITE.global_position = Vector2(41, 67)
-		IMASPRITE.rotation = 2.0944
-		BALL.ballDirection = NewDir
-		IMASPRITE.visible = true
+	if ball.global_position.y < 356:
+		ima_sprite.global_position = Vector2(41, 67)
+		ima_sprite.rotation = 2.0944
+		ball.ballDirection = new_dir
+		ima_sprite.visible = true
 		if distancia < 150:
-			IMASPRITE.visible = false
-			CPU.habilidadeAtiva = false
+			ima_sprite.visible = false
+			cpu.habilidade_ativa = false
 
-func BOLAENERGIA(Ball: EntityBall, CPU : EntityCPU, PLAYER : EntityPlayer) -> void:#precisa de sprite
+func bola_energia(ball: EntityBall, cpu : EntityCPU, player : EntityPlayer) -> void:#precisa de sprite
 	
 	if not energia:
-		Ball.ballVelocity += 150
+		ball.ballVelocity += 150
 		energia = true
 		
-	if Ball.ballCollision:
-		var collider = Ball.ballCollision.get_collider()
-		if collider == PLAYER:
+	if ball.ballCollision:
+		var collider = ball.ballCollision.get_collider()
+		if collider == player:
 			
-			Ball.ballVelocity -= 150
-			PLAYER.velocidade = 0
-			print("Receba")
-			await CPU.get_tree().create_timer(0.5).timeout
-			PLAYER.velocidade = 150
+			ball.ballVelocity -= 150
+			player.velocidade = 0
+			await cpu.get_tree().create_timer(0.5).timeout
+			player.velocidade = 150
 			
-			await CPU.get_tree().create_timer(2.5).timeout
-			PLAYER.velocidade = 300
-			CPU.habilidadeAtiva = false
-func SALTO(Ball : EntityBall) -> void:#Terminado e testado
+			await cpu.get_tree().create_timer(2.5).timeout
+			player.velocidade = 300
+			cpu.habilidade_ativa = false
+			
+		if ball.global_position.x > 1200 or ball.global_position.x < 30:
+			energia = false
+			
+func salto(ball : EntityBall) -> void:#Terminado e testado
 	
-	var newDirection := Vector2()
-	newDirection.x = Ball.ballDirection.x
+	var new_direction := Vector2()
+	new_direction.x = ball.ballDirection.x
 	
 	if Ball.ballDirection.y < 0:
 		newDirection.y = randf_range(0.7, 0.6)

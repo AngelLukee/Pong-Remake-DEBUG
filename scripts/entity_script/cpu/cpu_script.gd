@@ -2,32 +2,38 @@ extends CharacterBody2D
 class_name EntityCPU
 
 #Instancias
-@onready var habilidades = HabilidadesCPU.new()
+@onready var habilidades_cpu = HabilidadesCPU.new()
 
-#Exports
-@export var Ball : EntityBall
-@export var SpriteCongelado : Sprite2D
-@export var Sound : Sounds
+#exports das entidades
+@export var ball : EntityBall 
+@export var player_1 : EntityPlayer
+
+#exports das cenas de habilidades
+@export var sound : Node 
+@export var sprite_congelado : Sprite2D 
 @export var cooldown : Timer 
-@export var PLAYER : EntityPlayer
-@export var Imasprite : Sprite2D
-
+@export var rota_path_follow : PathFollow2D 
+@export var rota_path : Path2D
+@export var flash_light : PointLight2D
+@export var linha : Line2D 
+@export var pathmaker_path : Path2D
+@export var pathmaker_path_follow : PathFollow2D 
+@export var ima_sprite : Sprite2D 
 
 #Booleanos
 var congelado : bool = false
-var habilidadeAtiva : bool = false
+var habilidade_ativa : bool = false
 
 #Variaveis
 var velocidade : int = 330
 var direction : float
-var nomeBandeira : String = "Taiwan"
+var nome_bandeira : String = "Taiwan"
 
 #RNG
-var randomNumber = [0,1]
+var random_number = [0,1]
 
 func _ready() -> void:
-	if ScriptGlobal.player_script_to_use != null:
-		self.set_script(ScriptGlobal.player_script)
+	pass
 
 func _process(delta: float) -> void:
 
@@ -43,11 +49,7 @@ func _physics_process(delta: float) -> void:
 	if congelado:
 		Congelado()
 		
-	if Input.is_action_just_pressed("habilidadeCPU") and cooldown.is_stopped():
-		habilidadeAtiva = true
-		
-	
-	if habilidadeAtiva: 
+	if habilidade_ativa: 
 		MatchBandeiras()
 		
 	velocity.y = clampi(velocity.y, -330, 330)
@@ -55,20 +57,19 @@ func _physics_process(delta: float) -> void:
 
 func MatchBandeiras() -> void:
 	
-	if not habilidadeAtiva:
+	if not habilidade_ativa:
 		return
 	
-	match nomeBandeira:#Não comparar objetos, e sim nomes e IDs
+	match nome_bandeira:#Não comparar objetos, e sim nomes e IDs
 		"Alemanha":
 			pass
 		"Austria":
 			pass
 		"Brasil":
-			habilidades.CONGELAR(PLAYER, Sound)
+			#habilidades
 			cooldown.start()
-			habilidadeAtiva = false
 		"China":
-			habilidades.IMPULSO(Ball, PLAYER, self)
+			#habilidades.IMPULSO(Ball, PLAYER, self)
 			cooldown.start()
 		"Coreia":
 			pass
@@ -82,12 +83,12 @@ func MatchBandeiras() -> void:
 			pass
 		"Taiwan":
 			cooldown.start()
-			habilidades.SALTO(Ball)
-			habilidadeAtiva = false
+			#habilidades.SALTO(ball)
+			#habilidadeAtiva = false
 
 func Congelado():
 	
-	var direction = Ball.global_position.y - global_position.y
+	#var direction = Ball.global_position.y - global_position.y
 	if abs(direction) > 4:
 		velocity.y = lerp(velocity.y, direction * velocidade, 0.025)
 	else:
@@ -106,15 +107,15 @@ func movimentacaoCPU(delta):
 	else:
 		velocity.y = 0
 
-func _on_detecao_meio_quadra_body_entered(body: Node2D) -> void:
-	if not (body is EntityBall):#Comparando com className
-		return
+#func _on_detecao_meio_quadra_body_entered(body: Node2D) -> void:
+	#if not (body is EntityBall):#Comparando com className
+	#	return
 		
-	if not habilidadeAtiva and cooldown.is_stopped():
-		var choice = randomNumber.pick_random()
-		match choice:
-			0:
-				return
-			1:
-				habilidadeAtiva = true
-				cooldown.start()
+	#if not habilidadeAtiva and cooldown.is_stopped():
+	#	var choice = randomNumber.pick_random()
+	#	match choice:
+	#		0:
+	#			return
+	#		1:
+	#			habilidadeAtiva = true
+	#			cooldown.start()

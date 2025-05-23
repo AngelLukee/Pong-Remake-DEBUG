@@ -7,11 +7,9 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3acr2"]
 size = Vector2(0, 124.121)
 
-[node name="cpu" type="CharacterBody2D" node_paths=PackedStringArray("SpriteCongelado", "cooldown", "sprite_height")]
+[node name="cpu" type="CharacterBody2D" node_paths=PackedStringArray("cooldown")]
 script = ExtResource("1_vgvke")
-SpriteCongelado = NodePath("congelado_sprite_cpu")
 cooldown = NodePath("cooldown")
-sprite_height = NodePath("cpu_sprite")
 
 [node name="cpu_collision" type="CollisionShape2D" parent="."]
 position = Vector2(-6, 0)

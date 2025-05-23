@@ -66,7 +66,7 @@ func clone(ball : EntityBall) -> void:
 	ball.visible = true
 	ball.get_parent().add_child(falseBall)
 
-func salto(ball : EntityBall) -> void:#Terminado e testado
+func salto(ball : EntityBall, player : EntityPlayer) -> void:#Terminado e testado
 	
 	var new_direction := Vector2()
 	new_direction.x = ball.ballDirection.x
@@ -77,7 +77,8 @@ func salto(ball : EntityBall) -> void:#Terminado e testado
 		new_direction.y = randf_range(-0.7, -0.6)
 		
 	ball.ballDirection = new_direction.normalized()
-
+	player.habilidade_ativa = false
+	
 func impulso(ball : EntityBall, player : EntityPlayer, cpu : EntityCPU) -> void: #Bug corrigido
 	if ball.ballCollision:
 		var collider = ball.ballCollision.get_collider()
@@ -162,7 +163,7 @@ func pathmaker(ball : EntityBall, path2d : Path2D, linha : Line2D, player : Enti
 		Engine.time_scale = 1.00
 		player.iniciar = true
 		player.habilidadeAtiva = false
-		
+
 func rota(ball : EntityBall, path_follow : PathFollow2D, path_2d : Path2D, player_1 : EntityPlayer, delta : float):#Terminado e pronto
 	if not iniciado:
 		path_2d.RandomPath()
@@ -180,7 +181,7 @@ func rota(ball : EntityBall, path_follow : PathFollow2D, path_2d : Path2D, playe
 		ball.ballDirection = direcao.position.normalized()
 		iniciado = false
 		player_1.habilidade_ativa = false
-		
+
 func gravidade(ball : EntityBall, ima_sprite : Sprite2D, player : EntityPlayer):#FEITO E TESTADO, falta sprite
 	
 	var distancia = ball.global_position.distance_to(ima_sprite.global_position)

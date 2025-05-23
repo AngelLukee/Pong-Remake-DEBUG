@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://cysh5bxxu7ogh"]
+[gd_scene load_steps=21 format=3 uid="uid://cysh5bxxu7ogh"]
 
 [ext_resource type="Texture2D" uid="uid://0xs1mafiwvoe" path="res://Assets/Background/Background_normal.png" id="1_074by"]
 [ext_resource type="Theme" uid="uid://cs685o7rnu2r0" path="res://Resource/Themes/LabelPointTheme.tres" id="1_qgkkw"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://cnvsn0yxmocke" path="res://scripts/entity_script/player_2/player_2_script.gd" id="9_n20am"]
 [ext_resource type="Texture2D" uid="uid://bx1doulokc6ts" path="res://Assets/Habilidades/images.png" id="10_xxkq3"]
 [ext_resource type="Texture2D" uid="uid://crdx1vbqbmcyd" path="res://Assets/vecteezy_pixel-art-magnet-game-asset-design_50563561.jpg" id="11_xxkq3"]
+[ext_resource type="Script" uid="uid://cd5cwwnvw32ae" path="res://rota_path_2d.gd" id="13_eb3u7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6mx5x"]
 size = Vector2(21.0019, 1055.96)
@@ -52,14 +53,6 @@ func RandomPath() -> void:
 	if curve == PATHS[1]:
 		global_position = Vector2(444, 366)
 		
-func RandomPathCPU() -> void:
-	curve = PATHS.pick_random()
-	scale = Vector2(-0.737, -1.089)
-	if curve == PATHS[0]:
-		global_position = Vector2(920, 449)
-	if curve == PATHS[1]:
-		global_position = Vector2(849, 397)
-	
 "
 
 [sub_resource type="Curve2D" id="Curve2D_igcbh"]
@@ -79,7 +72,7 @@ position = Vector2(604.172, 320.415)
 scale = Vector2(0.826938, 0.758792)
 texture = ExtResource("2_gl4v5")
 
-[node name="LabelsPontuação" type="Control" parent="." node_paths=PackedStringArray("PontuaçãoPlayer", "PontuaçãoIA", "PLAYER")]
+[node name="LabelsPontuação" type="Control" parent="." node_paths=PackedStringArray("player_1", "player_2", "cpu", "ball", "PontuaçãoPlayer", "PontuaçãoIA")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -89,9 +82,12 @@ grow_vertical = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
 script = ExtResource("5_jmmb0")
+player_1 = NodePath("../Playerbody")
+player_2 = NodePath("../player_2")
+cpu = NodePath("../CPUBody")
+ball = NodePath("../BolaBody")
 "PontuaçãoPlayer" = NodePath("PontuaçãoPlayer")
 "PontuaçãoIA" = NodePath("PonutaçãoCPU")
-PLAYER = NodePath("../Playerbody")
 
 [node name="PonutaçãoCPU" type="Label" parent="LabelsPontuação"]
 layout_mode = 2
@@ -132,12 +128,8 @@ CPU = NodePath("../CPUBody")
 PLAYER = NodePath("../Playerbody")
 areaMeio = NodePath("../Areas/DetecaoMeioQuadra")
 
-[node name="CPUBody" parent="." node_paths=PackedStringArray("Ball", "Sound", "PLAYER", "Imasprite") instance=ExtResource("4_q48p7")]
+[node name="CPUBody" parent="." instance=ExtResource("4_q48p7")]
 position = Vector2(1112.63, 302.414)
-Ball = NodePath("../BolaBody")
-Sound = NodePath("../AUDIOS")
-PLAYER = NodePath("../Playerbody")
-Imasprite = NodePath("../HABILIDADES/IMASPRITE")
 
 [node name="Playerbody" parent="." node_paths=PackedStringArray("cpu", "ball", "player_2", "sound", "rota_path_follow", "rota_path", "flash_light", "linha", "pathmaker_path", "pathmaker_path_follow", "ima_sprite") instance=ExtResource("1_tud0r")]
 position = Vector2(96.34, 304.214)
@@ -145,17 +137,17 @@ cpu = NodePath("../CPUBody")
 ball = NodePath("../BolaBody")
 player_2 = NodePath("../player_2")
 sound = NodePath("../AUDIOS")
-rota_path_follow = NodePath("../HABILIDADES/rota2d/rotafollow2d")
-rota_path = NodePath("../HABILIDADES/rota2d")
-flash_light = NodePath("../HABILIDADES/flash_player")
-linha = NodePath("../HABILIDADES/linhapathmaker")
-pathmaker_path = NodePath("../HABILIDADES/pathmaker2d")
-pathmaker_path_follow = NodePath("../HABILIDADES/pathmaker2d/makerfollow2d")
-ima_sprite = NodePath("../HABILIDADES/IMASPRITE")
+rota_path_follow = NodePath("../habilidades_player/rota2d/rotafollow2d")
+rota_path = NodePath("../habilidades_player/rota2d")
+flash_light = NodePath("../habilidades_player/flash_player")
+linha = NodePath("../habilidades_player/linhapathmaker")
+pathmaker_path = NodePath("../habilidades_player/pathmaker2d")
+pathmaker_path_follow = NodePath("../habilidades_player/pathmaker2d/makerfollow2d")
+ima_sprite = NodePath("../habilidades_player/IMASPRITE")
 
 [node name="player_2" parent="." instance=ExtResource("8_xxkq3")]
+visible = false
 position = Vector2(590.319, -161.107)
-scale = Vector2(1, 1)
 script = ExtResource("9_n20am")
 
 [node name="CameraMesa" type="Camera2D" parent="."]
@@ -190,19 +182,19 @@ Freeze = NodePath("Freeze")
 [node name="Freeze" type="AudioStreamPlayer" parent="AUDIOS"]
 volume_db = -20.0
 
-[node name="HABILIDADES" type="Node" parent="."]
+[node name="habilidades_player" type="Node" parent="."]
 
-[node name="rota2d" type="Path2D" parent="HABILIDADES"]
+[node name="rota2d" type="Path2D" parent="habilidades_player"]
 position = Vector2(360, 399.001)
 scale = Vector2(0.724047, 1.0894)
 script = SubResource("GDScript_igcbh")
 
-[node name="rotafollow2d" type="PathFollow2D" parent="HABILIDADES/rota2d"]
+[node name="rotafollow2d" type="PathFollow2D" parent="habilidades_player/rota2d"]
 position = Vector2(403.288, -141.363)
 rotation = -0.237076
 loop = false
 
-[node name="flash_player" type="PointLight2D" parent="HABILIDADES"]
+[node name="flash_player" type="PointLight2D" parent="habilidades_player"]
 position = Vector2(1114.75, 355.625)
 scale = Vector2(94.6023, 188.374)
 energy = 0.0
@@ -210,7 +202,7 @@ shadow_enabled = true
 texture = ExtResource("10_xxkq3")
 texture_scale = 0.01
 
-[node name="flash_cpu" type="PointLight2D" parent="HABILIDADES"]
+[node name="flash_cpu" type="PointLight2D" parent="habilidades_player"]
 position = Vector2(163, 355)
 scale = Vector2(94.6023, 188.374)
 energy = 0.0
@@ -218,20 +210,27 @@ shadow_enabled = true
 texture = ExtResource("10_xxkq3")
 texture_scale = 0.01
 
-[node name="pathmaker2d" type="Path2D" parent="HABILIDADES"]
+[node name="pathmaker2d" type="Path2D" parent="habilidades_player"]
 curve = SubResource("Curve2D_igcbh")
 
-[node name="makerfollow2d" type="PathFollow2D" parent="HABILIDADES/pathmaker2d"]
+[node name="makerfollow2d" type="PathFollow2D" parent="habilidades_player/pathmaker2d"]
 loop = false
 
-[node name="linhapathmaker" type="Line2D" parent="HABILIDADES"]
+[node name="linhapathmaker" type="Line2D" parent="habilidades_player"]
 
-[node name="IMASPRITE" type="Sprite2D" parent="HABILIDADES"]
+[node name="IMASPRITE" type="Sprite2D" parent="habilidades_player"]
 visible = false
 position = Vector2(1222, 606)
 rotation = -1.0472
 scale = Vector2(0.0390625, 0.0390625)
 texture = ExtResource("11_xxkq3")
+
+[node name="habilidades_cpu_player2" type="Node" parent="."]
+
+[node name="rota_path2d" type="Path2D" parent="habilidades_cpu_player2"]
+position = Vector2(-538, -319)
+scale = Vector2(2.3913, 1.98592)
+script = ExtResource("13_eb3u7")
 
 [connection signal="body_entered" from="Areas/AreaDireita" to="LabelsPontuação" method="_on_area_direita_body_entered"]
 [connection signal="body_entered" from="Areas/AreaEsquerda" to="LabelsPontuação" method="_on_area_esquerda_body_entered"]

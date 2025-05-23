@@ -2,7 +2,7 @@ extends CharacterBody2D
 class_name EntityPlayer
 
 #instancia das classes e onreadys
-@onready var habilidades = HabilidadesVsCpu.new()
+@onready var habilidades_vs_cpu = HabilidadesVsCpu.new()
 @onready var habilidades_vs_player2 = HabilidadesVsPlayer2.new()
 
 #exports das entidades
@@ -68,7 +68,7 @@ func match_bandeiras_vs_cpu(delta) -> void:
 	match nome_bandeira:
 		"Alemanha":
 			cooldown.start()
-			habilidades.bola_energia(ball, cpu, self)
+			habilidades_vs_cpu.bola_energia(ball, cpu, self)
 		"Austria":
 			pass
 		"Brasil":#PATHMAKER
@@ -76,25 +76,24 @@ func match_bandeiras_vs_cpu(delta) -> void:
 			#habilidades.PATHMAKER(BALL, PATHMAKER, FOLLOWMAKER, LINHA, self)
 		"China":#Terminado
 			cooldown.start()
-			habilidades.CLARAO(flash_light, self)
+			habilidades_vs_cpu.clarao(flash_light, self)
 		"CoreiaSul":#Terminado
 			cooldown.start()
-			habilidades.DASH(self)
+			habilidades_vs_cpu.dash(self)
 		"HongKong":
 			cooldown.start()
 			#habilidades.PATHMAKER(BALL, PATHMAKER, FOLLOWMAKER, delta, LINHA)
 		"Japao":#BOLA INVISIVEL
 			pass
-		"Portugal":#Terminado
+		"Portugal":
 			cooldown.start()
-			habilidades.SALTO(ball)
-			habilidade_ativa = false
+			habilidades_vs_cpu.salto(ball, self)
 		"Suecia":#Terminado
 			cooldown.start()
-			habilidades.CONGELAR(cpu, sound, self)
+			habilidades_vs_cpu.congelar(cpu, sound, self)
 		"Taiwan":#Terminado
 			cooldown.start()
-			habilidades.GRAVIDADE(ball, ima_sprite, self)
+			habilidades_vs_cpu.gravidade(ball, ima_sprite, self)
 			
 func match_bandeiras_vs_player2(delta) -> void:
 	if not habilidade_ativa:
